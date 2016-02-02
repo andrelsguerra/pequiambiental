@@ -1,0 +1,175 @@
+	<!-- Small boxes (Stat box) -->
+				<div class="box box-default">
+            <div class="box-header with-border">
+              <h3 class="box-title">ADICIONAR PROJETO</h3>
+              <div class="box-tools pull-right">
+                <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                <button class="btn btn-box-tool" data-widget="remove"><i class="fa fa-remove"></i></button>
+              </div>
+            </div><!-- /.box-header -->
+            <div class="box-body">
+              <div class="row">
+                <div class="col-md-12">
+                
+
+					<!-- Modal -->
+					<div class="modal fade" id="myModal"  role="dialog" aria-labelledby="myModalLabel">
+					  <div class="modal-dialog">
+					                <div class="modal-content">
+					                  <div class="modal-header">
+					                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					                    <h4 class="modal-title">MEUS CLIENTES,NOVO REGISTRO</h4>
+					                  </div>
+					                  <div class="modal-body">
+					                    <div class="row">
+									          <div class="col-md-12">
+									              <div class="form-group">
+								                      <label >NOME</label>
+								                      <input type="text" class="form-control" id="nome_cliente" name="nome_cliente" placeholder="Enter nome cliente">
+								                  </div>
+								                  <div class="form-group">
+								                      <label >CNPJ</label>
+								                      <input type="text" class="form-control" id="cnpj" name="cnpj" placeholder="Enter cnpj">
+								                  </div>
+								                  <div class="form-group">
+								                    <label>RAMO ATIVIDADE</label>
+								                    <select class="form-control select2" style="width: 100%;" name="ramo_atividade" id="ramo_atividade" >
+								                      <option selected="selected">Ramo A</option>
+								                      <option>Ramo B</option>
+								                      <option>xxxxxxx C</option>
+								                      <option>yyyyyyyyyyy D</option>
+								                      <option>bbbbbbbbbb E</option>
+								                      <option>ffffff F</option>
+								                      <option>kkkkkkk G</option>
+								                    </select>
+								                  </div>
+								                  <div class="form-group">
+								                      <label>OBSERVAÇÃO</label>
+								                      <textarea class="form-control" rows="3" name="observacao" id="observacao" placeholder="Enter ..."></textarea>
+								                  </div>
+												  <div class="form-group">
+								                      <label >LOGRADOURO</label>
+								                      <input type="text" class="form-control" id="logradouro" name="logradouro" placeholder="Enter logradouro">
+								                  </div>
+								                  <div class="form-group">
+								                      <label >NÚMERO</label>
+								                      <input type="text" class="form-control" id="numero" name="numero" placeholder="Enter número">
+								                  </div>
+								                  <div class="form-group">
+								                      <label >BAIRRO</label>
+								                      <input type="text" class="form-control" id="bairro" name="bairro" placeholder="Enter bairro">
+								                  </div>
+								                  <div class="form-group">
+								                      <label >CEP</label>
+								                      <input type="text" class="form-control" id="cep" name="cep" placeholder="Enter cep">
+								                  </div>
+								                  <div class="form-group">
+								                      <label >CIDADE</label>
+								                      <input type="text" class="form-control" id="cidade" name="cidade" placeholder="Enter cep">
+								                  </div>
+								                  <div class="form-group">
+								                      <label >UF</label>
+								                      <input type="text" class="form-control" id="uf" name="uf" placeholder="Enter uf">
+								                  </div>
+								                  <div class="form-group">
+								                      <label >DATA ÚLTIMA ATUALIZAÇÃO</label>
+								                      <input type="text" class="form-control" id="data_atualizacao" name="data_atualizacao" placeholder="" value="01/02/2016 22:50:37" disabled="disabled">
+								                  </div>
+								                  
+											  </div>
+								          
+								        </div>
+					                  </div>
+					                  <div class="modal-footer">
+					                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cancelar</button>
+					                    <button type="button" class="btn btn-primary">Salvar</button>
+					                  </div>
+					                </div><!-- /.modal-content -->
+					              </div><!-- /.modal-dialog -->
+					</div>
+					<form role="form" action="" method="<?php echo $this->element->getMethod() ?>" id="<?php echo $this->element->getName()?>" enctype="multipart/form-data">
+						<div class="form-group input-group ">
+						
+		                <select class="form-control select2" style="width: 100%;" name="fk_cliente" id="fk_cliente" >
+	                      <option selected="selected">Cliente A</option>
+	                      <option>Cliente B</option>
+	                      <option>xxxxxxx C</option>
+	                      <option>yyyyyyyyyyy D</option>
+	                      <option>bbbbbbbbbb E</option>
+	                      <option>ffffff F</option>
+	                      <option>kkkkkkk G</option>
+	                    </select>
+		                 <span class="input-group-btn">
+		                      <button class="btn btn-info btn-flat" type="button" data-toggle="modal" data-target="#myModal">Adicionar</button>
+		                    </span>   
+	                    </div><!-- /input-group -->
+	                  <div class="form-group">
+	                      <label >NOME PROJETO</label>
+	                      <input type="text" class="form-control" id="nome" name="nome" placeholder="Enter nome projeto">
+	                  </div>
+	                  <div class="form-group">
+	                    <label>TIPO PROJETO</label>
+	                    <select class="form-control select2" style="width: 100%;" name="fk_tipo_projeto" id="fk_tipo_projeto">
+	                      <option selected="selected">Tipo projeto A</option>
+	                      <option>Tipo projeto B</option>
+	                      <option>xxxxxxx C</option>
+	                      <option>yyyyyyyyyyy D</option>
+	                      <option>bbbbbbbbbb E</option>
+	                      <option>ffffff F</option>
+	                      <option>kkkkkkk G</option>
+	                    </select>
+	                  </div><!-- /.form-group -->
+	                  <div class="form-group">
+	                    <label>CADASTRO</label>
+	                    <div class="input-group">
+	                      <div class="input-group-addon">
+	                        <i class="fa fa-calendar"></i>
+	                      </div>
+	                      <input type="text" class="form-control pull-right" id="data_cadastro" name="data_cadastro" data-provide="datepicker">
+	                    </div><!-- /.input group -->
+	                  </div><!-- /.form group -->
+	                   <div class="form-group">
+	                    <label>INDICAÇÃO</label>
+	                    <select class="form-control select2" style="width: 100%;" name="indicacao" id="indicacao" >
+	                      <option selected="selected">INDICACAO a</option>
+	                      <option>INDICACAO B</option>
+	                      <option>xxxxxxx C</option>
+	                      <option>yyyyyyyyyyy D</option>
+	                      <option>bbbbbbbbbb E</option>
+	                      <option>ffffff F</option>
+	                      <option>kkkkkkk G</option>
+	                    </select>
+	                  </div><!-- /.form-group -->
+	                  <div class="form-group">
+	                      <label >NUM. CONTRATO</label>
+	                      <input type="text" class="form-control" id="numero_contrato" name="numero_contrato" placeholder="Enter num. contrato">
+	                  </div>
+	                  <div class="form-group">
+	                      <label>OBSERVAÇÃO</label>
+	                      <textarea class="form-control" rows="3" name="observacao" id="observacao" placeholder="Enter ..."></textarea>
+	                  </div>
+	                  <div class="form-group">
+	                      <label>GESTOR</label>
+	                      <input type="text" class="form-control" id="gestor" name="gestor" placeholder="Enter gestor">
+	                  </div>
+	                  <div class="form-group">
+	                    <label>STATUS</label>
+	                    <select class="form-control " style="width: 100%;" name="status" id="status" >
+	                      <option selected="selected">Arquivado</option>
+	                      <option>Status B</option>
+	                      <option>xxxxxxx C</option>
+	                      <option>yyyyyyyyyyy D</option>
+	                      <option>bbbbbbbbbb E</option>
+	                      <option>ffffff F</option>
+	                      <option>kkkkkkk G</option>
+	                    </select>
+	                  </div><!-- /.form-group -->
+                   </form>
+                </div><!-- /.col --> 
+              </div><!-- /.row -->
+            </div><!-- /.box-body -->
+           <div class="box-footer">
+                    <button class="btn btn-default" type="submit">Voltar</button>
+                    <button class="btn btn-info pull-right" type="submit">Salvar</button>
+                  </div>
+          </div><!-- /.box -->
