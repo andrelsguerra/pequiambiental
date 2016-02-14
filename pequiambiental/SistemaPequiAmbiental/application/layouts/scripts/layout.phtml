@@ -21,7 +21,8 @@
 	    <!-- Bootstrap 3.3.5 -->
 	    <link rel="stylesheet" href="<?php echo $this->baseUrl().'/bootstrap/css/bootstrap.min.css'?>">
 	    <!-- Font Awesome -->
-	    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+	    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/">-->
+		 <link rel="stylesheet" href="<?php echo $this->baseUrl().'/css/font-awesome.min.css'?>">
 	    
 	    <link rel="stylesheet" href="<?php echo $this->baseUrl().'/plugins/select2/select2.min.css'?>">
 	    <!-- Theme style -->
@@ -33,6 +34,19 @@
 	      <link rel="stylesheet" href="<?php echo $this->baseUrl().'/plugins/datepicker/datepicker3.css'?>">
 	    <link rel="stylesheet" href="<?php echo $this->baseUrl().'/css/style.css'?>">
 	
+		<script src="<?php echo $this->baseUrl().'/plugins/jQuery/jQuery-2.1.4.min.js'?>"></script>
+		<!-- Bootstrap 3.3.5 -->
+		<script src="<?php echo $this->baseUrl().'/bootstrap/js/bootstrap.min.js'?>"></script>
+		<script src="<?php echo $this->baseUrl().'/plugins/select2/select2.full.min.js'?>"></script>
+    
+		<script src="<?php echo $this->baseUrl().'/plugins/datepicker/bootstrap-datepicker.js'?>"></script>
+    
+		<script src="<?php echo $this->baseUrl().'/plugins/slimScroll/jquery.slimscroll.min.js'?>"></script>
+   
+		<script src="<?php echo $this->baseUrl().'/dist/js/app.min.js'?>"></script>
+		<!-- AdminLTE for demo purposes -->
+		<script src="<?php echo $this->baseUrl().'/dist/js/demo.js'?>"></script>
+		
 	    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 	    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
 	    <!--[if lt IE 9]>
@@ -95,6 +109,8 @@
 
         <!-- Main content -->
 	  	<section class="content">
+		<div class="row">
+            <div class="col-xs-12">
                 <?php 
                 
              
@@ -136,6 +152,8 @@
               
 					echo $this->layout()->content;
 				?>
+				</div>
+				</div>
 		</div><!-- /.content-wrapper -->
       <footer class="main-footer">
         <div class="pull-right hidden-xs">
@@ -311,19 +329,9 @@
       <div class="control-sidebar-bg"></div>
     </div><!-- ./wrapper -->
 <!-- jQuery 2.1.4 -->
-    <script src="<?php echo $this->baseUrl().'/plugins/jQuery/jQuery-2.1.4.min.js'?>"></script>
-    <!-- Bootstrap 3.3.5 -->
-    <script src="<?php echo $this->baseUrl().'/bootstrap/js/bootstrap.min.js'?>"></script>
+    <?php /* 
     <!-- Select2 -->
-    <script src="<?php echo $this->baseUrl().'/plugins/select2/select2.full.min.js'?>"></script>
     
-    <script src="<?php echo $this->baseUrl().'/plugins/datepicker/bootstrap-datepicker.js'?>"></script>
-    
-    <script src="<?php echo $this->baseUrl().'/plugins/slimScroll/jquery.slimscroll.min.js'?>"></script>
-   
-    <script src="<?php echo $this->baseUrl().'/dist/js/app.min.js'?>"></script>
-    <!-- AdminLTE for demo purposes -->
-    <script src="<?php echo $this->baseUrl().'/dist/js/demo.js'?>"></script>
     <!-- Page script -->
     <script>
       $(function () {
@@ -336,6 +344,6 @@
         });
         
       });
-    </script>
+    </script> */?>
   </body>
 </html>

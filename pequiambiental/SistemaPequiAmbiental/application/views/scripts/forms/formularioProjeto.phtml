@@ -9,7 +9,7 @@
             </div><!-- /.box-header -->
             <div class="box-body">
               <div class="row">
-                <div class="col-md-12">
+                <div class="col-sm-12">
                 
 
 					<!-- Modal -->
@@ -173,3 +173,15 @@
                     <button class="btn btn-info pull-right" type="submit">Salvar</button>
                   </div>
           </div><!-- /.box -->
+		  <script>
+      $(function () {
+        //Initialize Select2 Elements
+        $(".select2").select2();
+
+        $('#data_cadastro').datepicker({
+            format: 'mm/dd/yyyy',
+            startDate: '-3d'
+        });
+        
+      });
+    </script>

@@ -25,9 +25,10 @@ class Application_Form_Login extends Zend_Form
 
 		$submit = new Zend_Form_Element_Submit('submit');
 		$submit->setLabel('Login')
-			   ->setAttrib('id', 'submitbutton');
+			   ->setAttrib('id', 'submit');
 
 		$this->addElements(array($login, $senha, $submit));
+		$this->setDecorators( array( array('ViewScript', array('viewScript' => '/forms/formularioLogin.phtml')))); 
 	}
 }
 

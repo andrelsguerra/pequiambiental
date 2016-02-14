@@ -6,7 +6,8 @@
                         </li>
                        
                      
-                          <?php    //if ($this->fk_perfil!=2){?>  <li class="treeview">
+                          <?php    //if ($this->fk_perfil!=2){?>  
+                          <li class="treeview">
                             <a href="#">
                                 <i class="fa fa-th"></i>
                                 <span>Projeto</span>
@@ -17,18 +18,69 @@
                                 
                                 
                             </ul>
-                        </li> <?php //}?>
-                         <?php    if ($this->fk_perfil!=2){?>  <li class="treeview">
+                        </li> 
+                        <li class="treeview">
                             <a href="#">
                                 <i class="fa fa-th"></i>
-                                <span>Usuário</span>
+                                <span>Serviço</span>
                                 <i class="fa fa-angle-left pull-right"></i>
                             </a>
                             <ul class="treeview-menu">
-                                <li><a href="<?php echo $this->url(array('controller'=>'index','action'=>'lista-usuario'),null, true);?>"><i class="fa fa-angle-double-right"></i> Listar Usuário</a></li>
-                                <li><a href="<?php echo $this->url(array('controller'=>'index','action'=>'add-usuario'),null, true);?>"><i class="fa fa-angle-double-right"></i> Adicionar Usuário</a></li>
+                                <li><a href="<?php echo $this->url(array('controller'=>'index','action'=>'add-servico'),null, true);?>"><i class="fa fa-angle-double-right"></i>Adicionar Serviço</a></li>
+                                
+                                
+                            </ul>
+                        </li>
+                        <li class="treeview">
+                            <a href="#">
+                                <i class="fa fa-th"></i>
+                                <span>Plano Ação</span>
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li><a href="<?php echo $this->url(array('controller'=>'index','action'=>'add-plano-acao'),null, true);?>"><i class="fa fa-angle-double-right"></i>Adicionar PA</a></li>
+                                
+                                
+                            </ul>
+                        </li>
+                        <li class="treeview">
+                            <a href="#">
+                                <i class="fa fa-th"></i>
+                                <span>Contato</span>
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </a>
+                            <ul class="treeview-menu">
+								<li><a href="<?php echo $this->url(array('controller'=>'index','action'=>'lista-contato'),null, true);?>"><i class="fa fa-angle-double-right"></i>Listar Contato</a></li>
+                                <li><a href="<?php echo $this->url(array('controller'=>'index','action'=>'add-contato'),null, true);?>"><i class="fa fa-angle-double-right"></i>Adicionar Contato</a></li>
+                                
+                                
+                            </ul>
+                        </li>
+                        <?php //}?>
+                         <?php    if ($this->fk_perfil!=2){?>  <li class="treeview">
+                            <a href="#">
+                                <i class="fa fa-th"></i>
+                                <span>Operador</span>
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li><a href="<?php echo $this->url(array('controller'=>'index','action'=>'lista-operador'),null, true);?>"><i class="fa fa-angle-double-right"></i> Listar Operador</a></li>
+                                <li><a href="<?php echo $this->url(array('controller'=>'index','action'=>'add-operador'),null, true);?>"><i class="fa fa-angle-double-right"></i> Adicionar Operador</a></li>
                                 
                             </ul>
                         </li> <?php }?>
+						<li class="treeview">
+                            <a href="#">
+                                <i class="fa fa-th"></i>
+                                <span>Cliente</span>
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </a>
+                            <ul class="treeview-menu">
+								<li><a href="<?php echo $this->url(array('controller'=>'index','action'=>'lista-ramo-atividade'),null, true);?>"><i class="fa fa-angle-double-right"></i>Listar Ramo de Atividade</a></li>
+                                <li><a href="<?php echo $this->url(array('controller'=>'index','action'=>'add-ramo-atividade'),null, true);?>"><i class="fa fa-angle-double-right"></i>Adicionar Ramo de Atividade</a></li>
+                                
+                                
+                            </ul>
+                        </li>
                        
                     </ul>

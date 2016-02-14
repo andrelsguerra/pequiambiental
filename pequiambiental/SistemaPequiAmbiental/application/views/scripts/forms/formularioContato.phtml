@@ -1,0 +1,118 @@
+	<!-- Small boxes (Stat box) -->
+	
+				<div class="box box-default">
+				<form role="form" action="" method="<?php echo $this->element->getMethod() ?>" id="<?php echo $this->element->getName()?>" enctype="multipart/form-data">           
+            <div class="box-header with-border">
+			
+			
+              <h3 class="box-title">CONTATO</h3>
+              <div class="box-tools pull-right">
+                <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                <button class="btn btn-box-tool" data-widget="remove"><i class="fa fa-remove"></i></button>
+              </div>
+            </div><!-- /.box-header -->
+		   <div class="box-body">
+              <div class="row">
+			  
+                <div class="col-md-12">
+				<?php echo $this->element->ID_CONTATO ?>
+					<div class="form-group">
+								                      <label >NOME</label>
+								                      <?php echo $this->element->NM_CONTATO ?>
+								                     
+								                  </div>
+								                  <div class="form-group">
+								                      <label >CARGO</label>
+								                      <?php echo $this->element->NM_CARGO ?>
+								                  </div>
+								                  <div class="form-group">
+								                    <label>TELEFONE 1:</label>
+								                    <div class="input-group">
+								                      <div class="input-group-addon">
+								                        <i class="fa fa-phone"></i>
+								                      </div>
+								                       <?php echo $this->element->NR_TELEFONE ?>
+								                      <!--<input type="text" class="form-control" data-inputmask='"mask": "(999) 999-9999"' data-mask name="NR_TELEFONE" id="NR_TELEFONE"/>-->
+								                    </div><!-- /.input group -->
+								                  </div><!-- /.form group -->
+								                  <div class="form-group">
+								                    <label>TELEFONE 2:</label>
+								                    <div class="input-group">
+								                      <div class="input-group-addon">
+								                        <i class="fa fa-phone"></i>
+								                      </div>
+								                      <?php echo $this->element->NR_TELEFONE2 ?>
+								                      <!--<input type="text" class="form-control" data-inputmask='"mask": "(999) 999-9999"' data-mask name="NR_TELEFONE2" id="NR_TELEFONE2"/>-->
+								                    </div><!-- /.input group -->
+								                  </div><!-- /.form group -->
+								                  <div class="form-group">
+								                      <label >OBSERVACAO</label>
+								                      <?php echo $this->element->TX_OBSERVACAO ?>
+								                    
+								                  </div>
+								                  <div class="form-group">
+								                      <label >E-MAIL</label>
+								                      
+								                      <?php echo $this->element->DS_EMAIL ?>
+								                  </div>
+								                  <div class="form-group">
+														<label>CLIENTE</label>
+														 <?php echo $this->element->FK_CLIENTE ?>
+										               <!-- <select class="form-control select2" style="width: 100%;" name="FK_CLIENTE" id="FK_CLIENTE"  >
+									                      <option selected="selected">CLIENTE A</option>
+									                      <option>CLIENTE B</option>
+									                      <option>xxxxxxx C</option>
+									                      <option>yyyyyyyyyyy D</option>
+									                      <option>bbbbbbbbbb E</option>
+									                      <option>ffffff F</option>
+									                      <option>kkkkkkk G</option>
+									                    </select>-->
+										           </div><!-- /input-group -->
+								                   <div class="form-group">
+								                      <label >LOGRADOURO</label>
+								                      <?php echo $this->element->NM_LOGRADOURO ?>
+								                   </div>
+								                   <div class="form-group">
+								                      <label >NUM</label>    
+								                      <?php echo $this->element->NR_ENDERECO ?>
+								                   </div>
+								                   <div class="form-group">
+								                      <label >COMPLEMENTO</label>  
+								                      <?php echo $this->element->DS_COMPLEMENTO ?>
+								                   </div>
+								                  <div class="form-group">
+								                      <label >BAIRRO</label>
+								                      
+								                      <?php echo $this->element->NM_BAIRRO ?>
+								                   </div>
+								                   <div class="form-group">
+								                      <label >MUNICIPIO/UF</label>
+								                      
+								                      <?php echo $this->element->NM_UF ?>
+								                   </div>
+								                   <div class="form-group">
+								                      <label >CEP</label>
+								                      
+								                       <?php echo $this->element->NR_CEP ?>
+								                   </div>
+								                   <div class="form-group">
+														<label>AGENDA</label>
+														    <?php echo $this->element->FL_AGENDA ?>
+										                <!--<select class="form-control select2" style="width: 100%;" name="FL_AGENDA" id="FL_AGENDA"  >
+									                      <option selected="selected">SIM</option>
+									                      <option>NÃO</option>
+									                      
+									                    </select>-->
+										           </div><!-- /input-group -->
+                  
+                </div><!-- /.col --> 
+             
+			  </div><!-- /.row -->
+            </div><!-- /.box-body -->
+           <div class="box-footer">
+                    <button class="btn btn-default" type="submit">Voltar</button>
+                    <button class="btn btn-info pull-right" type="submit">Salvar</button>
+                  </div>
+				   </form>
+          </div><!-- /.box -->
+		   

@@ -40,10 +40,17 @@ class IndexController extends Zend_Controller_Action {
     }
 
     public function indexAction() {
-        
+        // resgata o helper, retornando uma instância do helper
+        $helper = $this->_helper->getHelper('classeGenerica');
+		$date = new Zend_Date();
+		$mes = $date->get(Zend_Date::MONTH);
+       
+		Zend_Registry::get('logger')->log( $mes, Zend_Log::INFO);
+		$mes=$helper->retornaMesExtenso( $mes );
+		$this->view->mes=$mes;
     }
 
-    public function deleteUsuarioAction() {
+    public function deleteOperadorAction() {
 
 
         $id = $this->_getParam('id', 0);
@@ -51,7 +58,7 @@ class IndexController extends Zend_Controller_Action {
         $this->view->usuarios = $usuarios->getUsuario($id);
     }
 
-    public function editUsuarioAction() {
+    public function editOperadorAction() {
         // action body
         $form = new Application_Form_Usuario();
         $form->submit->setLabel('Salvar usuÃ¡rio');
@@ -154,7 +161,7 @@ class IndexController extends Zend_Controller_Action {
         }
     }
 
-    public function addUsuarioAction() {
+    public function addOperadorAction() {
         // action body
         $form = new Application_Form_Usuario();
         $form->submit->setLabel('Adicionar usuário');
@@ -262,21 +269,22 @@ class IndexController extends Zend_Controller_Action {
         }
     }
 
-    public function listaUsuarioAction() {
+    public function listaOperadorAction() {
         // action body
         $usuarios = new Application_Model_DbTable_Usuario();
-        //Zend_Registry::get('logger')->log($usuarios->getUsuariosComPerfil(), Zend_Log::INFO);
-
+        Zend_Registry::get('logger')->log($_POST, Zend_Log::INFO);
+ 
 
         if ($this->getRequest()->isPost()) {
             $del = $this->getRequest()->getPost('del');
-            if ($del == 'Yes') {
-                $id = $this->getRequest()->getPost('id');
+            if ($del == 'Sim') {
+				Zend_Registry::get('logger')->log("teste2222", Zend_Log::INFO);
+                $id = $this->getRequest()->getPost('id_usuario');
                 $usuarios = new Application_Model_DbTable_Usuario();
                 try {
                     $usuarios->deleteUsuario($id);
 
-                    $this->view->mensagem = "ExcluÃ­Â­do com sucesso";
+                    $this->view->mensagem = "Excluído com sucesso";
                     $this->view->erro = 0;
                 } catch (Exception $e) {
                     $this->view->mensagem = $e->getCode() . " Deletar usuÃ¡rio";
@@ -320,7 +328,7 @@ class IndexController extends Zend_Controller_Action {
                 } catch (Exception $e) {
                     //Dados invÃƒÂ¡lidos
                     //$this->_helper->FlashMessenger($e->getMessage());
-                    $this->view->mensagem = "User or password incorrect";
+                    $this->view->mensagem = "Usuário ou senha incorreto";
                     $this->view->erro = 1;
                     $this->view->mensagemExcecao = $e->getMessage();
                     //$this->_redirect('/index/login');
@@ -328,6 +336,13 @@ class IndexController extends Zend_Controller_Action {
             } else {
                 //FormulÃƒÂ¡rio preenchido de forma incorreta
                 $form->populate($data);
+                Zend_Registry::get('logger')->log("formulario inválido", Zend_Log::INFO);
+    			
+    			$arrMessages = $form->getMessages();
+    			foreach ($arrMessages as $field => $arrErrors) {
+    				$this->view->erro = 1;
+    				$this->view->mensagem = $this->view->mensagem . $form->getElement($field)->getLabel() . $this->view->formErrors($arrErrors) . "<br>";
+    			}
             }
         }
     }
@@ -455,4 +470,237 @@ class IndexController extends Zend_Controller_Action {
     	}
     	
     }
+     public function addServicoAction(){
+    	$form = new Application_Form_Servico();
+    	$form->submit->setLabel('Adicionar');
+    	//$form->removeElement("tabela_contratacao");	
+    	$this->view->form = $form;
+    	if ($this->getRequest()->isPost()) {
+    		$formData = $this->getRequest()->getPost();
+    		Zend_Registry::get('logger')->log($formData, Zend_Log::INFO);
+    		if ($form->isValid($formData)) {	
+    			try {
+    				//$centroCusto = new Application_Model_DbTable_CentroCusto();
+    				//$descricao=$form->getValue('descricao');
+    				//$centroCusto->addCentroCusto($descricao);
+    				$this->view->erro = 0;
+    				$this->view->mensagem = "Adicionado com sucesso";
+    			} catch (Exception $erro) {
+    				Zend_Registry::get('logger')->log("Erroooooooooooooooo", Zend_Log::INFO);
+    				$this->view->mensagem = $erro->getMessage();
+    				$this->view->erro = 1;
+    				//exit;
+    			}
+    		} else {
+    			Zend_Registry::get('logger')->log("formulario inválido", Zend_Log::INFO);
+    			$form->populate($formData);
+    			$arrMessages = $form->getMessages();
+    			foreach ($arrMessages as $field => $arrErrors) {
+    				$this->view->erro = 1;
+    				$this->view->mensagem = $this->view->mensagem . $form->getElement($field)->getLabel() . $this->view->formErrors($arrErrors) . "<br>";
+    			}
+    		}
+    	}
+    	
+    }
+     public function editServicoAction(){
+    	$form = new Application_Form_Servico();
+    	$form->submit->setLabel('Adicionar');
+    	//$form->getElement("FK_PROJETO")->setAttrib("disable", array(1));
+    	//$form->getElement("TP_SERVICO")->setAttrib("disable", array(1));
+     }
+     public function addPlanoAcaoAction(){
+    	$form = new Application_Form_PlanoAcao();
+    	$form->submit->setLabel('Adicionar');
+    	//$form->removeElement("tabela_contratacao");	
+    	$this->view->form = $form;
+	}
+	public function addContatoAction(){
+    	$form = new Application_Form_Contato();
+    	$form->submit->setLabel('Adicionar');
+    	//$form->removeElement("tabela_contratacao");	
+    	$this->view->form = $form;
+		if ($this->getRequest()->isPost()) {
+    		$formData = $this->getRequest()->getPost();
+    		Zend_Registry::get('logger')->log($formData, Zend_Log::INFO);
+    		if ($form->isValid($formData)) {
+				
+    			try {
+					$NM_CONTATO= $form->getValue('NM_CONTATO');
+					$NM_CARGO = $form->getValue('NM_CARGO');
+					$NR_TELEFONE = $form->getValue('NR_TELEFONE');
+					$NR_TELEFONE2 = $form->getValue('NR_TELEFONE2');
+					$TX_OBSERVACAO = $form->getValue('TX_OBSERVACAO');
+					
+					$DS_EMAIL= $form->getValue('DS_EMAIL');
+					$FK_CLIENTE= $form->getValue('FK_CLIENTE');
+					$NM_LOGRADOURO= $form->getValue('NM_LOGRADOURO');
+					$NR_ENDERECO= $form->getValue('NR_ENDERECO');
+					$DS_COMPLEMENTO= $form->getValue('DS_COMPLEMENTO');
+					$NM_BAIRRO= $form->getValue('NM_BAIRRO');
+					$NM_UF= $form->getValue('NM_UF');
+					$NR_CEP= $form->getValue('NR_CEP');
+					$FL_AGENDA= $form->getValue('FL_AGENDA');
+    				$contato = new Application_Model_DbTable_Contato();
+					$contato->addContato($NM_CONTATO, $NM_CARGO, $NR_TELEFONE, $NR_TELEFONE2, $TX_OBSERVACAO,$DS_EMAIL,$FK_CLIENTE,$NM_LOGRADOURO,$NR_ENDERECO,$DS_COMPLEMENTO,$NM_BAIRRO,$NM_UF,$NR_CEP,$FL_AGENDA);
+    				//$descricao=$form->getValue('descricao');
+    				//$centroCusto->addCentroCusto($descricao);
+    				$this->view->erro = 0;
+    				$this->view->mensagem = "Adicionado com sucesso";
+					$form->reset();
+    			} catch (Exception $erro) {
+    				Zend_Registry::get('logger')->log("Erroooooooooooooooo", Zend_Log::INFO);
+    				$this->view->mensagem = $erro->getMessage();
+    				$this->view->erro = 1;
+    				//exit;
+    			}
+    		} else {
+    			Zend_Registry::get('logger')->log("formulario inválido", Zend_Log::INFO);
+    			$form->populate($formData);
+    			$arrMessages = $form->getMessages();
+    			foreach ($arrMessages as $field => $arrErrors) {
+    				$this->view->erro = 1;
+    				$this->view->mensagem = $this->view->mensagem . $form->getElement($field)->getLabel() . $this->view->formErrors($arrErrors) . "<br>";
+    			}
+    		}
+    	}
+		
+	}
+	public function listaContatoAction() {
+        // action body
+        $contatos= new Application_Model_DbTable_Contato();
+        Zend_Registry::get('logger')->log($_POST, Zend_Log::INFO);
+ 
+
+        if ($this->getRequest()->isPost()) {
+            $del = $this->getRequest()->getPost('del');
+            if ($del == 'Sim') {
+				Zend_Registry::get('logger')->log("teste2222", Zend_Log::INFO);
+                $id = $this->getRequest()->getPost('ID_CONTATO');
+                $contato = new Application_Model_DbTable_Contato();
+                try {
+                    $contato->deleteContato($id);
+
+                    $this->view->mensagem = "Excluído com sucesso";
+                    $this->view->erro = 0;
+                } catch (Exception $e) {
+                    $this->view->mensagem = $e->getCode() . " Deletar contato";
+                    $this->view->erro = 1;
+                    $this->view->mensagemExcecao = $e->getMessage();
+                    
+                }
+            }
+        }
+       
+            $this->view->contatos = $contatos->getContatos();
+         Zend_Registry::get('logger')->log($this->view->contatos, Zend_Log::INFO);
+    }
+	 public function editContatoAction() {
+        // action body
+        $form = new Application_Form_Contato();
+        $form->submit->setLabel('Salvar contato');
+       
+        $this->view->form = $form;
+        
+        if ($this->getRequest()->isPost()) {
+            $formData = $this->getRequest()->getPost();
+            if ($form->isValid($formData)) {
+				 Zend_Registry::get('logger')->log($formData, Zend_Log::INFO);
+                $ID_CONTATO = (int) $form->getValue('ID_CONTATO');
+				$NM_CONTATO= $form->getValue('NM_CONTATO');
+				$NM_CARGO = $form->getValue('NM_CARGO');
+				$NR_TELEFONE = $form->getValue('NR_TELEFONE');
+				$NR_TELEFONE2 = $form->getValue('NR_TELEFONE2');
+				$TX_OBSERVACAO = $form->getValue('TX_OBSERVACAO');
+				$DS_EMAIL= $form->getValue('DS_EMAIL');
+				$FK_CLIENTE= $form->getValue('FK_CLIENTE');
+				$NM_LOGRADOURO= $form->getValue('NM_LOGRADOURO');
+				$NR_ENDERECO= $form->getValue('NR_ENDERECO');
+				$DS_COMPLEMENTO= $form->getValue('DS_COMPLEMENTO');
+				$NM_BAIRRO= $form->getValue('NM_BAIRRO');
+				$NM_UF= $form->getValue('NM_UF');
+				$NR_CEP= $form->getValue('NR_CEP');
+				$FL_AGENDA= $form->getValue('FL_AGENDA');
+				
+				$contato = new Application_Model_DbTable_Contato();
+				try {
+
+						$contato->updateContato ($ID_CONTATO,$NM_CONTATO, $NM_CARGO, $NR_TELEFONE, $NR_TELEFONE2, $TX_OBSERVACAO,$DS_EMAIL,$FK_CLIENTE,$NM_LOGRADOURO,$NR_ENDERECO,$DS_COMPLEMENTO,$NM_BAIRRO,$NM_UF,$NR_CEP,$FL_AGENDA);
+						$this->view->mensagem = "Atualizado com sucesso";
+                        $this->view->erro = 0;
+                        //$this->_helper->redirector('lista-usuario');
+                    } // catch (pega exceÃƒÂ§ÃƒÂ£o)
+                    catch (Exception $e) {
+                        $this->view->mensagem = "Atualizar contato";
+                        $this->view->erro = 1;
+                        $this->view->mensagemExcecao = $e->getMessage();
+                        //  echo ($e->getCode()."teste".$e->getMessage() );
+                    }
+                
+            } else {
+                $form->populate($formData);
+            }
+        } else {
+            $id = $this->_getParam('id', 0);
+
+            if ($id > 0) {
+                $contato = new Application_Model_DbTable_Contato();
+                Zend_Registry::get('logger')->log("Id contato =" . $id, Zend_Log::INFO);
+                $form->populate($contato->getContato($id));
+            }
+        }
+    }
+	public function deleteContatoAction() {
+
+
+        $id = $this->_getParam('id', 0);
+        $contato = new Application_Model_DbTable_Contato();
+        $this->view->contatos = $contato->getContato($id);
+    }
+	public function addRamoAtividadeAction(){
+		$form = new Application_Form_RamoAtividade();
+    	$form->submit->setLabel('Adicionar');
+    	//$form->removeElement("tabela_contratacao");	
+    	$this->view->form = $form;
+		if ($this->getRequest()->isPost()) {
+    		$formData = $this->getRequest()->getPost();
+    		Zend_Registry::get('logger')->log($formData, Zend_Log::INFO);
+    		if ($form->isValid($formData)) {
+				
+    			try {
+					$DS_RAMO_ATIVIDADE= $form->getValue('DS_RAMO_ATIVIDADE');
+					
+    				$ramoAtividade = new Application_Model_DbTable_RamoAtividade();
+					$ramoAtividade->addRamoAtividade($DS_RAMO_ATIVIDADE);
+					
+    				//$descricao=$form->getValue('descricao');
+    				//$centroCusto->addCentroCusto($descricao);
+    				$this->view->erro = 0;
+    				$this->view->mensagem = "Adicionado com sucesso";
+					$form->reset();
+    			} catch (Exception $erro) {
+    				Zend_Registry::get('logger')->log("Erroooooooooooooooo", Zend_Log::INFO);
+    				$this->view->mensagem = $erro->getMessage();
+    				$this->view->erro = 1;
+    				//exit;
+    			}
+    		} else {
+    			Zend_Registry::get('logger')->log("formulario inválido", Zend_Log::INFO);
+    			$form->populate($formData);
+    			$arrMessages = $form->getMessages();
+    			foreach ($arrMessages as $field => $arrErrors) {
+    				$this->view->erro = 1;
+    				$this->view->mensagem = $this->view->mensagem . $form->getElement($field)->getLabel() . $this->view->formErrors($arrErrors) . "<br>";
+    			}
+    		}
+    	}
+		
+	}
+	public function editRamoAtividadeAction(){
+		
+	}
+	public function deleteRamoAtividadeAction(){
+		
+	}
+
 }
