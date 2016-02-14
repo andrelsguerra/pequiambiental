@@ -37,6 +37,12 @@ class IndexController extends Zend_Controller_Action {
             $this->view->fk_perfil = $this->user->getFKPerfil();
             $this->view->usuario1 = $this->user->getUserName();
         }
+        
+        if(isset($_POST['Voltar'])){
+        	$this->_redirect($this->session->urlAnterior, array('prependBase' => false));
+        	exit();
+        }
+        
     }
 
     public function indexAction() {
@@ -665,6 +671,9 @@ class IndexController extends Zend_Controller_Action {
 		if ($this->getRequest()->isPost()) {
     		$formData = $this->getRequest()->getPost();
     		Zend_Registry::get('logger')->log($formData, Zend_Log::INFO);
+    		
+    			
+    		
     		if ($form->isValid($formData)) {
 				
     			try {
@@ -693,25 +702,68 @@ class IndexController extends Zend_Controller_Action {
     				$this->view->mensagem = $this->view->mensagem . $form->getElement($field)->getLabel() . $this->view->formErrors($arrErrors) . "<br>";
     			}
     		}
+    		
     	}
 		
 	}
 	public function editRamoAtividadeAction(){
+		// action body
+		$form = new Application_Form_RamoAtividade();
+    	$form->submit->setLabel('Salvar');
+    	//$form->removeElement("tabela_contratacao");	
+    	$this->view->form = $form;
 		
+		if ($this->getRequest()->isPost()) {
+			$formData = $this->getRequest()->getPost();
+			if ($form->isValid($formData)) {
+				Zend_Registry::get('logger')->log($formData, Zend_Log::INFO);
+				$ID_RAMO_ATIVIDADE = (int) $form->getValue('ID_RAMO_ATIVIDADE');
+				$DS_RAMO_ATIVIDADE= $form->getValue('DS_RAMO_ATIVIDADE');
+				
+				$ramoAtividade = new Application_Model_DbTable_RamoAtividade();
+				Zend_Registry::get('logger')->log($formData, Zend_Log::INFO);
+				try {
+		
+					$ramoAtividade->updateRamoAtividade($ID_RAMO_ATIVIDADE, $DS_RAMO_ATIVIDADE);
+					$this->view->mensagem = "Atualizado com sucesso";
+					$this->view->erro = 0;
+					//$this->_helper->redirector('lista-usuario');
+				} // catch (pega exceÃƒÂ§ÃƒÂ£o)
+				catch (Exception $e) {
+					$this->view->mensagem = "Atualizar ramo atividade";
+					$this->view->erro = 1;
+					$this->view->mensagemExcecao = $e->getMessage();
+					//  echo ($e->getCode()."teste".$e->getMessage() );
+				}
+		
+			} else {
+				$form->populate($formData);
+			}
+		} else {
+			$id = $this->_getParam('id', 0);
+		
+			if ($id > 0) {
+				$ramoAtividade = new Application_Model_DbTable_RamoAtividade();
+				Zend_Registry::get('logger')->log("Id contato =" . $id, Zend_Log::INFO);
+				$form->populate($ramoAtividade->getRamoAtividade($id));
+			}
+		}
 	}
 	public function deleteRamoAtividadeAction(){
-		
+		$id = $this->_getParam('id', 0);
+		$ramoAtividade = new Application_Model_DbTable_RamoAtividade();
+		$this->view->ramoAtividade = $ramoAtividade->getRamoAtividade($id);
 	}
 	public function listaRamoAtividadeAction(){
 		$ramoAtividade= new Application_Model_DbTable_RamoAtividade();
-		Zend_Registry::get('logger')->log($_POST, Zend_Log::INFO);
+		
 		
 		
 		if ($this->getRequest()->isPost()) {
 			$del = $this->getRequest()->getPost('del');
 			if ($del == 'Sim') {
 				Zend_Registry::get('logger')->log("teste2222", Zend_Log::INFO);
-				$id = $this->getRequest()->getPost('ID_CONTATO');
+				$id = $this->getRequest()->getPost('ID_RAMO_ATIVIDADE');
 				$ramoAtividade = new Application_Model_DbTable_RamoAtividade();
 				try {
 					$ramoAtividade->deleteRamoAtividade($id);
