@@ -31,26 +31,31 @@ class Application_Model_DbTable_Cliente extends Zend_Db_Table_Abstract
    
     public function getClientes()
     {
-       $cliente = new Application_Model_DbTable_Cliente();
-       return $cliente->getAdapter()->fetchPairs( $cliente->select()->from( 'TB_CLIENTE', array('ID_CLIENTE', 'nome') )->where('ID_CLIENTE <>1')->order('nome'));
+       $select =$this->_db->select()
+             ->from(array('c' => 'TB_CLIENTE'))
+             ->joinLeft(array('ra' => 'TB_RAMO_ATIVIDADE'),('ra.ID_RAMO_ATIVIDADE =c.FK_RAMO_ATIVIDADE'));
+             //->where('u.id_usuario <>1');
+  	   $result = $this->getAdapter()->fetchAll($select);
+       return $result;
     }
    
-    public function addCliente($NM_CONTATO, $NM_CARGO, $NR_TELEFONE, $NR_TELEFONE2, $TX_OBSERVACAO,$DS_EMAIL,$FK_CLIENTE,$NM_LOGRADOURO,$NR_ENDERECO,$DS_COMPLEMENTO,$NM_BAIRRO,$NM_UF,$NR_CEP,$FL_AGENDA)
+
+    public function addCliente($NM_CLIENTE, $NR_CNPJ, $TX_OBSERVACAO, $NM_LOGRADOURO,$NR_NUMERO,$DS_COMPLEMENTO,$NM_BAIRRO,$NR_CEP,$NM_CIDADE,$NM_UF,$DT_ATUALIZACAO,$FK_RAMO_ATIVIDADE)
     {
     	
-        $data = array('NM_CONTATO' => $NM_CONTATO, 'NM_CARGO' => $NM_CARGO, 'NR_TELEFONE' => $NR_TELEFONE, 'NR_TELEFONE2' => $NR_TELEFONE2,
-		'TX_OBSERVACAO'=>$TX_OBSERVACAO,'DS_EMAIL'=>$DS_EMAIL, 'FK_CLIENTE' => $FK_CLIENTE, 'NM_LOGRADOURO' => $NM_LOGRADOURO, 'NR_ENDERECO' => $NR_ENDERECO, 'DS_COMPLEMENTO' => $DS_COMPLEMENTO
-		, 'NM_BAIRRO' => $NM_BAIRRO, 'NM_UF' => $NM_UF, 'NR_CEP' => $NR_CEP, 'FL_AGENDA' => $FL_AGENDA);
+        $data = array('NM_CLIENTE' => $NM_CLIENTE, 'NR_CNPJ' => $NR_CNPJ, 'TX_OBSERVACAO' => $TX_OBSERVACAO, 'NM_LOGRADOURO' => $NM_LOGRADOURO,
+		'NR_NUMERO'=>$NR_NUMERO,'DS_COMPLEMENTO'=>$DS_COMPLEMENTO, 'NM_BAIRRO' => $NM_BAIRRO, 'NR_CEP' => $NR_CEP, 'NM_CIDADE' => $NM_CIDADE, 'NM_UF' => $NM_UF
+		, 'DT_ATUALIZACAO' => $DT_ATUALIZACAO, 'FK_RAMO_ATIVIDADE' => $FK_RAMO_ATIVIDADE);
         $this->insert($data);
     }
      
-    public function updateCliente ($ID_CLIENTE,$NM_CONTATO, $NM_CARGO, $NR_TELEFONE, $NR_TELEFONE2, $TX_OBSERVACAO,$DS_EMAIL,$FK_CLIENTE,$NM_LOGRADOURO,$NR_ENDERECO,$DS_COMPLEMENTO,$NM_BAIRRO,$NM_UF,$NR_CEP,$FL_AGENDA)
+    public function updateCliente ($ID_CLIENTE,$NM_CLIENTE, $NR_CNPJ, $TX_OBSERVACAO, $NM_LOGRADOURO,$NR_NUMERO,$DS_COMPLEMENTO,$NM_BAIRRO,$NR_CEP,$NM_CIDADE,$NM_UF,$DT_ATUALIZACAO,$FK_RAMO_ATIVIDADE)
     {
-    	$data = array('ID_CLIENTE'=>$id,'NM_CONTATO' => $NM_CONTATO, 'NM_CARGO' => $NM_CARGO, 'NR_TELEFONE' => $NR_TELEFONE, 'NR_TELEFONE2' => $NR_TELEFONE2,
-		'TX_OBSERVACAO'=>$TX_OBSERVACAO,'DS_EMAIL'=>$DS_EMAIL, 'FK_CLIENTE' => $FK_CLIENTE, 'NM_LOGRADOURO' => $NM_LOGRADOURO, 'NR_ENDERECO' => $NR_ENDERECO, 'DS_COMPLEMENTO' => $DS_COMPLEMENTO
-		, 'NM_BAIRRO' => $NM_BAIRRO, 'NM_UF' => $NM_UF, 'NR_CEP' => $NR_CEP, 'FL_AGENDA' => $FL_AGENDA);
+    	$data = array('ID_CLIENTE'=>$ID_CLIENTE,'NM_CLIENTE' => $NM_CLIENTE, 'NR_CNPJ' => $NR_CNPJ, 'TX_OBSERVACAO' => $TX_OBSERVACAO, 'NM_LOGRADOURO' => $NM_LOGRADOURO,
+		'NR_NUMERO'=>$NR_NUMERO,'DS_COMPLEMENTO'=>$DS_COMPLEMENTO, 'NM_BAIRRO' => $NM_BAIRRO, 'NR_CEP' => $NR_CEP, 'NM_CIDADE' => $NM_CIDADE, 'NM_UF' => $NM_UF
+		, 'DT_ATUALIZACAO' => $DT_ATUALIZACAO, 'FK_RAMO_ATIVIDADE' => $FK_RAMO_ATIVIDADE);
 		
-		$this->update($data, 'ID_CLIENTE = ' . (int) $id);
+		$this->update($data, 'ID_CLIENTE = ' . (int) $ID_CLIENTE);
     }
 	
     public function deleteCliente ($id)

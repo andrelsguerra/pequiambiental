@@ -782,5 +782,150 @@ class IndexController extends Zend_Controller_Action {
 		$this->view->ramoAtividade = $ramoAtividade->getRamoAtividades();
 		Zend_Registry::get('logger')->log($this->view->ramoAtividade, Zend_Log::INFO);
 	}
+	
+	public function editClienteAction(){
+		// action body
+		$form = new Application_Form_Cliente();
+		$form->submit->setLabel('Salvar');
+		//$form->removeElement("tabela_contratacao");
+		$this->view->form = $form;
+	
+		if ($this->getRequest()->isPost()) {
+			$formData = $this->getRequest()->getPost();
+			if ($form->isValid($formData)) {
+				Zend_Registry::get('logger')->log($formData, Zend_Log::INFO);
+				
+				$cliente = new Application_Model_DbTable_Cliente();
+				
+				try {
+					$ID_CLIENTE= (int) $form->getValue('ID_CLIENTE');
+					
+					$NM_CLIENTE=$form->getValue('NM_CLIENTE');
+					$NR_CNPJ=$form->getValue('NR_CNPJ');
+					$TX_OBSERVACAO=$form->getValue('TX_OBSERVACAO');
+					$NM_LOGRADOURO=$form->getValue('NM_LOGRADOURO');
+					$NR_NUMERO=$form->getValue('NR_NUMERO');
+					$DS_COMPLEMENTO=$form->getValue('DS_COMPLEMENTO');
+					$NM_BAIRRO=$form->getValue('NM_BAIRRO');
+					$NR_CEP=$form->getValue('NR_CEP');
+					$NM_CIDADE=$form->getValue('NM_CIDADE');
+					$NM_UF=$form->getValue('NM_UF');
+					$DT_ATUALIZACAO=$form->getValue('DT_ATUALIZACAO');
+					$FK_RAMO_ATIVIDADE=$form->getValue('FK_RAMO_ATIVIDADE');
+					
+					$cliente->updateCliente($ID_CLIENTE, $NM_CLIENTE, $NR_CNPJ, $TX_OBSERVACAO, $NM_LOGRADOURO, $NR_NUMERO, $DS_COMPLEMENTO, $NM_BAIRRO, $NR_CEP, $NM_CIDADE, $NM_UF, $DT_ATUALIZACAO, $FK_RAMO_ATIVIDADE);
+					
+					$this->view->mensagem = "Atualizado com sucesso";
+					$this->view->erro = 0;
+					//$this->_helper->redirector('lista-usuario');
+				} // catch (pega exceÃƒÂ§ÃƒÂ£o)
+				catch (Exception $e) {
+					$this->view->mensagem = "Atualizar cliente";
+					$this->view->erro = 1;
+					$this->view->mensagemExcecao = $e->getMessage();
+					//  echo ($e->getCode()."teste".$e->getMessage() );
+				}
+	
+			} else {
+				$form->populate($formData);
+			}
+		} else {
+			$id = $this->_getParam('id', 0);
+	
+			if ($id > 0) {
+				$cliente = new Application_Model_DbTable_Cliente();
+				Zend_Registry::get('logger')->log("Id cliente =" . $id, Zend_Log::INFO);
+				$form->populate($cliente->getCliente($id));
+			}
+		}
+	}
+	public function addClienteAction(){
+		$form = new Application_Form_Cliente();
+		$form->submit->setLabel('Adicionar');
+		//$form->removeElement("tabela_contratacao");
+		$this->view->form = $form;
+		if ($this->getRequest()->isPost()) {
+			$formData = $this->getRequest()->getPost();
+			Zend_Registry::get('logger')->log($formData, Zend_Log::INFO);
+	
+			 
+	
+			if ($form->isValid($formData)) {
+	
+				try {
+					
+					$NM_CLIENTE=$form->getValue('NM_CLIENTE');
+					$NR_CNPJ=$form->getValue('NR_CNPJ');
+					$TX_OBSERVACAO=$form->getValue('TX_OBSERVACAO');
+					$NM_LOGRADOURO=$form->getValue('NM_LOGRADOURO');
+					$NR_NUMERO=$form->getValue('NR_NUMERO');
+					$DS_COMPLEMENTO=$form->getValue('DS_COMPLEMENTO');
+					$NM_BAIRRO=$form->getValue('NM_BAIRRO');
+					$NR_CEP=$form->getValue('NR_CEP');
+					$NM_CIDADE=$form->getValue('NM_CIDADE');
+					$NM_UF=$form->getValue('NM_UF');
+					$DT_ATUALIZACAO=$form->getValue('DT_ATUALIZACAO');
+					$FK_RAMO_ATIVIDADE=$form->getValue('FK_RAMO_ATIVIDADE');
+							
+					$cliente = new Application_Model_DbTable_Cliente();
+					$cliente->addCliente($NM_CLIENTE, $NR_CNPJ, $TX_OBSERVACAO, $NM_LOGRADOURO, $NR_NUMERO, $DS_COMPLEMENTO, $NM_BAIRRO, $NR_CEP, $NM_CIDADE, $NM_UF, $DT_ATUALIZACAO, $FK_RAMO_ATIVIDADE);
+						
+					//$descricao=$form->getValue('descricao');
+					//$centroCusto->addCentroCusto($descricao);
+					$this->view->erro = 0;
+					$this->view->mensagem = "Adicionado com sucesso";
+					$form->reset();
+				} catch (Exception $erro) {
+					Zend_Registry::get('logger')->log("Erroooooooooooooooo", Zend_Log::INFO);
+					$this->view->mensagem = $erro->getMessage();
+					$this->view->erro = 1;
+					//exit;
+				}
+			} else {
+				Zend_Registry::get('logger')->log("formulario inválido", Zend_Log::INFO);
+				$form->populate($formData);
+				$arrMessages = $form->getMessages();
+				foreach ($arrMessages as $field => $arrErrors) {
+					$this->view->erro = 1;
+					$this->view->mensagem = $this->view->mensagem . $form->getElement($field)->getLabel() . $this->view->formErrors($arrErrors) . "<br>";
+				}
+			}
+	
+		}
+	
+	}
+	public function deleteClienteAction(){
+		$id = $this->_getParam('id', 0);
+		$cliente = new Application_Model_DbTable_Cliente();
+		$this->view->cliente = $cliente->getCliente($id);
+	}
+	public function listaClienteAction(){
+		$cliente= new Application_Model_DbTable_Cliente();
+	
+	
+	
+		if ($this->getRequest()->isPost()) {
+			$del = $this->getRequest()->getPost('del');
+			if ($del == 'Sim') {
+				Zend_Registry::get('logger')->log("teste2222", Zend_Log::INFO);
+				$id = $this->getRequest()->getPost('ID_CLIENTE');
+				$cliente= new Application_Model_DbTable_Cliente();
+				try {
+					$cliente->deleteCliente($id);
+	
+					$this->view->mensagem = "Excluído com sucesso";
+					$this->view->erro = 0;
+				} catch (Exception $e) {
+					$this->view->mensagem = $e->getCode() . " Deletar cliente";
+					$this->view->erro = 1;
+					$this->view->mensagemExcecao = $e->getMessage();
+	
+				}
+			}
+		}
+			
+		$this->view->cliente = $cliente->getClientes();
+		Zend_Registry::get('logger')->log($this->view->cliente, Zend_Log::INFO);
+	}
 
 }
