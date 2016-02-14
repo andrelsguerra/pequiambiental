@@ -702,5 +702,33 @@ class IndexController extends Zend_Controller_Action {
 	public function deleteRamoAtividadeAction(){
 		
 	}
+	public function listaRamoAtividadeAction(){
+		$ramoAtividade= new Application_Model_DbTable_RamoAtividade();
+		Zend_Registry::get('logger')->log($_POST, Zend_Log::INFO);
+		
+		
+		if ($this->getRequest()->isPost()) {
+			$del = $this->getRequest()->getPost('del');
+			if ($del == 'Sim') {
+				Zend_Registry::get('logger')->log("teste2222", Zend_Log::INFO);
+				$id = $this->getRequest()->getPost('ID_CONTATO');
+				$ramoAtividade = new Application_Model_DbTable_RamoAtividade();
+				try {
+					$ramoAtividade->deleteRamoAtividade($id);
+		
+					$this->view->mensagem = "Excluído com sucesso";
+					$this->view->erro = 0;
+				} catch (Exception $e) {
+					$this->view->mensagem = $e->getCode() . " Deletar Ramo de atividade";
+					$this->view->erro = 1;
+					$this->view->mensagemExcecao = $e->getMessage();
+		
+				}
+			}
+		}
+		 
+		$this->view->ramoAtividade = $ramoAtividade->getRamoAtividades();
+		Zend_Registry::get('logger')->log($this->view->ramoAtividade, Zend_Log::INFO);
+	}
 
 }

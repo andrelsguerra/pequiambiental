@@ -1,0 +1,71 @@
+<?php
+	$this->title = "Listar Ramo Atividade";
+	$this->headTitle($this->title);
+	//echo $this->form ;
+	
+?>
+
+<div class="box">
+                                <div class="box-header">
+                                    <h3 class="box-title">Lista Ramo Atividade</h3>
+                                </div><!-- /.box-header -->
+                                <div class="box-body">                                
+                                    <table id="example1" class="table table-bordered table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th class="arredondarEsq">ID</th>
+												<th >RAMO DE ATIVIDADE</th>
+												<th>AÇÃO</th>
+                                                
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        <?php if(count($this->ramoAtividade)>0){
+											foreach($this->ramoAtividade as $contatos) : ?>
+                                            <tr>
+                                            <td><?php echo $contatos["ID_RAMO_ATIVIDADE"]?></td>
+                                            <td><?php echo $contatos["DS_RAMO_ATIVIDADE"]?></td>
+											
+											
+                                             <td>
+                                                <a alt="Editar" title="Editar" href="<?php echo $this->url(array('controller'=>'index','action'=>'edit-contato', 'id'=>$contatos["ID_CONTATO"]),null, true);?>" class="btn-sm btn-warning"><i class="glyphicon glyphicon-edit"></i></a> 
+                                                 <a alt="Excluir" title="Excluir" href="<?php echo $this->url(array('controller'=>'index','action'=>'delete-contato', 'id'=>$contatos["ID_CONTATO"]),null, true);?>" class="btn-sm  btn-danger"><i class="glyphicon glyphicon-trash"></i></a>
+                                                
+                                                </td>
+                                            </tr>
+                                          <?php endforeach; ?>
+	<?php }?> 
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                 <th class="arredondarEsq">ID</th>
+												<th >RAMO DE ATIVIDADE</th>
+												<th>AÇÃO</th>                                              
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div><!-- /.box-body -->
+                            </div><!-- /.box -->
+                            <div class="form-group">
+                                 <a alt="Adicionar" title="Adicionar" style="font-family: inherit;" href="<?php echo $this->url(array('controller'=>'index','action'=>'add-ramo-atividade'),null, true);?>" class="btn-sm  "><i class="btn btn-primary">Adicionar Ramo Atividade</i></a>   		
+                                     		
+
+                                    		</div>
+<link href="<?php echo $this->baseUrl()?>/plugins/datatables/dataTables.bootstrap.css" rel="stylesheet" type="text/css" />
+<script src="<?php echo $this->baseUrl()?>/plugins/datatables/jquery.dataTables.min.js" ></script>
+<script src="<?php echo $this->baseUrl()?>/plugins/datatables/dataTables.bootstrap.min.js" ></script>
+<!-- page script -->
+<script type="text/javascript">
+            $(function() {
+                $("#example1").dataTable();
+				$("#example2").dataTable();
+                /*$('#example2').dataTable({
+                    "bPaginate": true,
+                    "bLengthChange": false,
+                    "bFilter": true,
+                    "bSort": true,
+                    "bInfo": true,
+                    "bAutoWidth": false
+                });*/
+            });
+</script>
