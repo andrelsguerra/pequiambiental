@@ -215,7 +215,22 @@
                             <ul class="dropdown-menu">
                                 <!-- User image -->
                                 <li class="user-header bg-light-blue">
-                                    <img src="<?php echo $this->baseUrl()?>/upload/<?php echo $usuarios->getUsuarioImagem($this->user->getId() );?>" class="img-circle" alt="User Image" />
+                                  
+                                     <?php 
+							             $validator = new Zend_Validate_File_Exists();
+							             $validator->addDirectory('upload/');
+							             $retorno=$usuarios->getUsuarioImagem($this->user->getId() );
+							             if($validator->isValid( $retorno) and  isset($retorno)){
+							             	Zend_Registry::get('logger')->log("Existe imagem".$retorno, Zend_Log::INFO);
+							             ?>
+							             	 <img src="<?php echo $this->baseUrl()?>/upload/<?php echo $usuarios->getUsuarioImagem($this->user->getId() );?>" class="img-circle" alt="User Image" />
+							            <?php  } else {
+							             	Zend_Registry::get('logger')->log("Não Existe imagem", Zend_Log::INFO);
+							             	?>
+							             	             	 <img src="<?php echo $this->baseUrl()?>/css/avatar.png" class="img-circle" alt="User Image" />
+							                <?php } ?>
+                                    
+                                    
                                     <p>
                                         <?php echo $this->user->getUserName();
                                        
@@ -238,10 +253,10 @@
                                 <!-- Menu Footer-->
                                 <li class="user-footer">
                                     <div class="pull-left">
-                                        <a href="<?php echo $this->url(array('controller'=>'index','action'=>'edit-alterar-perfil'),null, true);?>" class="btn btn-default btn-flat">Profile</a>
+                                        <a href="<?php echo $this->url(array('controller'=>'index','action'=>'edit-alterar-perfil'),null, true);?>" class="btn btn-default btn-flat">Editar</a>
                                     </div>
                                     <div class="pull-right">
-                                        <a href="<?php echo $this->url(array('controller'=>'index','action'=>'logout'),null, true);?>" class="btn btn-default btn-flat">Sign out</a>
+                                        <a href="<?php echo $this->url(array('controller'=>'index','action'=>'logout'),null, true);?>" class="btn btn-default btn-flat">Sair</a>
                                     </div>
                                 </li>
                             </ul>

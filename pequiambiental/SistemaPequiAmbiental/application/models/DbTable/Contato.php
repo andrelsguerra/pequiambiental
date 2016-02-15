@@ -19,7 +19,7 @@ class Application_Model_DbTable_Contato extends Zend_Db_Table_Abstract
     	
     	 $select =$this->_db->select()
              ->from(array('c' => 'TB_CONTATO'))
-             ->joinInner(array('cl' => 'TB_CLIENTE'),('cl.ID_CLIENTE =c.FK_CLIENTE'),array('cl.NM_CLIENTE'));
+             ->joinLeft(array('cl' => 'TB_CLIENTE'),('cl.ID_CLIENTE =c.FK_CLIENTE'),array('cl.NM_CLIENTE'));
              //->where('u.id_usuario <>1');
   	   $result = $this->getAdapter()->fetchAll($select);
        return $result;

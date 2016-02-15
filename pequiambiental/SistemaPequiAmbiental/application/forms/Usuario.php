@@ -23,7 +23,10 @@ class Application_Form_Usuario extends Zend_Form
             ->addValidator('NotEmpty')
              ->addFilter('StripTags')
         ->setAttrib('class', 'form-control')
-        ->setAttrib('placeholder', 'Jobrole');
+        ->setAttrib('placeholder', 'Jobrole')
+        ->removeDecorator('DtDdWrapper')
+        ->removeDecorator('HtmlTag')
+        ->removeDecorator('Label');;
         
         $cellphone = new Zend_Form_Element_Text('cellphone');
         $cellphone->setLabel('Cellphone')
@@ -32,7 +35,10 @@ class Application_Form_Usuario extends Zend_Form
             ->addFilter('StringTrim')
             ->addValidator('NotEmpty')
             ->setAttrib('class', 'form-control')
-        ->setAttrib('placeholder', 'Cellphone');
+        ->setAttrib('placeholder', 'Cellphone')
+        ->removeDecorator('DtDdWrapper')
+        ->removeDecorator('HtmlTag')
+        ->removeDecorator('Label');
         
         
         $nome = new Zend_Form_Element_Text('nome');
@@ -42,7 +48,10 @@ class Application_Form_Usuario extends Zend_Form
             ->addFilter('StringTrim')
             ->addValidator('NotEmpty')
              ->setAttrib('class', 'form-control')
-        ->setAttrib('placeholder', 'Nome');
+        ->setAttrib('placeholder', 'Nome')
+        ->removeDecorator('DtDdWrapper')
+        ->removeDecorator('HtmlTag')
+        ->removeDecorator('Label');
             
         $email = new Zend_Form_Element_Text('email');
         $email->setLabel('Email')
@@ -52,7 +61,10 @@ class Application_Form_Usuario extends Zend_Form
             ->addValidator('EmailAddress')
             ->addValidator('NotEmpty')
                ->setAttrib('class', 'form-control')
-        ->setAttrib('placeholder', 'Email');
+        ->setAttrib('placeholder', 'Email')
+        ->removeDecorator('DtDdWrapper')
+        ->removeDecorator('HtmlTag')
+        ->removeDecorator('Label');
 
         $login = new Zend_Form_Element_Text('login');
         $login->setLabel('Login')
@@ -61,7 +73,10 @@ class Application_Form_Usuario extends Zend_Form
             ->addFilter('StringTrim')
             ->addValidator('NotEmpty')
              ->setAttrib('class', 'form-control')
-        ->setAttrib('placeholder', 'Login');    
+        ->setAttrib('placeholder', 'Login')
+        ->removeDecorator('DtDdWrapper')
+        ->removeDecorator('HtmlTag')
+        ->removeDecorator('Label');
             
         $senha = new Zend_Form_Element_Password('senha');
         $senha->setLabel('Senha')
@@ -70,7 +85,10 @@ class Application_Form_Usuario extends Zend_Form
             ->addFilter('StringTrim')
             ->addValidator('NotEmpty')
              ->setAttrib('class', 'form-control')
-        ->setAttrib('placeholder', 'Senha');
+        ->setAttrib('placeholder', 'Senha')
+        ->removeDecorator('DtDdWrapper')
+        ->removeDecorator('HtmlTag')
+        ->removeDecorator('Label');
             
         $repetirSenha = new Zend_Form_Element_Password('repetirSenha');
         $repetirSenha->setLabel('Repetir senha')
@@ -79,12 +97,19 @@ class Application_Form_Usuario extends Zend_Form
             ->addFilter('StringTrim')
             ->addValidator('NotEmpty')
              ->setAttrib('class', 'form-control')
-        ->setAttrib('placeholder', 'Repetir senha');
+        ->setAttrib('placeholder', 'Repetir senha')
+        ->removeDecorator('DtDdWrapper')
+        ->removeDecorator('HtmlTag')
+        ->removeDecorator('Label');
             
        $fk_perfil= new Zend_Form_Element_Select('fk_perfil');
        $perfil = new Application_Model_DbTable_Perfil();
        $fk_perfil->setLabel('Perfil');
-       $fk_perfil->setMultiOptions( $perfil->getPerfil() );
+       $fk_perfil->setMultiOptions( $perfil->getPerfil() )
+       ->removeDecorator('DtDdWrapper')
+       ->removeDecorator('HtmlTag')
+       ->removeDecorator('Label')
+       ->setAttrib('class', 'form-control select2');
        
        
 
@@ -99,8 +124,11 @@ class Application_Form_Usuario extends Zend_Form
        $element = new Zend_Form_Element_File('fileUpload');
 $element->setLabel('Arquivo')
 	->addValidator('Extension', false, array('jpg', 'png', 'gif'))
-	->addValidator('Size', false, 102400);
-;
+	->addValidator('Size', false, 102400)
+	->removeDecorator('DtDdWrapper')
+	->removeDecorator('HtmlTag')
+	->removeDecorator('Label');
+
        
       
         
@@ -114,6 +142,7 @@ $element->setLabel('Arquivo')
         
         $this->addElements(array($id, $nome, $email,$login,$senha,$repetirSenha,$fk_perfil,$element, $submit));
      // $this->addElements(array($id, $nome, $email,$senha, $submit));
+        $this->setDecorators( array( array('ViewScript', array('viewScript' => '/forms/formularioUsuario.phtml'))));
     }
 
 

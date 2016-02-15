@@ -16,7 +16,6 @@ class Application_Form_Contato extends Zend_Form
         
         $nm_contato = new Zend_Form_Element_Text('NM_CONTATO');
         $nm_contato->setLabel('NOME')
-             ->setRequired(true)
              ->addFilter('StripTags')
              ->addFilter('StringTrim')
              ->addValidator('NotEmpty')
@@ -28,7 +27,6 @@ class Application_Form_Contato extends Zend_Form
         
         $nm_cargo = new Zend_Form_Element_Text('NM_CARGO');
         $nm_cargo->setLabel('CARGO')
-             ->setRequired(true)
              ->addFilter('StripTags')
              ->addFilter('StringTrim')
              ->addValidator('NotEmpty')
@@ -40,7 +38,6 @@ class Application_Form_Contato extends Zend_Form
         
        	$nr_telefone = new Zend_Form_Element_Text('NR_TELEFONE');
         $nr_telefone->setLabel('TELEFONE 1')
-             ->setRequired(true)
              ->addFilter('StripTags')
              ->addFilter('StringTrim')
              ->addValidator('NotEmpty')
@@ -52,7 +49,6 @@ class Application_Form_Contato extends Zend_Form
          	
         $nr_telefone2 = new Zend_Form_Element_Text('NR_TELEFONE2');
         $nr_telefone2->setLabel('TELEFONE 2')
-             ->setRequired(true)
              ->addFilter('StripTags')
              ->addFilter('StringTrim')
              ->addValidator('NotEmpty')
@@ -64,7 +60,7 @@ class Application_Form_Contato extends Zend_Form
         
         $tx_observacao = new Zend_Form_Element_Textarea('TX_OBSERVACAO');
         $tx_observacao->setLabel('OBSERVAÇÃO')
-            		  ->setRequired(true)
+            	
 					  ->removeDecorator('DtDdWrapper')
         			  ->removeDecorator('HtmlTag')
        				  ->removeDecorator('Label')
@@ -73,7 +69,7 @@ class Application_Form_Contato extends Zend_Form
     	
     	$ds_email = new Zend_Form_Element_Text('DS_EMAIL');
         $ds_email->setLabel('E-MAIL')
-             ->setRequired(true)
+            
              ->addFilter('StripTags')
              ->addFilter('StringTrim')
              ->addValidator('NotEmpty')
@@ -85,7 +81,7 @@ class Application_Form_Contato extends Zend_Form
     				  
     	$nm_logradouro = new Zend_Form_Element_Text('NM_LOGRADOURO');
         $nm_logradouro->setLabel('LOGRADOURO')
-             ->setRequired(true)
+       
              ->addFilter('StripTags')
              ->addFilter('StringTrim')
              ->addValidator('NotEmpty')
@@ -97,7 +93,7 @@ class Application_Form_Contato extends Zend_Form
     				 
     	$nr_endereco = new Zend_Form_Element_Text('NR_ENDERECO');
         $nr_endereco->setLabel('NÚMERO')
-             ->setRequired(true)
+           
              ->addFilter('StripTags')
              ->addFilter('StringTrim')
              ->addValidator('NotEmpty')
@@ -109,7 +105,7 @@ class Application_Form_Contato extends Zend_Form
     	
     	$ds_complemento = new Zend_Form_Element_Text('DS_COMPLEMENTO');
         $ds_complemento->setLabel('COMPLEMENTO')
-             ->setRequired(true)
+          
              ->addFilter('StripTags')
              ->addFilter('StringTrim')
              ->addValidator('NotEmpty')
@@ -122,7 +118,7 @@ class Application_Form_Contato extends Zend_Form
     		
     	$nm_bairro = new Zend_Form_Element_Text('NM_BAIRRO');
         $nm_bairro->setLabel('BAIRRO')
-             ->setRequired(true)
+           
              ->addFilter('StripTags')
              ->addFilter('StringTrim')
              ->addValidator('NotEmpty')
@@ -135,7 +131,7 @@ class Application_Form_Contato extends Zend_Form
          
         $nm_bairro = new Zend_Form_Element_Text('NM_BAIRRO');
         $nm_bairro->setLabel('BAIRRO')
-             ->setRequired(true)
+          
              ->addFilter('StripTags')
              ->addFilter('StringTrim')
              ->addValidator('NotEmpty')
@@ -150,7 +146,7 @@ class Application_Form_Contato extends Zend_Form
     	$nm_uf = new Zend_Form_Element_Select( 'NM_UF' );
         $nm_uf->setLabel('UF')
             ->addMultiOptions($estados)
-            ->setRequired(true)
+          
             ->addFilter('StripTags')
             ->addFilter('StringTrim')
             ->addValidator('NotEmpty')
@@ -162,7 +158,7 @@ class Application_Form_Contato extends Zend_Form
 
 		$nr_cep = new Zend_Form_Element_Text('NR_CEP');
         $nr_cep->setLabel('CEP')
-             ->setRequired(true)
+             
              ->addFilter('StripTags')
              ->addFilter('StringTrim')
              ->addValidator('NotEmpty')
@@ -175,7 +171,7 @@ class Application_Form_Contato extends Zend_Form
          	 
         $fl_agenda = new Zend_Form_Element_Select( 'FL_AGENDA' );
         $fl_agenda->setLabel('AGENDA')->addMultiOptions(array('0' => 'NÃO','1' => 'SIM' )  )
-            ->setRequired(true)
+           
              ->addFilter('StripTags')
              ->addFilter('StringTrim')
              ->addValidator('NotEmpty')
