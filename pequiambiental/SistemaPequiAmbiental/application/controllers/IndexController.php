@@ -927,5 +927,121 @@ class IndexController extends Zend_Controller_Action {
 		$this->view->cliente = $cliente->getClientes();
 		Zend_Registry::get('logger')->log($this->view->cliente, Zend_Log::INFO);
 	}
+	public function editTipoServicoAction(){
+		// action body
+		$form = new Application_Form_TipoServico();
+		$form->submit->setLabel('Salvar');
+		//$form->removeElement("tabela_contratacao");
+		$this->view->form = $form;
+	
+		if ($this->getRequest()->isPost()) {
+			$formData = $this->getRequest()->getPost();
+			if ($form->isValid($formData)) {
+				Zend_Registry::get('logger')->log($formData, Zend_Log::INFO);
+				$ID_TIPO_SERVICO = (int) $form->getValue('ID_TIPO_SERVICO');
+				$NM_TIPO_SERVICO= $form->getValue('NM_TIPO_SERVICO');
+	
+				$tipoServico= new Application_Model_DbTable_TipoServico();
+				Zend_Registry::get('logger')->log($formData, Zend_Log::INFO);
+				try {
+	
+					$tipoServico->updateTipoServico($ID_TIPO_SERVICO, $NM_TIPO_SERVICO);
+					$this->view->mensagem = "Atualizado com sucesso";
+					$this->view->erro = 0;
+					//$this->_helper->redirector('lista-usuario');
+				} // catch (pega exceÃƒÂ§ÃƒÂ£o)
+				catch (Exception $e) {
+					$this->view->mensagem = "Atualizar tipo serviço";
+					$this->view->erro = 1;
+					$this->view->mensagemExcecao = $e->getMessage();
+					//  echo ($e->getCode()."teste".$e->getMessage() );
+				}
+	
+			} else {
+				$form->populate($formData);
+			}
+		} else {
+			$id = $this->_getParam('id', 0);
+	
+			if ($id > 0) {
+				$tipoServico = new Application_Model_DbTable_TipoServico();
+				Zend_Registry::get('logger')->log("Id contato =" . $id, Zend_Log::INFO);
+				$form->populate($tipoServico->getTipoServico($id));
+			}
+		}
+	}
+	public function deleteTipoServicoAction(){
+		$id = $this->_getParam('id', 0);
+		$tipoServico= new Application_Model_DbTable_TipoServico();
+		$this->view->tipoServico = $tipoServico->getTipoServico($id);
+	}
+	public function listaTipoServicoAction(){
+		$tipoServico= new Application_Model_DbTable_TipoServico();
+	    if ($this->getRequest()->isPost()) {
+			$del = $this->getRequest()->getPost('del');
+			if ($del == 'Sim') {
+				Zend_Registry::get('logger')->log("teste2222", Zend_Log::INFO);
+				$id = $this->getRequest()->getPost('ID_TIPO_SERVICO');
+				
+				try {
+					
+					$tipoServico->deleteTipoServico($id);
+					$this->view->mensagem = "Excluído com sucesso";
+					$this->view->erro = 0;
+				} catch (Exception $e) {
+					$this->view->mensagem = $e->getCode() . " Deletar tipo de serviço";
+					$this->view->erro = 1;
+					$this->view->mensagemExcecao = $e->getMessage();
+	
+				}
+			}
+		}
+			
+		$this->view->tipoServico = $tipoServico->getTipoServicos();
+		
+	}
+	public function addTipoServicoAction(){
+		$form = new Application_Form_TipoServico();
+		$form->submit->setLabel('Adicionar');
+		//$form->removeElement("tabela_contratacao");
+		$this->view->form = $form;
+		if ($this->getRequest()->isPost()) {
+			$formData = $this->getRequest()->getPost();
+			Zend_Registry::get('logger')->log($formData, Zend_Log::INFO);
+	
+			 
+	
+			if ($form->isValid($formData)) {
+	
+				try {
+					
+					$NM_TIPO_SERVICO= $form->getValue('NM_TIPO_SERVICO');
+					$tipoServico= new Application_Model_DbTable_TipoServico();
+					$tipoServico->addTipoServico($NM_TIPO_SERVICO);
+						
+					//$descricao=$form->getValue('descricao');
+					//$centroCusto->addCentroCusto($descricao);
+					$this->view->erro = 0;
+					$this->view->mensagem = "Adicionado com sucesso";
+					$form->reset();
+				} catch (Exception $erro) {
+					Zend_Registry::get('logger')->log("Erroooooooooooooooo", Zend_Log::INFO);
+					$this->view->mensagem = $erro->getMessage();
+					$this->view->erro = 1;
+					//exit;
+				}
+			} else {
+				Zend_Registry::get('logger')->log("formulario inválido", Zend_Log::INFO);
+				$form->populate($formData);
+				$arrMessages = $form->getMessages();
+				foreach ($arrMessages as $field => $arrErrors) {
+					$this->view->erro = 1;
+					$this->view->mensagem = $this->view->mensagem . $form->getElement($field)->getLabel() . $this->view->formErrors($arrErrors) . "<br>";
+				}
+			}
+	
+		}
+	
+	}
 
 }
