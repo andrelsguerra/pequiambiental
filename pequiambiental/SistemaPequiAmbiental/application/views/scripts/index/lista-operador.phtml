@@ -14,21 +14,24 @@
                                         <thead>
                                             <tr>
                                                 <th class="arredondarEsq">NOME</th>
-												<th>E-MAIL</th>
+                                                <th>TELEFONE PESSOAL</th>
+                                                <th>TELEFONE BIOS</th>
+                                                <th>E-MAIL BIOS</th>
 												<th>AÇÃO</th>
                                                 
                                             </tr>
                                         </thead>
                                         <tbody>
-                                        <?php if(count($this->usuarios)>0){
-											foreach($this->usuarios as $usuarios) : ?>
+                                        <?php if(count($this->operador)>0){
+											foreach($this->operador as $operador) : ?>
                                             <tr>
-                                            <td><?php echo $usuarios["nome"]?></td>
-                                             <td><?php echo $usuarios["email"]?></td>
-                                             <td>
-                                                <a alt="Editar" title="Editar" href="<?php echo $this->url(array('controller'=>'index','action'=>'edit-operador', 'id'=>$usuarios["id_usuario"]),null, true);?>" class="btn-sm btn-warning"><i class="glyphicon glyphicon-edit"></i></a> 
-                                                 <a alt="Excluir" title="Excluir" href="<?php echo $this->url(array('controller'=>'index','action'=>'delete-operador', 'id'=>$usuarios["id_usuario"]),null, true);?>" class="btn-sm  btn-danger"><i class="glyphicon glyphicon-trash"></i></a>
-                                                
+                                            	<td><?php echo $operador["NM_OPERADOR"]?></td>
+                                             	<td><?php echo $operador["DS_TELEFONE_PESSOAL"]?></td>
+                                             	<td><?php echo $operador["DS_TELEFONE_BIOS"]?></td>
+                                             	<td><?php echo $operador["DS_EMAIL_BIOS"]?></td>
+                                             	<td>
+                                                	<a alt="Editar" title="Editar" href="<?php echo $this->url(array('controller'=>'index','action'=>'edit-operador', 'id'=>$operador["ID_OPERADOR"]),null, true);?>" class="btn-sm btn-warning"><i class="glyphicon glyphicon-edit"></i></a> 
+                                                 	<a alt="Excluir" title="Excluir" href="<?php echo $this->url(array('controller'=>'index','action'=>'delete-operador', 'id'=>$operador["ID_OPERADOR"]),null, true);?>" class="btn-sm  btn-danger"><i class="glyphicon glyphicon-trash"></i></a>
                                                 </td>
                                             </tr>
                                           <?php endforeach; ?>
@@ -36,11 +39,11 @@
                                         </tbody>
                                         <tfoot>
                                             <tr>
-                                                
                                                 <th class="arredondarEsq">NOME</th>
-												<th>E-MAIL</th>
-												<th>AÇÃO</th>
-                                               
+                                                <th>TELEFONE PESSOAL</th>
+                                                <th>TELEFONE BIOS</th>
+                                                <th>E-MAIL BIOS</th>
+												<th>AÇÃO</th>                                            
                                             </tr>
                                         </tfoot>
                                     </table>

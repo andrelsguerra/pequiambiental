@@ -1,0 +1,127 @@
+	<!-- Small boxes (Stat box) -->
+				<div class="box box-default">
+				<form role="form" action="" method="<?php echo $this->element->getMethod() ?>" id="<?php echo $this->element->getName()?>" enctype="multipart/form-data">
+            <div class="box-header with-border">
+              <h3 class="box-title">OPERADOR</h3>
+              <div class="box-tools pull-right">
+                <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                <button class="btn btn-box-tool" data-widget="remove"><i class="fa fa-remove"></i></button>
+              </div>
+            </div><!-- /.box-header -->
+            <div class="box-body">
+              <div class="row">
+                <div class="col-md-12">
+                 <?php echo $this->element->ID_OPERADOR ?>
+                <div class="form-group">
+						<label ><?php echo $this->element->NM_OPERADOR->getLabel() ?></label>
+						<?php echo $this->element->NM_OPERADOR ?>				                     
+				</div>
+				
+				<div class="form-group">
+						<label ><?php echo $this->element->DS_TELEFONE_PESSOAL->getLabel() ?></label>
+						<?php echo $this->element->DS_TELEFONE_PESSOAL ?>				                     
+				</div>
+				<div class="form-group">
+						<label ><?php echo $this->element->DS_TELEFONE_BIOS->getLabel() ?></label>
+						<?php echo $this->element->DS_TELEFONE_BIOS ?>				                     
+				</div>
+				<div class="form-group">
+						<label ><?php echo $this->element->DS_EMAIL_PESSOAL->getLabel() ?></label>
+						<?php echo $this->element->DS_EMAIL_PESSOAL ?>				                     
+				</div>
+				<div class="form-group">
+						<label ><?php echo $this->element->DS_EMAIL_BIOS->getLabel() ?></label>
+						<?php echo $this->element->DS_EMAIL_BIOS ?>				                     
+				</div>
+				<div class="form-group">
+						<label ><?php echo $this->element->DS_ENDERECO->getLabel() ?></label>
+						<?php echo $this->element->DS_ENDERECO ?>				                     
+				</div>
+				<div class="form-group">
+						<label ><?php echo $this->element->DS_BAIRRO->getLabel() ?></label>
+						<?php echo $this->element->DS_BAIRRO ?>				                     
+				</div>
+				<div class="form-group">
+						<label ><?php echo $this->element->NR_CEP->getLabel() ?></label>
+						<?php echo $this->element->NR_CEP ?>				                     
+				</div>
+				
+				<div class="form-group">
+						<label ><?php echo $this->element->NR_CPF->getLabel() ?></label>
+						<?php echo $this->element->NR_CPF ?>				                     
+				</div>
+				<div class="form-group">
+						<label ><?php echo $this->element->NR_IDENTIDADE->getLabel() ?></label>
+						<?php echo $this->element->NR_IDENTIDADE ?>				                     
+				</div>
+				<div class="form-group">
+	                    <label><?php echo $this->element->DT_NASCIMENTO->getLabel() ?></label>
+	                    <div class="input-group">
+	                      <div class="input-group-addon">
+	                        <i class="fa fa-calendar"></i>
+	                      </div>
+	                      <?php echo $this->element->DT_NASCIMENTO ?>		
+	                     
+	                    </div><!-- /.input group -->
+	            </div><!-- /.form group -->
+				<div class="form-group">
+						<label ><?php echo $this->element->DS_REGISTRO_PROFISSIONAL->getLabel() ?></label>
+						<?php echo $this->element->DS_REGISTRO_PROFISSIONAL ?>				                     
+				</div>
+				<div class="form-group">
+						<label ><?php echo $this->element->DS_CTF_IBAM->getLabel() ?></label>
+						<?php echo $this->element->DS_CTF_IBAM ?>				                     
+				</div>
+				<div class="form-group">
+						<label ><?php echo $this->element->DS_SKYPE->getLabel() ?></label>
+						<?php echo $this->element->DS_SKYPE ?>				                     
+				</div>
+				<div class="form-group">
+						<label ><?php echo $this->element->DS_LOGIN->getLabel() ?></label>
+						<?php echo $this->element->DS_LOGIN ?>				                     
+				</div>
+				<div class="form-group">
+						<label ><?php echo $this->element->DS_SENHA->getLabel() ?></label>
+						<?php echo $this->element->DS_SENHA ?>				                     
+				</div>
+				<div class="form-group">
+						<label ><?php echo $this->element->REPETIR_SENHA->getLabel() ?></label>
+						<?php echo $this->element->REPETIR_SENHA ?>				                     
+				</div>
+				<div class="form-group">
+						<label ><?php echo $this->element->NM_CONTATO_FAMILIAR->getLabel() ?></label>
+						<?php echo $this->element->NM_CONTATO_FAMILIAR ?>				                     
+				</div>
+				<div class="form-group">
+						<label ><?php echo $this->element->NR_TELEFONE_CONTATO_FAMILIAR->getLabel() ?></label>
+						<?php echo $this->element->NR_TELEFONE_CONTATO_FAMILIAR ?>				                     
+				</div>
+				<div class="form-group">
+						<label ><?php echo $this->element->FK_PERFIL->getLabel() ?></label>
+						<?php echo $this->element->FK_PERFIL ?>				                     
+				</div>
+					
+						 
+	           </div><!-- /.form group -->
+	                   
+                  
+                </div><!-- /.col --> 
+              </div><!-- /.row -->
+            </div><!-- /.box-body -->
+           <div class="box-footer">
+                   <button class="btn btn-default" type="submit" name="Voltar">Voltar</button>
+                    <button class="btn btn-info pull-right" type="submit" name="Salvar">Salvar</button>
+                  </div>
+                   </form>
+          </div><!-- /.box -->
+            <script>
+      $(function () {
+        //Initialize Select2 Elements
+        $(".select2").select2();
+
+        $('#DT_NASCIMENTO').datepicker({
+            format: 'mm/dd/yyyy'
+        });
+        
+      });
+    </script>

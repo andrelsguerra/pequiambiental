@@ -20,8 +20,8 @@ class IndexController extends Zend_Controller_Action {
             $this->session->urlAtual = $_SERVER['REQUEST_URI'];
         }
         $url = Zend_Controller_Front::getInstance()->getRequest()->getRequestUri();
-        Zend_Registry::get('logger')->log($this->session->urlAnterior, Zend_Log::INFO);
-        Zend_Registry::get('logger')->log($this->session->urlAtual, Zend_Log::INFO);
+       // Zend_Registry::get('logger')->log($this->session->urlAnterior, Zend_Log::INFO);
+       // Zend_Registry::get('logger')->log($this->session->urlAtual, Zend_Log::INFO);
         if (!Zend_Auth::getInstance()->hasIdentity()) {
 
             $controlador2 = Zend_Controller_Front::getInstance()->getRequest()->getControllerName();
@@ -35,13 +35,14 @@ class IndexController extends Zend_Controller_Action {
             $this->view->user = $usuarioLogado->_auth->getIdentity();
             $this->user = $this->view->user;
             $this->view->fk_perfil = $this->user->getFKPerfil();
-            $this->view->usuario1 = $this->user->getUserName();
+            $this->view->usuario = $this->user->getUserName();
         }
         
         if(isset($_POST['Voltar'])){
         	$this->_redirect($this->session->urlAnterior, array('prependBase' => false));
         	exit();
         }
+         
         
     }
 
@@ -60,24 +61,81 @@ class IndexController extends Zend_Controller_Action {
 
 
         $id = $this->_getParam('id', 0);
-        $usuarios = new Application_Model_DbTable_Usuario();
-        $this->view->usuarios = $usuarios->getUsuario($id);
+        $operador= new Application_Model_DbTable_Operador();
+        $this->view->operador = $operador->getOperador($id);
     }
 
     public function editOperadorAction() {
         // action body
-        $form = new Application_Form_Usuario();
-        $form->submit->setLabel('Salvar usuÃ¡rio');
-
-        //$form->getElement("login")->setVisible(false);
-        //$form->removeElement($form->getElement("s"));
-        //$form->getElement("login")->setAttrib("disable", array(1));
-        $form->removeElement("login");
+        $form = new Application_Form_Operador();
+        $form->submit->setLabel('Salvar');
+       
+        $form->getElement("DS_LOGIN")->setAttrib("disable", array(1));
+        $form->getElement("DS_LOGIN")->setRequired(false);
+        $form->getElement("DS_SENHA")->setAttrib("disable", array(1));
+        $form->getElement("DS_SENHA")->setRequired(false);
+        $form->getElement("REPETIR_SENHA")->setAttrib("disable", array(1));
+        $form->getElement("REPETIR_SENHA")->setRequired(false);
+        //$form->removeElement("DS_SENHA");
+        //$form->removeElement("REPETIR_SENHA");
         $this->view->form = $form;
-        Zend_Registry::get('logger')->log($form->getValues(), Zend_Log::INFO);
+      
         if ($this->getRequest()->isPost()) {
             $formData = $this->getRequest()->getPost();
             if ($form->isValid($formData)) {
+            	
+            	
+            	$ID_OPERADOR = $form->getValue('ID_OPERADOR');
+            	$NM_OPERADOR= $form->getValue('NM_OPERADOR');
+            	$DS_TELEFONE_PESSOAL= $form->getValue('DS_TELEFONE_PESSOAL');
+            	$DS_TELEFONE_BIOS= $form->getValue('DS_TELEFONE_BIOS');
+            	$DS_EMAIL_PESSOAL= $form->getValue('DS_EMAIL_PESSOAL');
+            	$DS_EMAIL_BIOS= $form->getValue('DS_EMAIL_BIOS');
+            	$DS_ENDERECO= $form->getValue('DS_ENDERECO');
+            	$DS_BAIRRO= $form->getValue('DS_BAIRRO');
+            	$NR_CEP= $form->getValue('NR_CEP');
+            	$NR_CPF= $form->getValue('NR_CPF');
+            	$NR_IDENTIDADE= $form->getValue('NR_IDENTIDADE');
+            	 
+            	//data de nascimento
+            	$DT_NASCIMENTO= $form->getValue('DT_NASCIMENTO');
+            	$data_cadastro =new Zend_Date($DT_NASCIMENTO);
+            	$DT_NASCIMENTO=$data_cadastro->get('YYYY-MM-dd HH:mm:ss');
+            	 
+            	$DS_REGISTRO_PROFISSIONAL= $form->getValue('DS_REGISTRO_PROFISSIONAL');
+            	$DS_CTF_IBAM= $form->getValue('DS_CTF_IBAM');
+            	$DS_SKYPE=$form->getValue('DS_SKYPE');
+            	$DS_LOGIN=$form->getValue('DS_LOGIN');
+            	//$DS_SENHA= $form->getValue('DS_SENHA');
+            	//$REPETIR_SENHA= $form->getValue('REPETIR_SENHA');
+            	$NM_CONTATO_FAMILIAR= $form->getValue('NM_CONTATO_FAMILIAR');
+            	$NR_TELEFONE_CONTATO_FAMILIAR= $form->getValue('NR_TELEFONE_CONTATO_FAMILIAR');
+            	$FK_PERFIL= $form->getValue('FK_PERFIL');
+            	$FK_ARQUIVO= $form->getValue('FK_ARQUIVO');
+            	 
+            	$operador = new Application_Model_DbTable_Operador();
+            	 
+            	//try {
+            		//if ($DS_SENHA != $REPETIR_SENHA)
+            			//throw new Exception(
+            					//"Atenção senha e repetir senha tem que ser iguais");
+            			try {
+            				$operador->updateOperadorSemArquivo($ID_OPERADOR, $NM_OPERADOR, $DS_TELEFONE_PESSOAL, $DS_TELEFONE_BIOS, $DS_EMAIL_PESSOAL, $DS_EMAIL_BIOS, $DS_ENDERECO, $DS_BAIRRO, $NR_CEP, $NR_CPF, $NR_IDENTIDADE, $DT_NASCIMENTO, $DS_REGISTRO_PROFISSIONAL, $DS_CTF_IBAM, $DS_SKYPE, $NM_CONTATO_FAMILIAR, $NR_TELEFONE_CONTATO_FAMILIAR, $FK_PERFIL);
+            				$this->view->erro = 0;
+            				$this->view->mensagem = "Alterado com sucesso";
+            				//$form->reset();
+            			} // catch (pega exceÃƒÂ§ÃƒÂ£o)
+            			catch (Exception $e) {
+            				$this->view->erro = 1;
+            				$this->view->mensagemExcecao = $e->getMessage();
+            			}
+            	//} catch (Exception $erro) {
+            	//	Zend_Registry::get('logger')->log("Erroooooooooooooooo", Zend_Log::INFO);
+            		//$this->view->mensagem = $erro->getMessage();
+            		//$this->view->erro = 1;
+            	//}
+            	
+            	/*
                 $id = (int) $form->getValue('id_usuario');
                 $nome = $form->getValue('nome');
                 $email = $form->getValue('email');
@@ -152,39 +210,92 @@ class IndexController extends Zend_Controller_Action {
                     $this->view->erro = 1;
                     $this->view->mensagemExcecao = $e->getMessage();
                     //exit();
-                }
+                }*/
             } else {
-                $form->populate($formData);
+            
+            	$form->populate($formData);
+            	$arrMessages = $form->getMessages();
+            	foreach ($arrMessages as $field => $arrErrors) {
+            		$this->view->erro = 1;
+            		$this->view->mensagem = $this->view->mensagem . $form->getElement($field)->getLabel() . $this->view->formErrors($arrErrors) . "<br>";
+            	}
             }
         } else {
             $id = $this->_getParam('id', 0);
 
             if ($id > 0) {
-                $usuarios = new Application_Model_DbTable_Usuario();
+                $operador= new Application_Model_DbTable_Operador();
                 Zend_Registry::get('logger')->log("Id usuario =" . $id, Zend_Log::INFO);
-                $form->populate($usuarios->getUsuario($id));
+                $obj=$operador->getOperador($id);
+                $form->populate($obj);
+                Zend_Registry::get('logger')->log($obj, Zend_Log::INFO);
             }
         }
     }
 
     public function addOperadorAction() {
         // action body
-        $form = new Application_Form_Usuario();
+        $form = new Application_Form_Operador();
         $form->submit->setLabel('Adicionar usuário');
         $this->view->form = $form;
         if ($this->getRequest()->isPost()) {
             $formData = $this->getRequest()->getPost();
             if ($form->isValid($formData)) {
-                $nome = $form->getValue('nome');
-                $email = $form->getValue('email');
-                $senha = $form->getValue('senha');
-                $login = $form->getValue('login');
-                //$jobrole = $form->getValue('jobrole');
-                //$cellphone=$form->getValue('cellphone');
-                $fk_perfil = $form->getValue('fk_perfil');
-                $repetirSenha = $form->getValue('repetirSenha');
-                $fk_empresa = $form->getValue('fk_empresa');
-                $usuarios = new Application_Model_DbTable_Usuario();
+            	$ID_OPERADOR = $form->getValue('ID_OPERADOR');
+            	$NM_OPERADOR= $form->getValue('NM_OPERADOR');
+            	$DS_TELEFONE_PESSOAL= $form->getValue('DS_TELEFONE_PESSOAL');
+            	$DS_TELEFONE_BIOS= $form->getValue('DS_TELEFONE_BIOS');
+            	$DS_EMAIL_PESSOAL= $form->getValue('DS_EMAIL_PESSOAL');
+            	$DS_EMAIL_BIOS= $form->getValue('DS_EMAIL_BIOS');
+            	$DS_ENDERECO= $form->getValue('DS_ENDERECO');
+            	$DS_BAIRRO= $form->getValue('DS_BAIRRO');
+            	$NR_CEP= $form->getValue('NR_CEP');
+            	$NR_CPF= $form->getValue('NR_CPF');
+            	$NR_IDENTIDADE= $form->getValue('NR_IDENTIDADE');
+            	
+            	//data de nascimento
+            	$DT_NASCIMENTO= $form->getValue('DT_NASCIMENTO');
+            	$data_cadastro =new Zend_Date($DT_NASCIMENTO);
+            	$DT_NASCIMENTO=$data_cadastro->get('YYYY-MM-dd HH:mm:ss');
+            	
+            	$DS_REGISTRO_PROFISSIONAL= $form->getValue('DS_REGISTRO_PROFISSIONAL');
+            	$DS_CTF_IBAM= $form->getValue('DS_CTF_IBAM');
+            	$DS_SKYPE=$form->getValue('DS_SKYPE');
+            	$DS_LOGIN=$form->getValue('DS_LOGIN');
+            	$DS_SENHA= $form->getValue('DS_SENHA');
+            	$REPETIR_SENHA= $form->getValue('REPETIR_SENHA');
+            	$NM_CONTATO_FAMILIAR= $form->getValue('NM_CONTATO_FAMILIAR');
+            	$NR_TELEFONE_CONTATO_FAMILIAR= $form->getValue('NR_TELEFONE_CONTATO_FAMILIAR');
+            	$FK_PERFIL= $form->getValue('FK_PERFIL');
+            	$FK_ARQUIVO= $form->getValue('FK_ARQUIVO');
+            	
+            	$operador = new Application_Model_DbTable_Operador();
+            	
+            	try {
+            		if ($DS_SENHA != $REPETIR_SENHA)
+            			throw new Exception(
+            					"Atenção senha e repetir senha tem que ser iguais");
+            			try {
+            				$operador->addUsuarioSemFoto($NM_OPERADOR, $DS_TELEFONE_PESSOAL, $DS_TELEFONE_BIOS, $DS_EMAIL_PESSOAL, $DS_EMAIL_BIOS, $DS_ENDERECO, $DS_BAIRRO, $NR_CEP, $NR_CPF, $NR_IDENTIDADE, $DT_NASCIMENTO, $DS_REGISTRO_PROFISSIONAL, $DS_CTF_IBAM, $DS_SKYPE, $DS_LOGIN, $DS_SENHA, $NM_CONTATO_FAMILIAR, $NR_TELEFONE_CONTATO_FAMILIAR, $FK_PERFIL);
+            		    	$this->view->erro = 0;
+            				$this->view->mensagem = "Adicionado com sucesso";
+            				$form->reset();
+            			} // catch (pega exceÃƒÂ§ÃƒÂ£o)
+            			catch (Exception $e) {
+            				$this->view->erro = 1;
+            				if ($e->getCode() == "23000") {
+            					$this->view->mensagem = "Login existe no sistema.Cadastre outro login";
+            				}
+            				$this->view->mensagemExcecao = $e->getMessage();
+            			}
+            	} catch (Exception $erro) {
+            		Zend_Registry::get('logger')->log("Erroooooooooooooooo", Zend_Log::INFO);
+            		$this->view->mensagem = $erro->getMessage();
+            		$this->view->erro = 1;
+            	}
+            	
+            
+               /* $usuarios = new Application_Model_DbTable_Usuario();
 
                 $imageAdapter = new Zend_File_Transfer_Adapter_Http();
                 $imageAdapter->setDestination(BASE_PATH . '/upload');
@@ -196,9 +307,9 @@ class IndexController extends Zend_Controller_Action {
                 Zend_Registry::get('logger')->log($_FILES['fileUpload'], Zend_Log::INFO);
                 $nomedaimagem = $_FILES['fileUpload']['name'];
                 $fk_arquivo = "";
-                $extensao = pathinfo($nomedaimagem, PATHINFO_EXTENSION);
+                $extensao = pathinfo($nomedaimagem, PATHINFO_EXTENSION);*/
 
-                if (is_uploaded_file($_FILES['fileUpload']['tmp_name'])) {
+                /*if (is_uploaded_file($_FILES['fileUpload']['tmp_name'])) {
                     Zend_Registry::get('logger')->log("Entrou if is upload", Zend_Log::INFO);
                     //$filename = $imageAdapter->getFileName('fileUpload');
                     $nomeArquivo = md5(uniqid()) . '.' . $extensao;
@@ -268,16 +379,22 @@ class IndexController extends Zend_Controller_Action {
                         $this->view->erro = 1;
                         $this->view->mensagemExcecao = $e->getMessage();
                     }
-                }
+                }*/
             } else {
-                $form->populate($formData);
+            	Zend_Registry::get('logger')->log("formulario inválido", Zend_Log::INFO);
+            	$form->populate($formData);
+            	$arrMessages = $form->getMessages();
+            	foreach ($arrMessages as $field => $arrErrors) {
+            		$this->view->erro = 1;
+            		$this->view->mensagem = $this->view->mensagem . $form->getElement($field)->getLabel() . $this->view->formErrors($arrErrors) . "<br>";
+            	}
             }
         }
     }
 
     public function listaOperadorAction() {
         // action body
-        $usuarios = new Application_Model_DbTable_Usuario();
+        $operador = new Application_Model_DbTable_Operador();
         Zend_Registry::get('logger')->log($_POST, Zend_Log::INFO);
  
 
@@ -285,27 +402,25 @@ class IndexController extends Zend_Controller_Action {
             $del = $this->getRequest()->getPost('del');
             if ($del == 'Sim') {
 				Zend_Registry::get('logger')->log("teste2222", Zend_Log::INFO);
-                $id = $this->getRequest()->getPost('id_usuario');
-                $usuarios = new Application_Model_DbTable_Usuario();
+                $id = $this->getRequest()->getPost('ID_OPERADOR');
+               
                 try {
-                    $usuarios->deleteUsuario($id);
+                    $operador->deleteOperador($id);
 
                     $this->view->mensagem = "Excluído com sucesso";
                     $this->view->erro = 0;
                 } catch (Exception $e) {
-                    $this->view->mensagem = $e->getCode() . " Deletar usuÃ¡rio";
+                    $this->view->mensagem = $e->getCode() . " Deletar operador";
                     $this->view->erro = 1;
                     $this->view->mensagemExcecao = $e->getMessage();
-                    if ($e->getCode() == "23000") {
-                        $this->view->mensagem = $e->getCode() . " NÃ£o permitido excluir usuÃ¡rio com reuniÃµes agendadas";
-                    }
+                    
                 }
             }
         }
         try {
-            $this->view->usuarios = $usuarios->getUsuariosComPerfil();
+            $this->view->operador = $operador->getOperadorComPerfil();
         } catch (Exception $e) {
-            $this->view->mensagem = "UsuÃ¡rios nao encontrado";
+            $this->view->mensagem = "Operador nao encontrado";
             $this->view->erro = 1;
             $this->view->mensagemExcecao = $e->getMessage();
         }
@@ -434,6 +549,11 @@ class IndexController extends Zend_Controller_Action {
                 }
             } else {
                 $form->populate($formData);
+                $arrMessages = $form->getMessages();
+                foreach ($arrMessages as $field => $arrErrors) {
+                	$this->view->erro = 1;
+                	$this->view->mensagem = $this->view->mensagem . $form->getElement($field)->getLabel() . $this->view->formErrors($arrErrors) . "<br>";
+                }
             }
         } else {
             $id = $this->user->getId();
@@ -645,6 +765,11 @@ class IndexController extends Zend_Controller_Action {
                 
             } else {
                 $form->populate($formData);
+                $arrMessages = $form->getMessages();
+                foreach ($arrMessages as $field => $arrErrors) {
+                	$this->view->erro = 1;
+                	$this->view->mensagem = $this->view->mensagem . $form->getElement($field)->getLabel() . $this->view->formErrors($arrErrors) . "<br>";
+                }
             }
         } else {
             $id = $this->_getParam('id', 0);
@@ -738,6 +863,11 @@ class IndexController extends Zend_Controller_Action {
 		
 			} else {
 				$form->populate($formData);
+				$arrMessages = $form->getMessages();
+				foreach ($arrMessages as $field => $arrErrors) {
+					$this->view->erro = 1;
+					$this->view->mensagem = $this->view->mensagem . $form->getElement($field)->getLabel() . $this->view->formErrors($arrErrors) . "<br>";
+				}
 			}
 		} else {
 			$id = $this->_getParam('id', 0);
@@ -828,6 +958,11 @@ class IndexController extends Zend_Controller_Action {
 	
 			} else {
 				$form->populate($formData);
+				$arrMessages = $form->getMessages();
+				foreach ($arrMessages as $field => $arrErrors) {
+					$this->view->erro = 1;
+					$this->view->mensagem = $this->view->mensagem . $form->getElement($field)->getLabel() . $this->view->formErrors($arrErrors) . "<br>";
+				}
 			}
 		} else {
 			$id = $this->_getParam('id', 0);
@@ -959,6 +1094,11 @@ class IndexController extends Zend_Controller_Action {
 	
 			} else {
 				$form->populate($formData);
+				$arrMessages = $form->getMessages();
+				foreach ($arrMessages as $field => $arrErrors) {
+					$this->view->erro = 1;
+					$this->view->mensagem = $this->view->mensagem . $form->getElement($field)->getLabel() . $this->view->formErrors($arrErrors) . "<br>";
+				}
 			}
 		} else {
 			$id = $this->_getParam('id', 0);
