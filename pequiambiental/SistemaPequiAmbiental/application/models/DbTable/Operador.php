@@ -28,6 +28,26 @@ class Application_Model_DbTable_Operador extends Zend_Db_Table_Abstract
         }
         return $row->toArray();
     }
+    public function getOperadorEdit($id){
+    	$id = (int) $id;
+    	// $row = $this->fetchRow("nome",null,'id = ' . $id);
+    	$select= $select =$this->_db->select()
+    	->from(array('o' => 'TB_OPERADOR'),array("*",'DT_NASCIMENTO' => new Zend_Db_Expr("DATE_FORMAT(o.DT_NASCIMENTO,'%d/%m/%Y')")))
+    	->where('ID_OPERADOR ='.$id);
+    	$row = $this->getAdapter()->fetchRow($select);
+    	if (! $row) {
+    		throw new Exception("NÃ£o foi possivel encontrar a linha $id");
+    	}
+    
+    	 
+    	// $row["fk_usuario"]=$usuarioHasReuniao->getParticipanteReuniaoCombo ($id);
+    
+    	return $row;
+    }
+    
+    
+    
+    
     public function getOperadorComPerfil()
     {
     	

@@ -226,7 +226,7 @@ class IndexController extends Zend_Controller_Action {
             if ($id > 0) {
                 $operador= new Application_Model_DbTable_Operador();
                 Zend_Registry::get('logger')->log("Id usuario =" . $id, Zend_Log::INFO);
-                $obj=$operador->getOperador($id);
+                $obj=$operador->getOperadorEdit($id);
                 $form->populate($obj);
                 Zend_Registry::get('logger')->log($obj, Zend_Log::INFO);
             }
