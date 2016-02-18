@@ -43,7 +43,7 @@ class Application_Model_DbTable_Noticia extends Zend_Db_Table_Abstract
     	 
     	$select =$this->_db->select()
     	->from(array('n' => 'TB_NOTICIA'),array("*",'DT_NOTICIA' => new Zend_Db_Expr("DATE_FORMAT(DT_NOTICIA,'%d/%m/%Y %H:%i')")))
-    	->joinInner(array('o' => 'TB_OPERADOR'),('n.FK_OPERADOR =o.ID_OPERADOR'),array('PRIMEIRO_NOME' => new Zend_Db_Expr("Substring_index(o.NM_OPERADOR,' ',1)")))
+    	->joinInner(array('o' => 'TB_OPERADOR'),('n.FK_OPERADOR =o.ID_OPERADOR'),array("*",'PRIMEIRO_NOME' => new Zend_Db_Expr("Substring_index(o.NM_OPERADOR,' ',1)")))
     	->joinInner(array('t' => 'TB_TIPO_NOTICIA'),('t.ID_TIPO_NOTICIA =n.FK_TIPO_NOTICIA'),array('*'))
     	->order("n.DT_NOTICIA DESC");
     	$result = $this->getAdapter()->fetchAll($select);
