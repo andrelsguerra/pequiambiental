@@ -9,8 +9,11 @@ class IndexController extends Zend_Controller_Action {
     public $session;
     public $log;
     public $caminhoPastaFtp;
+    public $classeGenerica;
 
     public function init() {
+    	$this->classeGenerica=$this->_helper->getHelper('classeGenerica');
+    	
         $this->caminhoPastaFtp = BASE_PATH . '/uploadXml/';
        // $this->log = new Application_Model_DbTable_LogArquivosGerados();
         $this->session = new Zend_Session_Namespace();
@@ -48,13 +51,23 @@ class IndexController extends Zend_Controller_Action {
 
     public function indexAction() {
         // resgata o helper, retornando uma instância do helper
-        $helper = $this->_helper->getHelper('classeGenerica');
-		$date = new Zend_Date();
-		$mes = $date->get(Zend_Date::MONTH);
+
+		$mes = $this->classeGenerica->retornaMesAtual();
        
-		Zend_Registry::get('logger')->log( $mes, Zend_Log::INFO);
-		$mes=$helper->retornaMesExtenso( $mes );
-		$this->view->mes=$mes;
+		
+		$mesExtenso=$this->classeGenerica->retornaMesExtenso( $mes );
+		$this->view->mes=$mesExtenso;
+		
+		
+		$operador = new Application_Model_DbTable_Operador();
+		$listaAniversarintes=$operador->getAniversariantes();
+		$this->view->listaAniversarintes=$listaAniversarintes;
+		
+		$noticia = new Application_Model_DbTable_Noticia();
+		$listaNoticias=$noticia->getUltimasNoticias(1);//busca noticias 
+		$this->view->listaNoticias=$listaNoticias;
+		
+		Zend_Registry::get('logger')->log( $listaNoticias, Zend_Log::INFO);
     }
 
     public function deleteOperadorAction() {
@@ -276,7 +289,7 @@ class IndexController extends Zend_Controller_Action {
             			throw new Exception(
             					"Atenção senha e repetir senha tem que ser iguais");
             			try {
-            				$operador->addUsuarioSemFoto($NM_OPERADOR, $DS_TELEFONE_PESSOAL, $DS_TELEFONE_BIOS, $DS_EMAIL_PESSOAL, $DS_EMAIL_BIOS, $DS_ENDERECO, $DS_BAIRRO, $NR_CEP, $NR_CPF, $NR_IDENTIDADE, $DT_NASCIMENTO, $DS_REGISTRO_PROFISSIONAL, $DS_CTF_IBAM, $DS_SKYPE, $DS_LOGIN, $DS_SENHA, $NM_CONTATO_FAMILIAR, $NR_TELEFONE_CONTATO_FAMILIAR, $FK_PERFIL);
+            				$operador->addOperadorSemFoto($NM_OPERADOR, $DS_TELEFONE_PESSOAL, $DS_TELEFONE_BIOS, $DS_EMAIL_PESSOAL, $DS_EMAIL_BIOS, $DS_ENDERECO, $DS_BAIRRO, $NR_CEP, $NR_CPF, $NR_IDENTIDADE, $DT_NASCIMENTO, $DS_REGISTRO_PROFISSIONAL, $DS_CTF_IBAM, $DS_SKYPE, $DS_LOGIN, $DS_SENHA, $NM_CONTATO_FAMILIAR, $NR_TELEFONE_CONTATO_FAMILIAR, $FK_PERFIL);
             		    	$this->view->erro = 0;
             				$this->view->mensagem = "Adicionado com sucesso";
             				$form->reset();
@@ -1183,5 +1196,166 @@ class IndexController extends Zend_Controller_Action {
 		}
 	
 	}
+	public function addNoticiaAction(){
+		$form = new Application_Form_Noticia();
+		$form->submit->setLabel('Adicionar');
+		//$form->removeElement("tabela_contratacao");
+		$this->view->form = $form;
+		if ($this->getRequest()->isPost()) {
+			$formData = $this->getRequest()->getPost();
+			Zend_Registry::get('logger')->log($formData, Zend_Log::INFO);
+	
+			 
+	
+			if ($form->isValid($formData)) {
+	
+				try {
+					
+					$DS_TITULO = $form->getValue('DS_TITULO');
+					$TX_NOTICIA= $form->getValue('TX_NOTICIA');
+					$FK_ARQUIVO= $form->getValue('');
+					$DS_RESUMO= $form->getValue('DS_RESUMO');
+					//$DT_NOTICIA= $form->getValue('');
+					
+					$data_cadastro =new Zend_Date();
+            		$DT_NOTICIA=$data_cadastro->get('YYYY-MM-dd HH:mm:ss');
+					
+					$FK_TIPO_NOTICIA= $form->getValue('FK_TIPO_NOTICIA');
+					$FK_OPERADOR= $this->user->getId();
+					
+					
+					$noticia= new Application_Model_DbTable_Noticia();
+					$noticia->addNoticia($DS_TITULO,$TX_NOTICIA,$FK_ARQUIVO,$DS_RESUMO,$DT_NOTICIA,$FK_TIPO_NOTICIA,$FK_OPERADOR);
+						
+					//$descricao=$form->getValue('descricao');
+					//$centroCusto->addCentroCusto($descricao);
+					$this->view->erro = 0;
+					$this->view->mensagem = "Adicionado com sucesso";
+					$form->reset();
+				} catch (Exception $erro) {
+					Zend_Registry::get('logger')->log("Erroooooooooooooooo", Zend_Log::INFO);
+					$this->view->mensagem = $erro->getMessage();
+					$this->view->erro = 1;
+					//exit;
+				}
+			} else {
+				Zend_Registry::get('logger')->log("formulario inválido", Zend_Log::INFO);
+				$form->populate($formData);
+				$arrMessages = $form->getMessages();
+				foreach ($arrMessages as $field => $arrErrors) {
+					$this->view->erro = 1;
+					$this->view->mensagem = $this->view->mensagem . $form->getElement($field)->getLabel() . $this->view->formErrors($arrErrors) . "<br>";
+				}
+			}
+	
+		}
+	
+	}
+	public function editNoticiaAction(){
+		// action body
+		$form = new Application_Form_Noticia();
+		$form->submit->setLabel('Salvar');
+		//$form->removeElement("tabela_contratacao");
+		$this->view->form = $form;
+		$noticia = new Application_Model_DbTable_Noticia();
+		if ($this->getRequest()->isPost()) {
+			$formData = $this->getRequest()->getPost();
+			if ($form->isValid($formData)) {
+				$ID_NOTICIA = $form->getValue('ID_NOTICIA');
+				$DS_TITULO = $form->getValue('DS_TITULO');
+				$TX_NOTICIA= $form->getValue('TX_NOTICIA');
+				$FK_ARQUIVO= $form->getValue('');
+				$DS_RESUMO= $form->getValue('DS_RESUMO');
+				//$DT_NOTICIA= $form->getValue('');
+						
+				$data_cadastro =new Zend_Date();
+	            $DT_NOTICIA=$data_cadastro->get('YYYY-MM-dd HH:mm:ss');
+						
+				$FK_TIPO_NOTICIA= $form->getValue('FK_TIPO_NOTICIA');
+				$FK_OPERADOR= $this->user->getId();
+		
+				
+				try {
+					
+					$noticia->updateNoticia($ID_NOTICIA, $DS_TITULO, $TX_NOTICIA, $FK_ARQUIVO, $DS_RESUMO, $DT_NOTICIA, $FK_TIPO_NOTICIA, $FK_OPERADOR);
+					$this->view->mensagem = "Atualizado com sucesso";
+					$this->view->erro = 0;
+					//$this->_helper->redirector('lista-usuario');
+				} // catch (pega exceÃƒÂ§ÃƒÂ£o)
+				catch (Exception $e) {
+					$this->view->mensagem = "Atualizar notícia";
+					$this->view->erro = 1;
+					$this->view->mensagemExcecao = $e->getMessage();
+					//  echo ($e->getCode()."teste".$e->getMessage() );
+				}
+		
+			} else {
+				$form->populate($formData);
+				$arrMessages = $form->getMessages();
+				foreach ($arrMessages as $field => $arrErrors) {
+					$this->view->erro = 1;
+					$this->view->mensagem = $this->view->mensagem . $form->getElement($field)->getLabel() . $this->view->formErrors($arrErrors) . "<br>";
+				}
+			}
+		} else {
+			$id = $this->_getParam('id', 0);
+		
+			if ($id > 0) {
+				
+				$form->populate($noticia->getNoticia($id));
+			}
+		}
+		
+	}
+	public function listaNoticiaAction(){
+		// action body
+		$noticia = new Application_Model_DbTable_Noticia();
+		
+		
+		
+		if ($this->getRequest()->isPost()) {
+			$del = $this->getRequest()->getPost('del');
+			if ($del == 'Sim') {
+				//Zend_Registry::get('logger')->log("teste2222", Zend_Log::INFO);
+				$id = $this->getRequest()->getPost('ID_NOTICIA');
+				 
+				try {
+					$noticia->deleteNoticia($id);
+					$this->view->mensagem = "Excluído com sucesso";
+					$this->view->erro = 0;
+				} catch (Exception $e) {
+					$this->view->mensagem = $e->getCode() . " Deletar notícia";
+					$this->view->erro = 1;
+					$this->view->mensagemExcecao = $e->getMessage();
+		
+				}
+			}
+		}
+		Zend_Registry::get('logger')->log("aaaa", Zend_Log::INFO);
+		$this->view->listaNoticias = $noticia->getNoticiasTodas();
+		Zend_Registry::get('logger')->log($this->view->listaNoticias, Zend_Log::INFO);
 
+	}
+	public function deleteNoticiaAction() {
+	
+	
+		$id = $this->_getParam('id', 0);
+		$noticia= new Application_Model_DbTable_Noticia();
+		$this->view->noticia = $noticia->getNoticia($id);
+	}
+	public function noticiasAction() {
+	
+		$noticia = new Application_Model_DbTable_Noticia();
+		$listaNoticias=$noticia->getNoticias(1);//busca noticias
+		$this->view->listaNoticias = $listaNoticias;
+		
+	}
+	public function noticiaAction() {
+	
+		$id = $this->_getParam('id', 0);
+		$noticia = new Application_Model_DbTable_Noticia();
+		$noticia=$noticia->getNoticia($id);
+		$this->view->noticia = $noticia;
+		Zend_Registry::get('logger')->log($noticia, Zend_Log::INFO);
+	}
 }

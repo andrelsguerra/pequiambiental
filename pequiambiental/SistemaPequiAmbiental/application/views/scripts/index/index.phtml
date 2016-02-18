@@ -18,7 +18,31 @@ $j=0;
                     </div><!-- /.box-header -->
                     <div class="box-body no-padding">
                       <ul class="users-list clearfix">
-                        <li>
+     					<?php if(count($this->listaAniversarintes)>0){
+								foreach($this->listaAniversarintes as $listaAniversarintes) : ?>
+										<li>
+				                          <!--<img src="dist/img/user1-128x128.jpg" alt="User Image">-->
+				                           <?php 
+								             $validator = new Zend_Validate_File_Exists();
+								             $validator->addDirectory('upload/');
+								             $retorno=$listaAniversarintes["nomeArquivo"];
+								             if($validator->isValid( $retorno) and  isset($retorno)){
+								             	//Zend_Registry::get('logger')->log("Existe imagem".$retorno, Zend_Log::INFO);
+								             ?>
+								             	 <img src="<?php echo $this->baseUrl()?>/upload/<?php echo $listaAniversarintes["nomeArquivo"];?>" class="img-circle" alt="User Image" />
+								            <?php  } else {
+								             	//Zend_Registry::get('logger')->log("Não Existe imagem", Zend_Log::INFO);
+								             	?>
+								             	             	 <img src="<?php echo $this->baseUrl()?>/css/avatar.png" class="img-circle" alt="User Image" />
+								                <?php } ?>
+				                          <a class="users-list-name" href="#"><?php 
+				                        //  retornaPrimeiroNome($str)
+				                          echo $listaAniversarintes["PRIMEIRO_NOME"]?></a>
+				                          <span class="users-list-date"><?php echo $listaAniversarintes["DIA"]?></span>
+                        				</li>	
+											 <?php endforeach; ?>
+											 <?php }?> 
+                        <!--<li>
                           <img src="dist/img/user1-128x128.jpg" alt="User Image">
                           <a class="users-list-name" href="#">Alexander Pierce</a>
                           <span class="users-list-date">Today</span>
@@ -57,7 +81,7 @@ $j=0;
                           <img src="dist/img/user3-128x128.jpg" alt="User Image">
                           <a class="users-list-name" href="#">Nadia</a>
                           <span class="users-list-date">15 Jan</span>
-                        </li>
+                        </li>-->
                       </ul><!-- /.users-list -->
                     </div><!-- /.box-body -->
                     <div class="box-footer text-center">
@@ -78,54 +102,25 @@ $j=0;
                 </div><!-- /.box-header -->
                 <div class="box-body">
                   <ul class="products-list product-list-in-box">
+                  <?php if(count($this->listaNoticias)>0){
+								foreach($this->listaNoticias as $listaNoticias) : ?>
                     <li class="item">
-                      <div class="product-img">
+                      <!--  <div class="product-img">
                         <img src="dist/img/default-50x50.gif" alt="Product Image">
-                      </div>
-                      <div class="product-info">
-                        <!--<a href="javascript::;" class="product-title">Samsung TV <span class="label label-warning pull-right">$1800</span></a>-->
-                        <span class="product-description">
-                          Samsung 32" 1080p 60Hz LED Smart HDTV.
-                        </span>
+                      </div>-->
+                      <div class="panel-collapse collapse in" id="collapseOne">
+                        <div class="box-body">
+                           <a style="color:inherit" href="<?php echo $this->url(array('controller'=>'index','action'=>'noticia', 'id'=>$listaNoticias["ID_NOTICIA"]),null, true);?>"><?php echo $listaNoticias["DS_RESUMO"]?></a>
+                        </div>
                       </div>
                     </li><!-- /.item -->
-                    <li class="item">
-                      <div class="product-img">
-                        <img src="dist/img/default-50x50.gif" alt="Product Image">
-                      </div>
-                      <div class="product-info">
-                       <!-- <a href="javascript::;" class="product-title">Bicycle <span class="label label-info pull-right">$700</span></a>-->
-                        <span class="product-description">
-                          26" Mongoose Dolomite Men's 7-speed, Navy Blue.
-                        </span>
-                      </div>
-                    </li><!-- /.item -->
-                    <li class="item">
-                      <div class="product-img">
-                        <img src="dist/img/default-50x50.gif" alt="Product Image">
-                      </div>
-                      <div class="product-info">
-                        <!--<a href="javascript::;" class="product-title">Xbox One <span class="label label-danger pull-right">$350</span></a>-->
-                        <span class="product-description">
-                          Xbox One Console Bundle with Halo Master Chief Collection.
-                        </span>
-                      </div>
-                    </li><!-- /.item -->
-                    <li class="item">
-                      <div class="product-img">
-                        <img src="dist/img/default-50x50.gif" alt="Product Image">
-                      </div>
-                      <div class="product-info">
-                        <!--<a href="javascript::;" class="product-title">PlayStation 4 <span class="label label-success pull-right">$399</span></a>-->
-                        <span class="product-description">
-                          PlayStation 4 500GB Console (PS4)
-                        </span>
-                      </div>
-                    </li><!-- /.item -->
+                    <?php endforeach; ?>
+					<?php }?> 
+                   
                   </ul>
                 </div><!-- /.box-body -->
                 <div class="box-footer text-center">
-                  <a href="javascript::;" class="uppercase">Todas Notícias</a>
+                  <a href="<?php echo $this->url(array('controller'=>'index','action'=>'noticias'),null, true);?>" class="uppercase">Todas Notícias</a>
                 </div><!-- /.box-footer -->
               </div><!-- /.box -->
 			  </div>

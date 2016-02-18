@@ -54,6 +54,7 @@ class Application_Model_DbTable_Operador extends Zend_Db_Table_Abstract
     	 $select =$this->_db->select()
              ->from(array('u' => 'TB_OPERADOR'))
              ->joinInner(array('p' => 'perfil'),('u.fk_perfil =p.id_perfil'),array('nome as nomePerfil'))
+             
              ->where('u.ID_OPERADOR <>1');
   	   $result = $this->getAdapter()->fetchAll($select);
        return $result;
@@ -68,6 +69,20 @@ class Application_Model_DbTable_Operador extends Zend_Db_Table_Abstract
   	   $result = $this->getAdapter()->fetchRow($select);
   	  
        return $result["nomeArquivo"];
+    }
+    public function getAniversariantes()
+    {
+    	 
+    	 $select =$this->_db->select()
+             ->from(array('u' => 'TB_OPERADOR'),array("*",'PRIMEIRO_NOME' => new Zend_Db_Expr("Substring_index(u.NM_OPERADOR,' ',1)"),'MES' => new Zend_Db_Expr("DATE_FORMAT(u.DT_NASCIMENTO,'%W')"),'DIA' => new Zend_Db_Expr("DATE_FORMAT(u.DT_NASCIMENTO,'%d')"),'DT_NASCIMENTO' => new Zend_Db_Expr("DATE_FORMAT(u.DT_NASCIMENTO,'%d/%m/%Y')")))
+             ->joinLeft(array('a' => 'arquivo'),('u.FK_ARQUIVO =a.id_arquivo'),array('nome as nomeArquivo'))->order('a.id_arquivo desc')
+             ->where('MONTH(DT_NASCIMENTO) = MOD(MONTH(CURDATE()), 12)')
+             ->order('DAY(DT_NASCIMENTO ) ASC');
+  	   $result = $this->getAdapter()->fetchAll($select);
+  	  
+       return $result;
+       /*SELECT * FROM tb_operador WHERE MONTH(DT_NASCIMENTO) = MOD(MONTH(CURDATE()), 12)
+order by DAY(DT_NASCIMENTO ) ASC*/
     }
     public function getOperadores()
     {

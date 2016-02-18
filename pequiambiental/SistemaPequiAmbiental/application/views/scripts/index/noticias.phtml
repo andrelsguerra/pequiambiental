@@ -1,0 +1,37 @@
+<?php
+	$this->title = "Notícia";
+	$this->headTitle($this->title);
+	//echo $this->form ;
+	
+?>
+<?php if(count($this->listaNoticias)>0){
+											foreach($this->listaNoticias as $noticia) : ?>
+  <div class="box box-widget">
+                <div class='box-header with-border'>
+                 <h3 class="timeline-header" style="text-transform: capitalize"><a style="color:inherit" href="<?php echo $this->url(array('controller'=>'index','action'=>'noticia', 'id'=>$noticia["ID_NOTICIA"]),null, true);?>"><?php echo $noticia["DS_TITULO"]?></a></h3>
+                  <div class='box-tools'>
+             
+                    <button class='btn btn-box-tool' data-widget='collapse'><i class='fa fa-minus'></i></button>
+                    <button class='btn btn-box-tool' data-widget='remove'><i class='fa fa-times'></i></button>
+                  </div><!-- /.box-tools -->
+                </div><!-- /.box-header -->
+                <div class='box-body'>
+                  <!-- post text -->
+                  <a style="color:inherit" href="<?php echo $this->url(array('controller'=>'index','action'=>'noticia', 'id'=>$noticia["ID_NOTICIA"]),null, true);?>"><?php echo $noticia["DS_RESUMO"]?></a>
+                 
+
+                  <!-- Social sharing buttons -->
+                  
+                  <!-- <span class='pull-right text-muted'>45 likes - 2 comments</span>-->
+                   <div class='user-block'>
+                    <img class='img-circle' src='../dist/img/user1-128x128.jpg' alt='user image' style='float:right;margin-right:10px;'>
+                    <span class='username'  style='text-align:right; margin-right: 60px;'><a href="#" style="text-transform: capitalize"><?php echo $noticia["PRIMEIRO_NOME"]?></a></span>
+                    <span class='description' style='text-align:right; margin-right: 60px;'>Data publicação - <?php echo $noticia["DT_NOTICIA"]?></span>
+                  </div><!-- /.user-block -->
+                </div><!-- /.box-body -->
+                
+               
+              </div><!-- /.box -->
+            <?php endforeach; ?>
+	<?php }?> 
+                           

@@ -155,4 +155,33 @@ class Zend_Controller_Action_Helper_ClasseGenerica
  
         return $mes;
     }
+    /**
+    * retornaMesExtenso
+    *
+    * @desc Retorna mês atual
+    * @param 
+    * @return o número de acordo com mês
+    */
+    public function retornaMesAtual( )
+    {
+        $date = new Zend_Date();
+		$mes = $date->get(Zend_Date::MONTH);
+ 
+        return $mes;
+    }
+    /**
+    * retornaPrimeiroNome
+    *
+    * @desc passa nome como parametro e separa o primeiro nome
+    * @param 
+    * @return Retorna vetor com o primeiro nome  e restante do nome
+    */
+    public function retornaPrimeiroNome($str){
+		  $nome = explode(" ",$str);
+		  $primeiro_nome = $nome[0];
+		  unset($nome[0]);
+		  $resto = implode(" ", $nome);
+		
+		  return array('PRIMEIRO_NOME'=> $primeiro_nome, 'RESTO_NOME' => $resto);
+	}
 }

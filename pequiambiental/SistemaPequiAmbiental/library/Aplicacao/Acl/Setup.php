@@ -48,7 +48,7 @@ class Aplicacao_Acl_Setup extends Zend_Controller_Plugin_Abstract
 	protected function _setupPrivileges()
 	{
 		
-		$this->_acl->allow( 'guest', 'index', array('logout', 'login','index','edit-alterar-perfil','ajuda','lista-centro-custo','edit-centro-custo','add-centro-custo','delete-centro-custo','lista-compra','add-compra','edit-compra','delete-compra','add-projeto','add-servico','add-plano-acao','add-contato') )
+		$this->_acl->allow( 'guest', 'index', array('logout', 'login','index','edit-alterar-perfil','ajuda','lista-centro-custo','edit-centro-custo','add-centro-custo','delete-centro-custo','lista-compra','add-compra','edit-compra','delete-compra','add-projeto','add-servico','add-plano-acao','add-contato','add-noticia','edit-noticia','delete-noticia') )
 				   ->allow( 'guest', 'error', array('error', 'forbidden') );
 	    $this->_acl->allow( 'user', 'index', array('index','logout','lista-remessa','view-remessa','add-projeto') );
 		$this->_acl->allow( 'negocio', 'index', array('index', 'ranking-executivo-negocio','lista-fotos-evento','logout') );

@@ -84,5 +84,17 @@
                                 
                             </ul>
                         </li>
+                        <?php    if ($this->fk_perfil==1){?>  <li class="treeview">
+                            <a href="#">
+                                <i class="fa fa-th"></i>
+                                <span>Notícia</span>
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li><a href="<?php echo $this->url(array('controller'=>'index','action'=>'lista-noticia'),null, true);?>"><i class="fa fa-angle-double-right"></i> Listar Notícia</a></li>
+                                <li><a href="<?php echo $this->url(array('controller'=>'index','action'=>'add-noticia'),null, true);?>"><i class="fa fa-angle-double-right"></i> Adicionar Notícia</a></li>
+                                
+                            </ul>
+                        </li> <?php }?>
                        
                     </ul>

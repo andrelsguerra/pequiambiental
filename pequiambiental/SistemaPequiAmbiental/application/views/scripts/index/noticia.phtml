@@ -1,0 +1,47 @@
+<?php
+	$this->title = "Notícia";
+	$this->headTitle($this->title);
+	//echo $this->form ;
+	
+?>
+
+  <div class="box box-widget">
+                <div class='box-header with-border'>
+                 <h3 class="timeline-header" style="text-transform: capitalize"><?php echo $this->noticia["DS_TITULO"]?></h3>
+                  <div class='box-tools'>
+             
+                    <button class='btn btn-box-tool' data-widget='collapse'><i class='fa fa-minus'></i></button>
+                    <button class='btn btn-box-tool' data-widget='remove'><i class='fa fa-times'></i></button>
+                  </div><!-- /.box-tools -->
+                </div><!-- /.box-header -->
+                <div class='box-body'>
+                  <!-- post text -->
+                  <?php echo $this->noticia["TX_NOTICIA"]?>
+                 
+
+                  <!-- Social sharing buttons -->
+                  
+                  <!-- <span class='pull-right text-muted'>45 likes - 2 comments</span>-->
+                   <div class='user-block'>
+                     <?php 
+		             $validator = new Zend_Validate_File_Exists();
+		             $validator->addDirectory('upload/');
+		             $retorno=$this->noticia["nomeArquivo"];
+		             if($validator->isValid( $retorno) and  isset($retorno)){
+		             	//Zend_Registry::get('logger')->log("Existe imagem".$retorno, Zend_Log::INFO);
+		             ?>
+		             	 <img src="<?php echo $this->baseUrl()?>/upload/<?php echo $listaAniversarintes["nomeArquivo"];?>" class="img-circle" alt="User Image" style='float:right;margin-right:10px;' />
+		            <?php  } else {
+		             	//Zend_Registry::get('logger')->log("Não Existe imagem", Zend_Log::INFO);
+		             	?>
+		             	             	 <img src="<?php echo $this->baseUrl()?>/css/avatar.png" class="img-circle" alt="User Image" style='float:right;margin-right:10px;' />
+		                <?php } ?>
+                    <span class='username'  style='text-align:right; margin-right: 60px;'><a href="#" style="text-transform: capitalize"><?php echo $this->noticia["PRIMEIRO_NOME"]?></a></span>
+                    <span class='description' style='text-align:right; margin-right: 60px;'>Data publicação - <?php echo $this->noticia["DT_NOTICIA"]?></span>
+                  </div><!-- /.user-block -->
+                </div><!-- /.box-body -->
+                
+               
+              </div><!-- /.box -->
+           
+                           
