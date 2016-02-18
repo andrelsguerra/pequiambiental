@@ -488,91 +488,169 @@ class IndexController extends Zend_Controller_Action {
     }
 
     public function editAlterarPerfilAction() {
-        $this->view->titulo = "Alterar UsuÃ¡rio";
-        Zend_Registry::get('logger')->log($this->view->titulo, Zend_Log::INFO);
-
-        // action body
-        $form = new Application_Form_AlterarPerfil();
-        $form->submit->setLabel('Salvar usuÃ¡rio');
+     // action body
+        $form = new Application_Form_Operador();
+        $form->submit->setLabel('Salvar');
+       
+        $form->getElement("DS_LOGIN")->setAttrib("disable", array(1));
+        $form->getElement("DS_LOGIN")->setRequired(false);
+        //$form->getElement("DS_SENHA")->setAttrib("disable", array(1));
+        //$form->getElement("DS_SENHA")->setRequired(false);
+        //$form->getElement("REPETIR_SENHA")->setAttrib("disable", array(1));
+        //$form->getElement("REPETIR_SENHA")->setRequired(false);
+        //$form->removeElement("DS_SENHA");
+        //$form->removeElement("REPETIR_SENHA");
         $this->view->form = $form;
+      
         if ($this->getRequest()->isPost()) {
             $formData = $this->getRequest()->getPost();
-            Zend_Registry::get('logger')->log($formData, Zend_Log::INFO);
             if ($form->isValid($formData)) {
-
+            	
+            	
+            	$ID_OPERADOR = $form->getValue('ID_OPERADOR');
+            	$NM_OPERADOR= $form->getValue('NM_OPERADOR');
+            	$DS_TELEFONE_PESSOAL= $form->getValue('DS_TELEFONE_PESSOAL');
+            	$DS_TELEFONE_BIOS= $form->getValue('DS_TELEFONE_BIOS');
+            	$DS_EMAIL_PESSOAL= $form->getValue('DS_EMAIL_PESSOAL');
+            	$DS_EMAIL_BIOS= $form->getValue('DS_EMAIL_BIOS');
+            	$DS_ENDERECO= $form->getValue('DS_ENDERECO');
+            	$DS_BAIRRO= $form->getValue('DS_BAIRRO');
+            	$NR_CEP= $form->getValue('NR_CEP');
+            	$NR_CPF= $form->getValue('NR_CPF');
+            	$NR_IDENTIDADE= $form->getValue('NR_IDENTIDADE');
+            	 
+            	//data de nascimento
+            	$DT_NASCIMENTO= $form->getValue('DT_NASCIMENTO');
+            	$data_cadastro =new Zend_Date($DT_NASCIMENTO);
+            	$DT_NASCIMENTO=$data_cadastro->get('YYYY-MM-dd HH:mm:ss');
+            	 
+            	$DS_REGISTRO_PROFISSIONAL= $form->getValue('DS_REGISTRO_PROFISSIONAL');
+            	$DS_CTF_IBAM= $form->getValue('DS_CTF_IBAM');
+            	$DS_SKYPE=$form->getValue('DS_SKYPE');
+            	$DS_LOGIN=$form->getValue('DS_LOGIN');
+            	//$DS_SENHA= $form->getValue('DS_SENHA');
+            	//$REPETIR_SENHA= $form->getValue('REPETIR_SENHA');
+            	$NM_CONTATO_FAMILIAR= $form->getValue('NM_CONTATO_FAMILIAR');
+            	$NR_TELEFONE_CONTATO_FAMILIAR= $form->getValue('NR_TELEFONE_CONTATO_FAMILIAR');
+            	$FK_PERFIL= $form->getValue('FK_PERFIL');
+            	$FK_ARQUIVO= $form->getValue('FK_ARQUIVO');
+            	 
+            	$operador = new Application_Model_DbTable_Operador();
+            	 
+            	//try {
+            		//if ($DS_SENHA != $REPETIR_SENHA)
+            			//throw new Exception(
+            					//"Atenção senha e repetir senha tem que ser iguais");
+            			try {
+            				$operador->updateOperadorSemArquivo($ID_OPERADOR, $NM_OPERADOR, $DS_TELEFONE_PESSOAL, $DS_TELEFONE_BIOS, $DS_EMAIL_PESSOAL, $DS_EMAIL_BIOS, $DS_ENDERECO, $DS_BAIRRO, $NR_CEP, $NR_CPF, $NR_IDENTIDADE, $DT_NASCIMENTO, $DS_REGISTRO_PROFISSIONAL, $DS_CTF_IBAM, $DS_SKYPE, $NM_CONTATO_FAMILIAR, $NR_TELEFONE_CONTATO_FAMILIAR, $FK_PERFIL);
+            				$this->view->erro = 0;
+            				$this->view->mensagem = "Alterado com sucesso";
+            				//$form->reset();
+            			} // catch (pega exceÃƒÂ§ÃƒÂ£o)
+            			catch (Exception $e) {
+            				$this->view->erro = 1;
+            				$this->view->mensagemExcecao = $e->getMessage();
+            			}
+            	//} catch (Exception $erro) {
+            	//	Zend_Registry::get('logger')->log("Erroooooooooooooooo", Zend_Log::INFO);
+            		//$this->view->mensagem = $erro->getMessage();
+            		//$this->view->erro = 1;
+            	//}
+            	
+            	/*
                 $id = (int) $form->getValue('id_usuario');
                 $nome = $form->getValue('nome');
                 $email = $form->getValue('email');
                 $senha = $form->getValue('senha');
+                $jobrole = $form->getValue('jobrole');
+                $cellphone = $form->getValue('cellphone');
                 $repetirSenha = $form->getValue('repetirSenha');
-
-
+                $fk_perfil = $form->getValue('fk_perfil');
+                $fk_empresa = $form->getValue('fk_empresa');
                 $usuarios = new Application_Model_DbTable_Usuario();
-                // Zend_Registry::get('logger')->log($fk_perfil."perfil".$id, Zend_Log::INFO);
+                $imageAdapter = new Zend_File_Transfer_Adapter_Http();
+                $imageAdapter->setDestination(BASE_PATH . '/upload');
+                $_FILES['fileUpload']['name'] = "teste.jpg";
+                $nomedaimagem = $_FILES['fileUpload']['name'];
+                $fk_arquivo = "-1";
+                $extensao = pathinfo($nomedaimagem, PATHINFO_EXTENSION);
+
+                if (is_uploaded_file($_FILES['fileUpload']['tmp_name'])) {
+                    Zend_Registry::get('logger')->log("Entrou if is upload", Zend_Log::INFO);
+                    $nomeArquivo = md5(uniqid()) . '.' . $extensao;
+                    $extension = pathinfo($nomedaimagem, PATHINFO_EXTENSION);
+
+                    $imageAdapter->addFilter('Rename', $nomeArquivo);
+                    if (!$imageAdapter->receive('fileUpload')) {
+                        $messages = $imageAdapter->getMessages['fileUpload'];
+                        //A Imagem NÃƒÂ£o Foi Recebida Corretamente
+                        Zend_Registry::get('logger')->log("A Imagem NÃ£o Foi Recebida Corretamente", Zend_Log::INFO);
+                    } else {
+                        //Arquivo Enviado Com Sucesso
+                        //Realize As AÃƒÂ§ÃƒÂµes NecessÃƒÂ¡rias Com Os Dados
+                        Zend_Registry::get('logger')->log("A Imagem  Recebida Corretamente", Zend_Log::INFO);
+
+
+                        $arquivo = new Application_Model_DbTable_Arquivo();
+                        $fk_arquivo = $arquivo->addArquivo($nomeArquivo, $extensao);
+                        Zend_Registry::get('logger')->log("Id arquivo =" . $fk_arquivo, Zend_Log::INFO);
+                    }
+                } else {
+
+                    Zend_Registry::get('logger')->log("O Arquivo NÃ£o Foi Enviado Corretamente", Zend_Log::INFO);
+                    //O Arquivo NÃƒÂ£o Foi Enviado Corretamente
+                }
+
+
                 try {
                     if ($repetirSenha != $senha)
                         throw new Exception(
-                        "AtenÃ§Ã£o senha e repetir senha tem que ser iguais");
+                        "AtenÃƒÂ§ÃƒÂ£o senha e repetir senha tem que ser iguais");
 
-
-                    $imageAdapter = new Zend_File_Transfer_Adapter_Http();
-                    $imageAdapter->setDestination(BASE_PATH . '/upload');
-                    $nomedaimagem = $_FILES['fileUpload']['name'];
-                    $fk_arquivo = "";
-                    $extensao = pathinfo($nomedaimagem, PATHINFO_EXTENSION);
-                    Zend_Registry::get('logger')->log($_FILES['fileUpload']['tmp_name'], Zend_Log::INFO);
-                    Zend_Registry::get('logger')->log($_FILES['fileUpload'], Zend_Log::INFO);
-                    if (is_uploaded_file($_FILES['fileUpload']['tmp_name'])) {
-                        Zend_Registry::get('logger')->log("Entrou if is upload", Zend_Log::INFO);
-                        //$filename = $imageAdapter->getFileName('fileUpload');
-                        $nomeArquivo = md5(uniqid()) . '.' . $extensao;
-                        //$filename  = pathinfo($nomedaimagem, PATHINFO_FILENAME);
-                        $extension = pathinfo($nomedaimagem, PATHINFO_EXTENSION);
-
-                        $imageAdapter->addFilter('Rename', $nomeArquivo);
-                        if (!$imageAdapter->receive('fileUpload')) {
-                            $messages = $imageAdapter->getMessages['fileUpload'];
-                            //A Imagem NÃƒÂ£o Foi Recebida Corretamente
-                            Zend_Registry::get('logger')->log("A Imagem NÃƒÂ£o Foi Recebida Corretamente", Zend_Log::INFO);
+                    try {
+                        if ($fk_arquivo == "-1") {
+                            $usuarios->updateUsuarioSemArquivo($id, $nome, $senha, $email, $fk_perfil, $fk_empresa, $jobrole, $cellphone);
                         } else {
-                            //Arquivo Enviado Com Sucesso
-                            //Realize As AÃƒÂ§ÃƒÂµes NecessÃƒÂ¡rias Com Os Dados
-                            Zend_Registry::get('logger')->log("A Imagem  Recebida Corretamente", Zend_Log::INFO);
-
-
-                            $arquivo = new Application_Model_DbTable_Arquivo();
-                            $fk_arquivo = $arquivo->addArquivo($nomeArquivo, $extensao);
-                            Zend_Registry::get('logger')->log("Id arquivo =" . $fk_arquivo, Zend_Log::INFO);
-
-                            $usuarios->updateAlterarPerfil($id, $nome, $senha, $email, $fk_arquivo);
+                            $usuarios->updateUsuario($id, $nome, $senha, $email, $fk_perfil, $fk_empresa, $fk_arquivo, $jobrole, $cellphone);
                         }
-                    } else {
 
-                        Zend_Registry::get('logger')->log("O Arquivo NÃ£o Foi Enviado Corretamente", Zend_Log::INFO);
-                        //O Arquivo NÃƒÂ£o Foi Enviado Corretamente
+
+                        $this->view->mensagem = "Atualizado com sucesso";
+                        $this->view->erro = 0;
+
+                        //$this->_helper->redirector('lista-usuario');
+                    } // catch (pega exceÃƒÂ§ÃƒÂ£o)
+                    catch (Exception $e) {
+                        $this->view->mensagem = "Atualizar usuÃ¡rio";
+                        $this->view->erro = 1;
+                        $this->view->mensagemExcecao = $e->getMessage();
+                        //  echo ($e->getCode()."teste".$e->getMessage() );
                     }
-                    $usuarios->updateAlterarPerfilSemFoto($id, $nome, $senha, $email);
-
-
-                    //$this->_helper->redirector('index');
-                } catch (Exception $erro) {
+                } catch (Exception $e) {
                     // echo  ;
-                    $this->view->mensagem = $erro->getMessage();
+                    $this->view->mensagem = "Atualizar usuÃ¡rio";
+                    $this->view->erro = 1;
+                    $this->view->mensagemExcecao = $e->getMessage();
                     //exit();
-                }
+                }*/
             } else {
-                $form->populate($formData);
-                $arrMessages = $form->getMessages();
-                foreach ($arrMessages as $field => $arrErrors) {
-                	$this->view->erro = 1;
-                	$this->view->mensagem = $this->view->mensagem . $form->getElement($field)->getLabel() . $this->view->formErrors($arrErrors) . "<br>";
-                }
+            
+            	$form->populate($formData);
+            	$arrMessages = $form->getMessages();
+            	foreach ($arrMessages as $field => $arrErrors) {
+            		$this->view->erro = 1;
+            		$this->view->mensagem = $this->view->mensagem . $form->getElement($field)->getLabel() . $this->view->formErrors($arrErrors) . "<br>";
+            	}
             }
         } else {
             $id = $this->user->getId();
+
             if ($id > 0) {
-                $usuarios = new Application_Model_DbTable_Usuario();
-                $form->populate($usuarios->getUsuario($id));
+                $operador= new Application_Model_DbTable_Operador();
+                Zend_Registry::get('logger')->log("Id usuario =" . $id, Zend_Log::INFO);
+                $obj=$operador->getOperadorEdit($id);
+                $form->populate($obj);
+                Zend_Registry::get('logger')->log($obj, Zend_Log::INFO);
             }
         }
     } 
