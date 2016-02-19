@@ -10,20 +10,20 @@
                                     <h3 class="box-title">Lista Contato</h3>
                                 </div><!-- /.box-header -->
                                 <div class="box-body">                                
-                                    <table id="example1" class="table table-bordered table-hover">
+                                    <table id="example1" class="table table-bordered table-hover box-body table-responsive no-padding">
                                         <thead>
                                             <tr>
                                                 <th class="arredondarEsq">NOME</th>
 												<th >CNPJ</th>
-												<th>OBSERVAÃ‡ÃƒO</th>
+												<th>OBSERVAÇÃO</th>
 												<th >RAMO ATIVIDADE</th>
 												<th >LOGRADOURO</th>
-												<th >NÃšMERO</th>
+												<th >NÚMERO</th>
 												<th >COMPLEMENTO</th>
 												<th >BAIRRO</th>
 												<th >CEP</th>
 												<th >UF</th>
-												<th>AÃ‡ÃƒO</th>
+												<th>AÇÃO</th>
                                                 
                                             </tr>
                                         </thead>
@@ -33,7 +33,11 @@
                                             <tr>
                                             <td><?php echo $cliente["NM_CLIENTE"]?></td>
 											<td><?php echo $cliente["NR_CNPJ"]?></td>
-											<td><?php echo $cliente["TX_OBSERVACAO"]?></td>
+											<td><?php echo $this->truncate($cliente["TX_OBSERVACAO"], 27); ?>
+											
+											<?php //echo $this->ClasseGenericaView->limitarTexto($cliente["TX_OBSERVACAO"], 27); ?>
+											
+											</td>
 											<td><?php echo $cliente["DS_RAMO_ATIVIDADE"]?></td>
 											<td><?php echo $cliente["NM_LOGRADOURO"]?></td>
                                              <td><?php echo $cliente["NR_NUMERO"]?></td>
@@ -52,18 +56,17 @@
                                         </tbody>
                                         <tfoot>
                                             <tr>
-                                               <th class="arredondarEsq">NOME</th>
+                                                <th class="arredondarEsq">NOME</th>
 												<th >CNPJ</th>
-												<th>OBSERVAÃ‡ÃƒO</th>
+												<th>OBSERVAÇÃO</th>
 												<th >RAMO ATIVIDADE</th>
 												<th >LOGRADOURO</th>
-												<th >NÃšMERO</th>
+												<th >NÚMERO</th>
 												<th >COMPLEMENTO</th>
 												<th >BAIRRO</th>
 												<th >CEP</th>
-												
 												<th >UF</th>
-												<th>AÃ‡ÃƒO</th>                                               
+												<th>AÇÃO</th>                                               
                                             </tr>
                                         </tfoot>
                                     </table>

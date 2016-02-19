@@ -2,6 +2,7 @@
 
 //error_reporting(E_ALL | E_STRICT);
 //ini_set('display_errors', true);
+header("Content-Type: text/html; charset=ISO-8859-1", true);
 class IndexController extends Zend_Controller_Action {
 
     public $user;
@@ -420,7 +421,7 @@ class IndexController extends Zend_Controller_Action {
                 try {
                     $operador->deleteOperador($id);
 
-                    $this->view->mensagem = "Excluído com sucesso";
+                    $this->view->mensagem = "Exclu�do com sucesso";
                     $this->view->erro = 0;
                 } catch (Exception $e) {
                     $this->view->mensagem = $e->getCode() . " Deletar operador";
@@ -798,7 +799,7 @@ class IndexController extends Zend_Controller_Action {
                 try {
                     $contato->deleteContato($id);
 
-                    $this->view->mensagem = "Excluído com sucesso";
+                    $this->view->mensagem = "Exclu�do com sucesso";
                     $this->view->erro = 0;
                 } catch (Exception $e) {
                     $this->view->mensagem = $e->getCode() . " Deletar contato";
@@ -989,7 +990,7 @@ class IndexController extends Zend_Controller_Action {
 				try {
 					$ramoAtividade->deleteRamoAtividade($id);
 		
-					$this->view->mensagem = "Excluído com sucesso";
+					$this->view->mensagem = "Exclu�do com sucesso";
 					$this->view->erro = 0;
 				} catch (Exception $e) {
 					$this->view->mensagem = $e->getCode() . " Deletar Ramo de atividade";
@@ -1139,7 +1140,7 @@ class IndexController extends Zend_Controller_Action {
 				try {
 					$cliente->deleteCliente($id);
 	
-					$this->view->mensagem = "Excluído com sucesso";
+					$this->view->mensagem = "Exclu�do com sucesso";
 					$this->view->erro = 0;
 				} catch (Exception $e) {
 					$this->view->mensagem = $e->getCode() . " Deletar cliente";
@@ -1177,7 +1178,7 @@ class IndexController extends Zend_Controller_Action {
 					//$this->_helper->redirector('lista-usuario');
 				} // catch (pega exceÃƒÂ§ÃƒÂ£o)
 				catch (Exception $e) {
-					$this->view->mensagem = "Atualizar tipo serviço";
+					$this->view->mensagem = "Atualizar tipo servi�o";
 					$this->view->erro = 1;
 					$this->view->mensagemExcecao = $e->getMessage();
 					//  echo ($e->getCode()."teste".$e->getMessage() );
@@ -1217,10 +1218,10 @@ class IndexController extends Zend_Controller_Action {
 				try {
 					
 					$tipoServico->deleteTipoServico($id);
-					$this->view->mensagem = "Excluído com sucesso";
+					$this->view->mensagem = "Exclu�do com sucesso";
 					$this->view->erro = 0;
 				} catch (Exception $e) {
-					$this->view->mensagem = $e->getCode() . " Deletar tipo de serviço";
+					$this->view->mensagem = $e->getCode() . " Deletar tipo de servi�o";
 					$this->view->erro = 1;
 					$this->view->mensagemExcecao = $e->getMessage();
 	
@@ -1361,7 +1362,7 @@ class IndexController extends Zend_Controller_Action {
 					//$this->_helper->redirector('lista-usuario');
 				} // catch (pega exceÃƒÂ§ÃƒÂ£o)
 				catch (Exception $e) {
-					$this->view->mensagem = "Atualizar notícia";
+					$this->view->mensagem = "Atualizar not�cia";
 					$this->view->erro = 1;
 					$this->view->mensagemExcecao = $e->getMessage();
 					//  echo ($e->getCode()."teste".$e->getMessage() );
@@ -1399,10 +1400,10 @@ class IndexController extends Zend_Controller_Action {
 				 
 				try {
 					$noticia->deleteNoticia($id);
-					$this->view->mensagem = "Excluído com sucesso";
+					$this->view->mensagem = "Exclu�do com sucesso";
 					$this->view->erro = 0;
 				} catch (Exception $e) {
-					$this->view->mensagem = $e->getCode() . " Deletar notícia";
+					$this->view->mensagem = $e->getCode() . " Deletar not�cia";
 					$this->view->erro = 1;
 					$this->view->mensagemExcecao = $e->getMessage();
 		

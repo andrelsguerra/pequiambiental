@@ -184,4 +184,16 @@ class Zend_Controller_Action_Helper_ClasseGenerica
 		
 		  return array('PRIMEIRO_NOME'=> $primeiro_nome, 'RESTO_NOME' => $resto);
 	}
+	public function limitarTexto($texto, $limite){
+		$contador = strlen($texto);
+		if ( $contador >= $limite ) {
+			$texto = substr($texto, 0, strrpos(substr($texto, 0, $limite), ' ')) . '...';
+			return $texto;
+		}
+		else{
+			return $texto;
+		}
+	}
+	// String a ser limitada
+	
 }

@@ -59,7 +59,7 @@ class Application_Form_Contato extends Zend_Form
          	 ->setAttrib('placeholder', 'Enter telefone');
         
         $tx_observacao = new Zend_Form_Element_Textarea('TX_OBSERVACAO');
-        $tx_observacao->setLabel('OBSERVAÃ‡ÃƒO')
+        $tx_observacao->setLabel('OBSERVAÇÃO')
             	
 					  ->removeDecorator('DtDdWrapper')
         			  ->removeDecorator('HtmlTag')
@@ -101,7 +101,7 @@ class Application_Form_Contato extends Zend_Form
         	 ->removeDecorator('HtmlTag')
              ->removeDecorator('Label')
          	 ->setAttrib('class', 'form-control')
-         	 ->setAttrib('placeholder', 'Enter nÃºmero');
+         	 ->setAttrib('placeholder', 'Enter número');
     	
     	$ds_complemento = new Zend_Form_Element_Text('DS_COMPLEMENTO');
         $ds_complemento->setLabel('COMPLEMENTO')
@@ -170,7 +170,7 @@ class Application_Form_Contato extends Zend_Form
          	 
          	 
         $fl_agenda = new Zend_Form_Element_Select( 'FL_AGENDA' );
-        $fl_agenda->setLabel('AGENDA')->addMultiOptions(array('0' => 'NÃƒO','1' => 'SIM' )  )
+        $fl_agenda->setLabel('AGENDA')->addMultiOptions(array('0' =>'NAO','1' => 'SIM' )  )
            
              ->addFilter('StripTags')
              ->addFilter('StringTrim')

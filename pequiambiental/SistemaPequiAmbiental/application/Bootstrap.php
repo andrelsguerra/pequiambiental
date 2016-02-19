@@ -50,7 +50,20 @@ protected function _initNavigation()
     $view->navigation($navigation);*/
 }
 
+protected function _initHelpers()
+{
+	$viewRenderer = Zend_Controller_Action_HelperBroker::getStaticHelper('viewRenderer');
+	
+	$viewRenderer->initView();
 
+	// add zend view helper path
+	//$viewRenderer->view->addHelperPath('ZF/View/Helper/');
+	$viewRenderer->view->addHelperPath('ZF/View/Helper/', "ZF_View_Helper");
+
+	// add zend action helper path
+	//Zend_Controller_Action_HelperBroker::addPath('ZF/Controller/Helper/');
+	Zend_Controller_Action_HelperBroker::addPath('ZF/Controller/Helper/', "ZF_Controller_Action_Helper");
+}
 
 }
 

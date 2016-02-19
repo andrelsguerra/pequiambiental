@@ -20,7 +20,7 @@ class Application_Model_DbTable_Arquivo extends Zend_Db_Table_Abstract
         $id = (int) $id;
         $row = $this->fetchRow('id_arquivo = ' . $id);
         if (! $row) {
-            throw new Exception("Não foi possível encontrar linha $id");
+            throw new Exception("N�o foi possível encontrar linha $id");
         }
         return $row->toArray();
     }
@@ -31,7 +31,7 @@ class Application_Model_DbTable_Arquivo extends Zend_Db_Table_Abstract
     	$row = $this->fetchRow("nome = '$nome'");
     	if (! $row) {
     		return 0;
-    		//throw new Exception("Não foi possível encontrar linha $id");
+    		//throw new Exception("N�o foi possível encontrar linha $id");
     	}
     	return 1;
     }
@@ -51,7 +51,7 @@ class Application_Model_DbTable_Arquivo extends Zend_Db_Table_Abstract
     	$id = (int) $id;
         $row = $this->fetchRow('id_arquivo = ' . $id);
         if (! $row) {
-            throw new Exception("Não foi possível encontrar linha $id");
+            throw new Exception("N�o foi possível encontrar linha $id");
         }
         $arquivo=$row->toArray();
         Zend_Registry::get('logger')->log("arquivo =".$arquivo["nome"], Zend_Log::INFO);

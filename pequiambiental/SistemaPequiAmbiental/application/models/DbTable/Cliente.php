@@ -24,7 +24,7 @@ class Application_Model_DbTable_Cliente extends Zend_Db_Table_Abstract
         $id = (int) $id;
         $row = $this->fetchRow('ID_CLIENTE = ' . $id);
         if (! $row) {
-            throw new Exception("NÃ£o foi possivel encontrar a linha $id");
+            throw new Exception("Não foi possivel encontrar a linha $id");
         }
         return $row->toArray();
     }

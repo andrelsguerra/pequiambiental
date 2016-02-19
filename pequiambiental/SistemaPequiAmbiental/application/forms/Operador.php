@@ -75,7 +75,7 @@ class Application_Form_Operador extends Zend_Form
          	 ->setAttrib('placeholder', 'Enter e-mail bios');
        
         $DS_ENDERECO= new Zend_Form_Element_Text('DS_ENDERECO');
-        $DS_ENDERECO->setLabel('ENDEREÃ‡O')
+        $DS_ENDERECO->setLabel('ENDEREÇO')
          	 
          	 ->addFilter('StripTags')
          	 ->addFilter('StringTrim')
@@ -124,7 +124,7 @@ class Application_Form_Operador extends Zend_Form
          	 ->setAttrib('placeholder', 'Enter cpf');
          
          $NR_IDENTIDADE= new Zend_Form_Element_Text('NR_IDENTIDADE');
-         $NR_IDENTIDADE->setLabel('NÂº IDENTIDADE')
+         $NR_IDENTIDADE->setLabel('Nº IDENTIDADE')
          	 
          	 ->addFilter('StripTags')
          	 ->addFilter('StringTrim')
@@ -234,7 +234,7 @@ class Application_Form_Operador extends Zend_Form
        
 
           $NR_TELEFONE_CONTATO_FAMILIAR= new Zend_Form_Element_Text('NR_TELEFONE_CONTATO_FAMILIAR');
-          $NR_TELEFONE_CONTATO_FAMILIAR->setLabel('NÂº TELEFONE CONTATO FAMILIAR')
+          $NR_TELEFONE_CONTATO_FAMILIAR->setLabel('Nº TELEFONE CONTATO FAMILIAR')
          	 
          	 ->addFilter('StripTags')
          	 ->addFilter('StringTrim')
@@ -243,7 +243,7 @@ class Application_Form_Operador extends Zend_Form
          	 ->removeDecorator('HtmlTag')
          	 ->removeDecorator('Label')
          	 ->setAttrib('class', 'form-control')
-         	 ->setAttrib('placeholder', 'Enter nÂº telefone contato familiar');
+         	 ->setAttrib('placeholder', 'Enter nº telefone contato familiar');
           
          	 
           $FK_PERFIL= new Zend_Form_Element_Select('FK_PERFIL');

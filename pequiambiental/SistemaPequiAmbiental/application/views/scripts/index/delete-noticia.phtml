@@ -1,11 +1,11 @@
 
 <?php
-	$this->title = "Deletar NotÃ­cia";
+	$this->title = "Deletar Notícia";
 	$this->headTitle($this->title);
 ?>
 
 <div class="callout callout-danger">
-                                        <h4>AtenÃ§Ã£o!</h4>
+                                        <h4>Atenção!</h4>
                                         Deseja realmente deletar  '<?php echo $this->escape($this->noticia['DS_TITULO']);?>' ?
                                     </div>
 <form action="<?php echo $this->url(array('action' => 'lista-noticia'),null, true);?>" method="post">
@@ -16,7 +16,7 @@
 	<div class="form-group">
                                         		
 <input type="submit" class="btn btn-primary"name="del" value="Sim">                                        		
-<input type="submit" class="btn btn-primary"    name="del" value="NÃ£o">                                        		
+<input type="submit" class="btn btn-primary"    name="del" value="Não">                                        		
 
                                     		</div>
 </form>

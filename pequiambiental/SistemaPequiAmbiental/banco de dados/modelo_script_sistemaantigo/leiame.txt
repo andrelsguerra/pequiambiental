@@ -1,0 +1,17 @@
+Antes de importar tem que ficar atento a codificação
+
+
+CHARSET e COLLATE são coisas distintas, no MySQL, cada CHARSET possui COLLATEs, cada um com sua particularidade. O intuito deste Wiki não é 
+explicar as características de cada um deles, pois pode ser visto da documentação do MySQL, mas daremos um pequeno descritivo entre latin1_general_ci, latin1_general_cs e latin1_swedish_ci.
+
+    latin1_general_ci: Não há distinção entre letras maiúsculas e minúsculas. Buscando por “teste”, registros como “Teste” ou “TESTE” serão retornados.
+
+    latin1_general_cs: Distingue letras maiúsculas e minúsculas. Buscando por “teste” somente retornará “teste”. Opções como “Teste” e “TESTE” não serão retornadas.
+
+    latin1_swedish_ci: Não distingue letras minúsculas e maiúsculas e nem caracteres acentuados e com cedilha, ou seja, o registro que contém a palavra 
+“Intuição” será retornado quando houver uma procura pela palavra “intúicao”.
+
+Quando você estiver exportando os dados da sua base de dados de origem, certifique-se de estar especificando a codificação corretamente. No phpMyAdmin há 
+um menu DropDown próximo às opções de compactação ‘nenhum’, ‘zip’, ‘gzip’ e ‘bzip’ que normalmente está selecionada a opção ‘utf-8’. Mantenha este se sua 
+base estiver com este CHARSET, do contrário, especifique ‘iso-8859-1’ caso ela esteja com o CHARSET Latin1.Faça o mesmo durante a importação. Ao enviar o arquivo, o menu DropDown estará como ‘utf-8’, 
+se o CHARSET da base for ‘Latin1’ escolha o ‘iso-8859-1’.

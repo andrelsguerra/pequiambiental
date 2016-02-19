@@ -66,7 +66,7 @@ class Application_Model_DbTable_Noticia extends Zend_Db_Table_Abstract
     	->where('ID_NOTICIA ='.$id);
     	$row = $this->getAdapter()->fetchRow($select);
     	if (! $row) {
-    		throw new Exception("NÃ£o foi possivel encontrar a linha $id");
+    		throw new Exception("Não foi possivel encontrar a linha $id");
     	}
     
     	 

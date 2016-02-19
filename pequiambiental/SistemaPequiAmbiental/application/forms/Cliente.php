@@ -45,7 +45,7 @@ class Application_Form_Cliente extends Zend_Form
          	 ->setAttrib('placeholder', 'Enter cnpj');
         
        	$TX_OBSERVACAO = new Zend_Form_Element_Textarea('TX_OBSERVACAO');
-        $TX_OBSERVACAO->setLabel('OBSERVAÃ‡ÃƒO')
+        $TX_OBSERVACAO->setLabel('OBSERVAÇÃO')
             		
 					  ->removeDecorator('DtDdWrapper')
         			  ->removeDecorator('HtmlTag')
