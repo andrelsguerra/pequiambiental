@@ -68,7 +68,12 @@ class IndexController extends Zend_Controller_Action {
 		$listaNoticias=$noticia->getUltimasNoticias(1);//busca noticias 
 		$this->view->listaNoticias=$listaNoticias;
 		
-		Zend_Registry::get('logger')->log( $listaNoticias, Zend_Log::INFO);
+		Zend_Registry::get('logger')->log( "teste", Zend_Log::INFO);
+		
+		$projeto = new Application_Model_DbTable_Projeto();
+		$this->view->listaProjetos = $projeto->getUltimasProjeto();
+		Zend_Registry::get('logger')->log( $this->view->listaProjetos, Zend_Log::INFO);
+		Zend_Registry::get('logger')->log( "depois", Zend_Log::INFO);
     }
 
     public function deleteOperadorAction() {
@@ -1436,5 +1441,34 @@ class IndexController extends Zend_Controller_Action {
 		$noticia=$noticia->getNoticia($id);
 		$this->view->noticia = $noticia;
 		Zend_Registry::get('logger')->log($noticia, Zend_Log::INFO);
+	}
+	public function listaProjetoAction(){
+		// action body
+		$projeto = new Application_Model_DbTable_Projeto();
+	
+	
+	
+		if ($this->getRequest()->isPost()) {
+			$del = $this->getRequest()->getPost('del');
+			if ($del == 'Sim') {
+				//Zend_Registry::get('logger')->log("teste2222", Zend_Log::INFO);
+				$id = $this->getRequest()->getPost('ID_NOTICIA');
+					
+				try {
+					$projeto->deleteProjeto($id);
+					$this->view->mensagem = "Excluído com sucesso";
+					$this->view->erro = 0;
+				} catch (Exception $e) {
+					$this->view->mensagem = $e->getCode() . " Deletar projeto";
+					$this->view->erro = 1;
+					$this->view->mensagemExcecao = $e->getMessage();
+	
+				}
+			}
+		}
+		Zend_Registry::get('logger')->log("aaaa", Zend_Log::INFO);
+		$this->view->listaProjetos = $projeto->getProjetos();
+		Zend_Registry::get('logger')->log($this->view->listaProjetos, Zend_Log::INFO);
+	
 	}
 }
