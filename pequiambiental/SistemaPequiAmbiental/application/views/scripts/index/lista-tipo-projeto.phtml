@@ -1,5 +1,5 @@
 <?php
-	$this->title = "Listar Notícia";
+	$this->title = "Listar Tipo Projeto";
 	$this->headTitle($this->title);
 	//echo $this->form ;
 	
@@ -7,33 +7,29 @@
 
 <div class="box">
                                 <div class="box-header">
-                                    <h3 class="box-title">Lista Notícia</h3>
+                                    <h3 class="box-title">Lista Tipo Projeto</h3>
                                 </div><!-- /.box-header -->
                                 <div class="box-body">                                
                                     <table id="example1" class="table table-bordered table-hover">
                                         <thead>
                                             <tr>
                                                 <th class="arredondarEsq">ID</th>
-												<th >TÍTULO</th>
-												<th >OPERADOR</th>
-												<th >DATA CADASTRO</th>
-												<th >TIPO NOTÍCIA</th>
+												<th >Tipo Projeto</th>
 												<th>AÇÃO</th>
                                                 
                                             </tr>
                                         </thead>
                                         <tbody>
-                                        <?php if(count($this->listaNoticias)>0){
-											foreach($this->listaNoticias as $noticia) : ?>
+                                        <?php if(count($this->tipoProjeto)>0){
+											foreach($this->tipoProjeto as $tipoProjeto) : ?>
                                             <tr>
-                                            <td><?php echo $noticia["ID_NOTICIA"]?></td>
-                                            <td><?php echo $noticia["DS_TITULO"]?></td>
-											<td><?php echo $noticia["DS_LOGIN"]?></td>
-											<td><?php echo $noticia["DT_NOTICIA"]?></td>
-											<td><?php echo $noticia["NM_TIPO_NOTICIA"]?></td>
+                                            <td><?php echo $tipoProjeto["ID_TIPO_PROJETO"]?></td>
+                                            <td><?php echo $tipoProjeto["NM_TIPO_PROJETO"]?></td>
+											
+											
                                              <td>
-                                                <a alt="Editar" title="Editar" href="<?php echo $this->url(array('controller'=>'index','action'=>'edit-noticia', 'id'=>$noticia["ID_NOTICIA"]),null, true);?>" class="btn-sm btn-warning"><i class="glyphicon glyphicon-edit"></i></a> 
-                                                 <a alt="Excluir" title="Excluir" href="<?php echo $this->url(array('controller'=>'index','action'=>'delete-noticia', 'id'=>$noticia["ID_NOTICIA"]),null, true);?>" class="btn-sm  btn-danger"><i class="glyphicon glyphicon-trash"></i></a>
+                                                <a alt="Editar" title="Editar" href="<?php echo $this->url(array('controller'=>'index','action'=>'edit-tipo-projeto', 'id'=>$tipoProjeto["ID_TIPO_PROJETO"]),null, true);?>" class="btn-sm btn-warning"><i class="glyphicon glyphicon-edit"></i></a> 
+                                                 <a alt="Excluir" title="Excluir" href="<?php echo $this->url(array('controller'=>'index','action'=>'delete-tipo-projeto', 'id'=>$tipoProjeto["ID_TIPO_PROJETO"]),null, true);?>" class="btn-sm  btn-danger"><i class="glyphicon glyphicon-trash"></i></a>
                                                 
                                                 </td>
                                             </tr>
@@ -42,19 +38,16 @@
                                         </tbody>
                                         <tfoot>
                                             <tr>
-                                                <th class="arredondarEsq">ID</th>
-												<th >TÍTULO</th>
-												<th >OPERADOR</th>
-												<th >DATA CADASTRO</th>
-												<th >TIPO NOTÍCIA</th>
-												<th>AÇÃO</th>                                       
+                                                 <th class="arredondarEsq">ID</th>
+												 <th >Tipo Projeto</th>
+												 <th>AÇÃO</th>                                              
                                             </tr>
                                         </tfoot>
                                     </table>
                                 </div><!-- /.box-body -->
                             </div><!-- /.box -->
                             <div class="form-group">
-                                 <a alt="Adicionar" title="Adicionar" style="font-family: inherit;" href="<?php echo $this->url(array('controller'=>'index','action'=>'add-noticia'),null, true);?>" class="btn-sm  "><i class="btn btn-primary">Adicionar Notícia</i></a>   		
+                                 <a alt="Adicionar" title="Adicionar" style="font-family: inherit;" href="<?php echo $this->url(array('controller'=>'index','action'=>'add-tipo-projeto'),null, true);?>" class="btn-sm  "><i class="btn btn-primary">Adicionar Tipo Projeto</i></a>   		
                                      		
 
                                     		</div>
@@ -65,7 +58,7 @@
 <script type="text/javascript">
             $(function() {
                 $("#example1").dataTable();
-				//$("#example2").dataTable();
+				$("#example2").dataTable();
                 /*$('#example2').dataTable({
                     "bPaginate": true,
                     "bLengthChange": false,

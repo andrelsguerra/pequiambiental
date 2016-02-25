@@ -1,0 +1,32 @@
+	<!-- Small boxes (Stat box) -->
+				<div class="box box-default">
+				<form role="form" action="" method="<?php echo $this->element->getMethod() ?>" id="<?php echo $this->element->getName()?>" enctype="multipart/form-data">
+            <div class="box-header with-border">
+              <h3 class="box-title">Tipo Projeto</h3>
+              <div class="box-tools pull-right">
+                <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                <button class="btn btn-box-tool" data-widget="remove"><i class="fa fa-remove"></i></button>
+              </div>
+            </div><!-- /.box-header -->
+            <div class="box-body">
+              <div class="row">
+                <div class="col-md-12">
+                 <?php echo $this->element->ID_TIPO_PROJETO ?>
+                <div class="form-group">
+							<label ><?php echo $this->element->NM_TIPO_PROJETO->getLabel() ?></label>
+							<?php echo $this->element->NM_TIPO_PROJETO ?>				                     
+				</div>
+					
+						 
+	           </div><!-- /.form group -->
+	                   
+                  
+                </div><!-- /.col --> 
+              </div><!-- /.row -->
+            </div><!-- /.box-body -->
+           <div class="box-footer">
+                   <button class="btn btn-default" type="submit" name="Voltar">Voltar</button>
+                    <button class="btn btn-info pull-right" type="submit" name="Salvar">Salvar</button>
+                  </div>
+                   </form>
+          </div><!-- /.box -->

@@ -28,10 +28,16 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 		setlocale (LC_ALL, 'pt_BR');
 date_default_timezone_set('America/Sao_Paulo');
 setlocale(LC_MONETARY,'ptb'); // formato monetario padrao brasileiro 1.000,00
-
-
-
-	}
+}
+	protected function _initView () {
+		ini_set('default_charset', 'UTF-8');
+    $view = new Zend_View();
+    // snip...
+    $view->setEncoding('utf-8');
+    
+    // snip...
+    return $view;
+}
 public function _initPlugins()
 {
    $frontController = Zend_Controller_Front::getInstance();

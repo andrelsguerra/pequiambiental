@@ -1,2 +1,10 @@
 eclipse.preferences.version=1
-encoding/<project>=ISO-8859-1
+encoding//application/layouts/scripts/nav.phtml=UTF-8
+encoding//application/models/DbTable/Operador.php=UTF-8
+encoding//application/models/DbTable/TipoProjeto.php=ISO-8859-1
+encoding//application/views/scripts/forms/formularioOperador.phtml=UTF-8
+encoding/Upload.php=UTF-8
+encoding/application=UTF-8
+encoding/banco\ de\ dados=UTF-8
+encoding/index.php=UTF-8
+encoding/library=UTF-8

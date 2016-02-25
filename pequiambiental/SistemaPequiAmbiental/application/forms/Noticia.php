@@ -1,5 +1,5 @@
 <?php
-header("Content-Type: text/html; charset=ISO-8859-1", true);
+
 class Application_Form_Noticia extends Zend_Form
 {
 
@@ -19,7 +19,7 @@ class Application_Form_Noticia extends Zend_Form
         $FK_ARQUIVO->removeDecorator('Label');
         
         $DS_TITULO= new Zend_Form_Element_Text('DS_TITULO');
-        $DS_TITULO->setLabel('TÍTULO')
+        $DS_TITULO->setLabel('TÃTULO')
              ->setRequired(true)
              ->addFilter('StripTags')
              ->addFilter('StringTrim')
@@ -28,7 +28,7 @@ class Application_Form_Noticia extends Zend_Form
         	 ->removeDecorator('HtmlTag')
              ->removeDecorator('Label')
          	 ->setAttrib('class', 'form-control')
-         	 ->setAttrib('placeholder', "Enter título");
+         	 ->setAttrib('placeholder', "Enter tï¿½tulo");
         
         $TX_NOTICIA = new Zend_Form_Element_Textarea('TX_NOTICIA');
         $TX_NOTICIA->setLabel('TEXTO')
@@ -54,7 +54,7 @@ class Application_Form_Noticia extends Zend_Form
     	$tiposNoticia = array("1"=>"NOTICIAS", "2"=>"NOVIDADES", "3"=>"RECADOS");
     	
     	$FK_TIPO_NOTICIA = new Zend_Form_Element_Select( 'FK_TIPO_NOTICIA' );
-        $FK_TIPO_NOTICIA->setLabel('TIPO NOTÍCIA')
+        $FK_TIPO_NOTICIA->setLabel('TIPO NOTÃCIA')
          ->setRequired(true)
             ->addMultiOptions($tiposNoticia)
             ->addFilter('StripTags')
@@ -63,7 +63,7 @@ class Application_Form_Noticia extends Zend_Form
         	->removeDecorator('DtDdWrapper')
         	->removeDecorator('HtmlTag')
             ->removeDecorator('Label')
-         	->setAttrib('class', 'form-control select2') ->setAttrib('placeholder', "Enter tipo notícia");;		 
+         	->setAttrib('class', 'form-control select2') ->setAttrib('placeholder', "Enter tipo notï¿½cia");;		 
     	
     	$FK_OPERADOR = new Zend_Form_Element_Hidden('FK_OPERADOR');
         $FK_OPERADOR->addFilter('Int');

@@ -2,7 +2,9 @@
 
 //error_reporting(E_ALL | E_STRICT);
 //ini_set('display_errors', true);
-header("Content-Type: text/html; charset=ISO-8859-1", true);
+//header("Content-Type: text/html; charset=ISO-8859-1", true);
+//header ('Content-type: text/html; charset=UTF-8'); 
+header('Content-type: text/html; charset=UTF-8') ;
 class IndexController extends Zend_Controller_Action {
 
     public $user;
@@ -426,7 +428,7 @@ class IndexController extends Zend_Controller_Action {
                 try {
                     $operador->deleteOperador($id);
 
-                    $this->view->mensagem = "Exclu�do com sucesso";
+                    $this->view->mensagem = "Excluído com sucesso";
                     $this->view->erro = 0;
                 } catch (Exception $e) {
                     $this->view->mensagem = $e->getCode() . " Deletar operador";
@@ -804,7 +806,7 @@ class IndexController extends Zend_Controller_Action {
                 try {
                     $contato->deleteContato($id);
 
-                    $this->view->mensagem = "Exclu�do com sucesso";
+                    $this->view->mensagem = "Excluído com sucesso";
                     $this->view->erro = 0;
                 } catch (Exception $e) {
                     $this->view->mensagem = $e->getCode() . " Deletar contato";
@@ -995,7 +997,7 @@ class IndexController extends Zend_Controller_Action {
 				try {
 					$ramoAtividade->deleteRamoAtividade($id);
 		
-					$this->view->mensagem = "Exclu�do com sucesso";
+					$this->view->mensagem = "Excluído com sucesso";
 					$this->view->erro = 0;
 				} catch (Exception $e) {
 					$this->view->mensagem = $e->getCode() . " Deletar Ramo de atividade";
@@ -1145,7 +1147,7 @@ class IndexController extends Zend_Controller_Action {
 				try {
 					$cliente->deleteCliente($id);
 	
-					$this->view->mensagem = "Exclu�do com sucesso";
+					$this->view->mensagem = "Excluído com sucesso";
 					$this->view->erro = 0;
 				} catch (Exception $e) {
 					$this->view->mensagem = $e->getCode() . " Deletar cliente";
@@ -1183,7 +1185,7 @@ class IndexController extends Zend_Controller_Action {
 					//$this->_helper->redirector('lista-usuario');
 				} // catch (pega exceÃƒÂ§ÃƒÂ£o)
 				catch (Exception $e) {
-					$this->view->mensagem = "Atualizar tipo servi�o";
+					$this->view->mensagem = "Atualizar tipo serviço";
 					$this->view->erro = 1;
 					$this->view->mensagemExcecao = $e->getMessage();
 					//  echo ($e->getCode()."teste".$e->getMessage() );
@@ -1223,10 +1225,10 @@ class IndexController extends Zend_Controller_Action {
 				try {
 					
 					$tipoServico->deleteTipoServico($id);
-					$this->view->mensagem = "Exclu�do com sucesso";
+					$this->view->mensagem = "Excluído com sucesso";
 					$this->view->erro = 0;
 				} catch (Exception $e) {
-					$this->view->mensagem = $e->getCode() . " Deletar tipo de servi�o";
+					$this->view->mensagem = $e->getCode() . " Deletar tipo de serviço";
 					$this->view->erro = 1;
 					$this->view->mensagemExcecao = $e->getMessage();
 	
@@ -1367,7 +1369,7 @@ class IndexController extends Zend_Controller_Action {
 					//$this->_helper->redirector('lista-usuario');
 				} // catch (pega exceÃƒÂ§ÃƒÂ£o)
 				catch (Exception $e) {
-					$this->view->mensagem = "Atualizar not�cia";
+					$this->view->mensagem = "Atualizar notícia";
 					$this->view->erro = 1;
 					$this->view->mensagemExcecao = $e->getMessage();
 					//  echo ($e->getCode()."teste".$e->getMessage() );
@@ -1405,10 +1407,10 @@ class IndexController extends Zend_Controller_Action {
 				 
 				try {
 					$noticia->deleteNoticia($id);
-					$this->view->mensagem = "Exclu�do com sucesso";
+					$this->view->mensagem = "Excluído com sucesso";
 					$this->view->erro = 0;
 				} catch (Exception $e) {
-					$this->view->mensagem = $e->getCode() . " Deletar not�cia";
+					$this->view->mensagem = $e->getCode() . " Deletar notícia";
 					$this->view->erro = 1;
 					$this->view->mensagemExcecao = $e->getMessage();
 		
@@ -1456,7 +1458,7 @@ class IndexController extends Zend_Controller_Action {
 					
 				try {
 					$projeto->deleteProjeto($id);
-					$this->view->mensagem = "Exclu�do com sucesso";
+					$this->view->mensagem = "Excluído com sucesso";
 					$this->view->erro = 0;
 				} catch (Exception $e) {
 					$this->view->mensagem = $e->getCode() . " Deletar projeto";
@@ -1469,6 +1471,252 @@ class IndexController extends Zend_Controller_Action {
 		Zend_Registry::get('logger')->log("aaaa", Zend_Log::INFO);
 		$this->view->listaProjetos = $projeto->getProjetos();
 		Zend_Registry::get('logger')->log($this->view->listaProjetos, Zend_Log::INFO);
+	
+	}
+	public function editTipoProjetoAction(){
+		
+		
+		// action body
+		$form = new Application_Form_TipoProjeto();
+		$form->submit->setLabel('Salvar');
+		//$form->removeElement("tabela_contratacao");
+		$this->view->form = $form;
+	
+		if ($this->getRequest()->isPost()) {
+			$formData = $this->getRequest()->getPost();
+			if ($form->isValid($formData)) {
+				Zend_Registry::get('logger')->log($formData, Zend_Log::INFO);
+				$ID_TIPO_PROJETO = (int) $form->getValue('ID_TIPO_PROJETO');
+				$NM_TIPO_PROJETO= $form->getValue('NM_TIPO_PROJETO');
+	
+				$tipoProjeto= new Application_Model_DbTable_TipoProjeto();
+				Zend_Registry::get('logger')->log($formData, Zend_Log::INFO);
+				try {
+	
+					$tipoProjeto->updateTipoProjeto($ID_TIPO_PROJETO, $NM_TIPO_PROJETO);
+					$this->view->mensagem = "Atualizado com sucesso";
+					$this->view->erro = 0;
+					//$this->_helper->redirector('lista-usuario');
+				} // 
+				catch (Exception $e) {
+					$this->view->mensagem = "Atualizar tipo tipo projeto";
+					$this->view->erro = 1;
+					$this->view->mensagemExcecao = $e->getMessage();
+					//  echo ($e->getCode()."teste".$e->getMessage() );
+				}
+	
+			} else {
+				$form->populate($formData);
+				$arrMessages = $form->getMessages();
+				foreach ($arrMessages as $field => $arrErrors) {
+					$this->view->erro = 1;
+					$this->view->mensagem = $this->view->mensagem . $form->getElement($field)->getLabel() . $this->view->formErrors($arrErrors) . "<br>";
+				}
+			}
+		} else {
+			$id = $this->_getParam('id', 0);
+	
+			if ($id > 0) {
+				$tipoProjeto = new Application_Model_DbTable_TipoProjeto();
+				Zend_Registry::get('logger')->log("Id contato =" . $id, Zend_Log::INFO);
+				$form->populate($tipoProjeto->getTipoProjeto($id));
+				Zend_Registry::get('logger')->log($tipoProjeto->getTipoProjetos(), Zend_Log::INFO);
+			}
+		}
+	}
+	public function deleteTipoProjetoAction(){
+		$id = $this->_getParam('id', 0);
+		$tipoProjeto= new Application_Model_DbTable_TipoProjeto();
+		$this->view->TipoProjeto = $tipoProjeto->getTipoProjeto($id);
+	}
+	public function listaTipoProjetoAction(){
+		$tipoProjeto= new Application_Model_DbTable_TipoProjeto();
+	    if ($this->getRequest()->isPost()) {
+			$del = $this->getRequest()->getPost('del');
+			if ($del == 'Sim') {
+				Zend_Registry::get('logger')->log("teste2222", Zend_Log::INFO);
+				$id = $this->getRequest()->getPost('ID_TIPO_PROJETO');
+				
+				try {
+					
+					$tipoProjeto->deleteTipoProjeto($id);
+					$this->view->mensagem = "Exclíudo com sucesso";
+					$this->view->erro = 0;
+				} catch (Exception $e) {
+					$this->view->mensagem = $e->getCode() . " Deletar tipo de tipo projeto";
+					$this->view->erro = 1;
+					$this->view->mensagemExcecao = $e->getMessage();
+	
+				}
+			}
+		}
+			
+		$this->view->tipoProjeto = $tipoProjeto->getTipoProjetos();
+		
+	}
+	public function addTipoProjetoAction(){
+		$form = new Application_Form_TipoProjeto();
+		$form->submit->setLabel('Adicionar');
+		//$form->removeElement("tabela_contratacao");
+		$this->view->form = $form;
+		if ($this->getRequest()->isPost()) {
+			$formData = $this->getRequest()->getPost();
+			Zend_Registry::get('logger')->log($formData, Zend_Log::INFO);
+	
+			 
+	
+			if ($form->isValid($formData)) {
+	
+				try {
+					
+					$NM_TIPO_PROJETO= $form->getValue('NM_TIPO_PROJETO');
+					$tipoProjeto= new Application_Model_DbTable_TipoProjeto();
+					$tipoProjeto->addTipoProjeto($NM_TIPO_PROJETO);
+						
+					//$descricao=$form->getValue('descricao');
+					//$centroCusto->addCentroCusto($descricao);
+					$this->view->erro = 0;
+					$this->view->mensagem = "Adicionado com sucesso";
+					$form->reset();
+				} catch (Exception $erro) {
+					Zend_Registry::get('logger')->log("Erroooooooooooooooo", Zend_Log::INFO);
+					$this->view->mensagem = $erro->getMessage();
+					$this->view->erro = 1;
+					//exit;
+				}
+			} else {
+				Zend_Registry::get('logger')->log("formulario inválido", Zend_Log::INFO);
+				$form->populate($formData);
+				$arrMessages = $form->getMessages();
+				foreach ($arrMessages as $field => $arrErrors) {
+					$this->view->erro = 1;
+					$this->view->mensagem = $this->view->mensagem . $form->getElement($field)->getLabel() . $this->view->formErrors($arrErrors) . "<br>";
+				}
+			}
+	
+		}
+	
+	}
+	public function editStatusProjetoAction(){
+		// action body
+		$form = new Application_Form_StatusProjeto();
+		$form->submit->setLabel('Salvar');
+		//$form->removeElement("tabela_contratacao");
+		$this->view->form = $form;
+	
+		if ($this->getRequest()->isPost()) {
+			$formData = $this->getRequest()->getPost();
+			if ($form->isValid($formData)) {
+				Zend_Registry::get('logger')->log($formData, Zend_Log::INFO);
+				$ID_STATUS_PROJETO = (int) $form->getValue('ID_STATUS_PROJETO');
+				$NM_STATUS_PROJETO= $form->getValue('NM_STATUS_PROJETO');
+				
+	
+				$statusProjeto= new Application_Model_DbTable_StatusProjeto();
+				Zend_Registry::get('logger')->log($formData, Zend_Log::INFO);
+				try {
+	
+					$statusProjeto->updateStatusProjeto($ID_STATUS_PROJETO, $NM_STATUS_PROJETO);
+					$this->view->mensagem = "Atualizado com sucesso";
+					$this->view->erro = 0;
+					//$this->_helper->redirector('lista-usuario');
+				} 
+				catch (Exception $e) {
+					$this->view->mensagem = "Atualizar status projeto";
+					$this->view->erro = 1;
+					$this->view->mensagemExcecao = $e->getMessage();
+					//  echo ($e->getCode()."teste".$e->getMessage() );
+				}
+	
+			} else {
+				$form->populate($formData);
+				$arrMessages = $form->getMessages();
+				foreach ($arrMessages as $field => $arrErrors) {
+					$this->view->erro = 1;
+					$this->view->mensagem = $this->view->mensagem . $form->getElement($field)->getLabel() . $this->view->formErrors($arrErrors) . "<br>";
+				}
+			}
+		} else {
+			$id = $this->_getParam('id', 0);
+	
+			if ($id > 0) {
+				$statusProjeto = new Application_Model_DbTable_StatusProjeto();
+				Zend_Registry::get('logger')->log("Id contato =" . $id, Zend_Log::INFO);
+				$form->populate($statusProjeto->getStatusProjeto($id));
+			}
+		}
+	}
+	public function deleteStatusProjetoAction(){
+		$id = $this->_getParam('id', 0);
+		$statusProjeto= new Application_Model_DbTable_StatusProjeto();
+		$this->view->statusProjeto = $statusProjeto->getStatusProjeto($id);
+	}
+	public function listaStatusProjetoAction(){
+		$statusProjeto= new Application_Model_DbTable_StatusProjeto();
+	    if ($this->getRequest()->isPost()) {
+			$del = $this->getRequest()->getPost('del');
+			if ($del == 'Sim') {
+				Zend_Registry::get('logger')->log("teste2222", Zend_Log::INFO);
+				$id = $this->getRequest()->getPost('ID_STATUS_PROJETO');
+				
+				try {
+					
+					$statusProjeto->deleteStatusProjeto($id);
+					$this->view->mensagem = "Excluído com sucesso";
+					$this->view->erro = 0;
+				} catch (Exception $e) {
+					$this->view->mensagem = $e->getCode() . " Deletar tipo de status projeto";
+					$this->view->erro = 1;
+					$this->view->mensagemExcecao = $e->getMessage();
+	
+				}
+			}
+		}
+			
+		$this->view->statusProjeto = $statusProjeto->getStatusProjetos();
+		
+	}
+	public function addStatusProjetoAction(){
+		$form = new Application_Form_StatusProjeto();
+		$form->submit->setLabel('Adicionar');
+		//$form->removeElement("tabela_contratacao");
+		$this->view->form = $form;
+		if ($this->getRequest()->isPost()) {
+			$formData = $this->getRequest()->getPost();
+			Zend_Registry::get('logger')->log($formData, Zend_Log::INFO);
+	
+			 
+	
+			if ($form->isValid($formData)) {
+	
+				try {
+					
+					$NM_STATUS_PROJETO= $form->getValue('NM_STATUS_PROJETO');
+					$statusProjeto= new Application_Model_DbTable_StatusProjeto();
+					$statusProjeto->addStatusProjeto($NM_STATUS_PROJETO);
+						
+					//$descricao=$form->getValue('descricao');
+					//$centroCusto->addCentroCusto($descricao);
+					$this->view->erro = 0;
+					$this->view->mensagem = "Adicionado com sucesso";
+					$form->reset();
+				} catch (Exception $erro) {
+					Zend_Registry::get('logger')->log("Erroooooooooooooooo", Zend_Log::INFO);
+					$this->view->mensagem = $erro->getMessage();
+					$this->view->erro = 1;
+					//exit;
+				}
+			} else {
+				Zend_Registry::get('logger')->log("formulario inválido", Zend_Log::INFO);
+				$form->populate($formData);
+				$arrMessages = $form->getMessages();
+				foreach ($arrMessages as $field => $arrErrors) {
+					$this->view->erro = 1;
+					$this->view->mensagem = $this->view->mensagem . $form->getElement($field)->getLabel() . $this->view->formErrors($arrErrors) . "<br>";
+				}
+			}
+	
+		}
 	
 	}
 }
