@@ -17,14 +17,14 @@ class Application_Model_DbTable_Operador extends Zend_Db_Table_Abstract
 	public function getOperadorCombo ()
     {
        $listaOperador= new Application_Model_DbTable_Operador();
-       return $listaOperador->getAdapter()->fetchPairs( $listaOperador->select()->from( 'TB_OPERADOR', array('ID_OPERADOR', 'nome') )->order('nome'));
+       return $listaOperador->getAdapter()->fetchPairs( $listaOperador->select()->from( 'TB_OPERADOR', array('ID_OPERADOR', 'NM_OPERADOR') )->order('NM_OPERADOR'));
     }
 	public function getOperador($id)
     {
         $id = (int) $id;
         $row = $this->fetchRow('ID_OPERADOR = ' . $id);
         if (! $row) {
-            throw new Exception("Não foi possivel encontrar a linha $id");
+            throw new Exception("Nï¿½o foi possivel encontrar a linha $id");
         }
         return $row->toArray();
     }
