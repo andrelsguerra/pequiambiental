@@ -10,9 +10,9 @@ class Application_Form_Projeto extends Zend_Form
     	$this->setAttrib('enctype', 'multipart/form-data');
     	    	
     	$this->setName('FormularioCompra');
-        $id = new Zend_Form_Element_Hidden('id_projeto');
-        $id->addFilter('Int');
-        $id->removeDecorator('Label');
+        $ID_PROJETO = new Zend_Form_Element_Hidden('ID_PROJETO');
+        $ID_PROJETO->addFilter('Int');
+        $ID_PROJETO->removeDecorator('Label');
         
         
         $NM_PROJETO = new Zend_Form_Element_Text('NM_PROJETO');
@@ -50,7 +50,7 @@ class Application_Form_Projeto extends Zend_Form
        
          	 $NR_CONTRATO= new Zend_Form_Element_Text('NR_CONTRATO');
          	 $NR_CONTRATO->setLabel('Nº CONTRATO')
-         	 ->setRequired(true)
+       
          	 ->addFilter('StripTags')
          	 ->addFilter('StringTrim')
          	 ->addValidator('NotEmpty')
@@ -62,7 +62,7 @@ class Application_Form_Projeto extends Zend_Form
          	 
          	 $TX_OBSERVACAO = new Zend_Form_Element_Textarea('TX_OBSERVACAO');
          	 $TX_OBSERVACAO->setLabel('OBSERVAÇÃO')
-         	 ->setRequired(true)
+         	
          	 ->removeDecorator('DtDdWrapper')
          	 ->removeDecorator('HtmlTag')
          	 ->removeDecorator('Label')
@@ -108,7 +108,7 @@ class Application_Form_Projeto extends Zend_Form
          	 
          	 $FK_INDICACAO= new Zend_Form_Element_Select('FK_INDICACAO');
          	 $statusIndicacao= new Application_Model_DbTable_Indicacao();
-         	 $FK_INDICACAO->setLabel('STATUS');
+         	 $FK_INDICACAO->setLabel('INDICAÇÃO');
          	 $FK_INDICACAO->setMultiOptions( $statusIndicacao->getIndicacaoCombo())
          	 ->setRequired(true)
          	 ->removeDecorator('DtDdWrapper')
@@ -121,7 +121,7 @@ class Application_Form_Projeto extends Zend_Form
          	 $gestor= new Application_Model_DbTable_Operador();
          	 $Fk_GESTOR->setLabel('GESTOR');
          	 $Fk_GESTOR->setMultiOptions( $gestor->getOperadorCombo())
-         	 ->setRequired(true)
+         	
          	 ->removeDecorator('DtDdWrapper')
          	 ->removeDecorator('HtmlTag')
          	 ->removeDecorator('Label')
@@ -138,15 +138,15 @@ class Application_Form_Projeto extends Zend_Form
          	 ->removeDecorator('Label')
          	 ->setAttrib('class', 'form-control select2');
          
-     $submit = new Zend_Form_Element_Submit('submit');
+     	$submit = new Zend_Form_Element_Submit('submit');
         $submit->setLabel("Adiconar");
         $submit->setAttrib('id', 'submitbutton');
-         $submit->removeDecorator('DtDdWrapper')
+        $submit->removeDecorator('DtDdWrapper')
          ->setAttrib('class', 'btn btn-primary button')
         ->removeDecorator('HtmlTag')
         ->removeDecorator('Label');        
             
-    $this->addElements(array($id,$NM_PROJETO,$DT_CADASTRO,$FK_AGENCIA_AMBIENTAL,$NR_CONTRATO,$FK_CLIENTE,$TX_OBSERVACAO,$FK_STATUS_PROJETO,$FK_INDICACAO,$Fk_GESTOR,$FK_TIPO_PROJETO,$submit));     
+     $this->addElements(array($ID_PROJETO,$NM_PROJETO,$DT_CADASTRO,$FK_AGENCIA_AMBIENTAL,$NR_CONTRATO,$FK_CLIENTE,$TX_OBSERVACAO,$FK_STATUS_PROJETO,$FK_INDICACAO,$Fk_GESTOR,$FK_TIPO_PROJETO,$submit));     
      $this->setDecorators( array( array('ViewScript', array('viewScript' => '/forms/formularioProjeto.phtml'))));   
 	
     }

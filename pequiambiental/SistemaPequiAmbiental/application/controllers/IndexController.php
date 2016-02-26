@@ -662,6 +662,77 @@ class IndexController extends Zend_Controller_Action {
             }
         }
     } 
+    public function editProjetoAction() {
+    	// action body
+    	$form = new Application_Form_Projeto();
+    	$form->submit->setLabel('Salvar projeto');
+    	 
+    	$this->view->form = $form;
+    	$projeto=new Application_Model_DbTable_Projeto();
+    	if ($this->getRequest()->isPost()) {
+    		$formData = $this->getRequest()->getPost();
+    		if ($form->isValid($formData)) {
+    			
+    			
+
+    			try {
+    				$ID_PROJETO=$form->getValue('ID_PROJETO');
+					$NM_PROJETO=$form->getValue('NM_PROJETO');
+					
+					$DT_CADASTRO= $form->getValue('DT_CADASTRO');
+            		$data_cadastro =new Zend_Date($DT_CADASTRO);
+            		$DT_CADASTRO=$data_cadastro->get('YYYY-MM-dd HH:mm:ss');
+					
+					$FK_AGENCIA_AMBIENTAL=$form->getValue('FK_AGENCIA_AMBIENTAL');
+					$NR_CONTRATO=$form->getValue('NR_CONTRATO');
+					$TX_OBSERVACAO=$form->getValue('TX_OBSERVACAO');
+					$FK_CLIENTE=$form->getValue('FK_CLIENTE');
+					$FK_STATUS_PROJETO=$form->getValue('FK_STATUS_PROJETO');
+					$FL_ATIVO=1;
+					$Fk_GESTOR=$form->getValue('Fk_GESTOR');
+					$FK_TIPO_PROJETO=$form->getValue('FK_TIPO_PROJETO');
+					$FK_INDICACAO=$form->getValue('FK_INDICACAO');
+					
+					$projeto-> updateProjeto ($ID_PROJETO, $NM_PROJETO, $DT_CADASTRO, $FK_AGENCIA_AMBIENTAL, $NR_CONTRATO, $TX_OBSERVACAO, $FK_CLIENTE, $FK_STATUS_PROJETO, $FL_ATIVO, $Fk_GESTOR, $FK_TIPO_PROJETO, $FK_INDICACAOO);
+				
+    
+    				
+    				$this->view->mensagem = "Atualizado com sucesso";
+    				$this->view->erro = 0;
+    				//$this->_helper->redirector('lista-usuario');
+    			} // catch (pega exceÃƒÂ§ÃƒÂ£o)
+    			catch (Exception $e) {
+    				$this->view->mensagem = "Atualizar projeto";
+    				$this->view->erro = 1;
+    				$this->view->mensagemExcecao = $e->getMessage();
+    				//  echo ($e->getCode()."teste".$e->getMessage() );
+    			}
+    
+    		} else {
+    			$form->populate($formData);
+    			$arrMessages = $form->getMessages();
+    			foreach ($arrMessages as $field => $arrErrors) {
+    				$this->view->erro = 1;
+    				$this->view->mensagem = $this->view->mensagem . $form->getElement($field)->getLabel() . $this->view->formErrors($arrErrors) . "<br>";
+    			}
+    		}
+    	} else {
+    		$id = $this->_getParam('id', 0);
+    
+    		if ($id > 0) {
+    			
+    			
+    			$form->populate($projeto->getProjeto($id));
+    		}
+    	}
+    }
+    public function deleteProjetoAction() {
+    
+    
+    	$id = $this->_getParam('id', 0);
+    	$projeto= new Application_Model_DbTable_Projeto();
+    	$this->view->projeto = $projeto->getProjeto($id);
+    }
     public function addProjetoAction(){
     	$form = new Application_Form_Projeto();
     	$form->submit->setLabel('Adicionar');
@@ -672,9 +743,27 @@ class IndexController extends Zend_Controller_Action {
     		Zend_Registry::get('logger')->log($formData, Zend_Log::INFO);
     		if ($form->isValid($formData)) {	
     			try {
-    				//$centroCusto = new Application_Model_DbTable_CentroCusto();
-    				//$descricao=$form->getValue('descricao');
-    				//$centroCusto->addCentroCusto($descricao);
+    				
+    				$projeto=new Application_Model_DbTable_Projeto();
+    				//$ID_PROJETO=$form->getValue('ID_PROJETO');
+					$NM_PROJETO=$form->getValue('NM_PROJETO');
+					
+					$DT_CADASTRO= $form->getValue('DT_CADASTRO');
+            		$data_cadastro =new Zend_Date($DT_CADASTRO);
+            		$DT_CADASTRO=$data_cadastro->get('YYYY-MM-dd HH:mm:ss');
+					
+					$FK_AGENCIA_AMBIENTAL=$form->getValue('FK_AGENCIA_AMBIENTAL');
+					$NR_CONTRATO=$form->getValue('NR_CONTRATO');
+					$TX_OBSERVACAO=$form->getValue('TX_OBSERVACAO');
+					$FK_CLIENTE=$form->getValue('FK_CLIENTE');
+					$FK_STATUS_PROJETO=$form->getValue('FK_STATUS_PROJETO');
+					$FL_ATIVO=1;
+					$Fk_GESTOR=$form->getValue('Fk_GESTOR');
+					$FK_TIPO_PROJETO=$form->getValue('FK_TIPO_PROJETO');
+					$FK_INDICACAO=$form->getValue('FK_INDICACAO');
+					
+					$projeto->addProjeto( $NM_PROJETO, $DT_CADASTRO, $FK_AGENCIA_AMBIENTAL, $NR_CONTRATO, $TX_OBSERVACAO, $FK_CLIENTE, $FK_STATUS_PROJETO, $FL_ATIVO, $Fk_GESTOR, $FK_TIPO_PROJETO, $FK_INDICACAO);
+					
     				$this->view->erro = 0;
     				$this->view->mensagem = "Adicionado com sucesso";
     			} catch (Exception $erro) {
@@ -1454,7 +1543,7 @@ class IndexController extends Zend_Controller_Action {
 			$del = $this->getRequest()->getPost('del');
 			if ($del == 'Sim') {
 				//Zend_Registry::get('logger')->log("teste2222", Zend_Log::INFO);
-				$id = $this->getRequest()->getPost('ID_NOTICIA');
+				$id = $this->getRequest()->getPost('ID_PROJETO');
 					
 				try {
 					$projeto->deleteProjeto($id);

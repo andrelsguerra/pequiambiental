@@ -1,0 +1,22 @@
+
+<?php
+	$this->title = "Deletar Projeto";
+	$this->headTitle($this->title);
+?>
+
+<div class="callout callout-danger">
+                                        <h4>Atenção!</h4>
+                                        Deseja realmente deletar  '<?php echo $this->escape($this->projeto['NM_PROJETO']);?>'
+                                    </div>
+<form action="<?php echo $this->url(array('action' => 'lista-projeto'),null, true);?>" method="post">
+	<div>
+		<input type="hidden" name="ID_PROJETO" value="<?php echo $this->projeto['ID_PROJETO'];?>" /> 
+		
+	</div>
+	<div class="form-group">
+                                        		
+<input type="submit" class="btn btn-primary" id="submitbutton" name="del" value="Sim">                                        		
+<input type="submit" class="btn btn-primary"   id="vincularReferencia" name="del" value="Não">                                        		
+
+                                    		</div>
+</form>

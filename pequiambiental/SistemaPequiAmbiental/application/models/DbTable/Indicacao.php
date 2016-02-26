@@ -25,8 +25,14 @@ class Application_Model_DbTable_Indicacao extends Zend_Db_Table_Abstract
     }
 	public function getIndicacaoCombo ()
     {
+    	Zend_Registry::get('logger')->log("entrou", Zend_Log::INFO);
        $listaIndicacao = new Application_Model_DbTable_Indicacao();
-       return $listaIndicacao->getAdapter()->fetchPairs( $listaIndicacao->select()->from( 'TB_INDICACAO', array('ID_INDICACAO', 'NM_INDICACAO') )->order('NM_INDICACAO'));
+       $retorno=$listaIndicacao->getAdapter()->fetchPairs( $listaIndicacao->select()->from( 'TB_INDICACAO', array('ID_INDICACAO', 'NM_INDICACAO') )->order('NM_INDICACAO'));
+       Zend_Registry::get('logger')->log($retorno, Zend_Log::INFO);
+       Zend_Registry::get('logger')->log($this->getIndicacoes(), Zend_Log::INFO);
+       
+       //$select->__toString();
+       return $retorno;
     }
 	public function getIndicacao($id)
     {

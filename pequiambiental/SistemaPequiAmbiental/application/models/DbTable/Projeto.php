@@ -18,7 +18,8 @@ class Application_Model_DbTable_Projeto extends Zend_Db_Table_Abstract
     {
     	
     	 $select =$this->_db->select()
-             ->from(array('c' => 'TB_PROJETO'))->limit(200);
+             ->from(array('p' => 'TB_PROJETO'))->limit(200)
+             ->order("p.DT_CADASTRO DESC");
              //->where('u.id_usuario <>1');
   	   $result = $this->getAdapter()->fetchAll($select);
        return $result;
@@ -50,7 +51,7 @@ class Application_Model_DbTable_Projeto extends Zend_Db_Table_Abstract
         $id = (int) $id;
         $row = $this->fetchRow('ID_PROJETO = ' . $id);
         if (! $row) {
-            throw new Exception("Não foi possivel encontrar a linha $id");
+            throw new Exception("Nï¿½o foi possivel encontrar a linha $id");
         }
         return $row->toArray();
     }
@@ -61,16 +62,16 @@ class Application_Model_DbTable_Projeto extends Zend_Db_Table_Abstract
        return $ramoAtividade->getAdapter()->fetchPairs( $ramoAtividade->select()->from( 'ramoAtividade', array('ID_PROJETO', 'nome') )->where('ID_PROJETO <>1')->order('nome'));
     }*/
    
-    public function addProjeto($DS_PROJETO)
+    public function addProjeto( $NM_PROJETO, $DT_CADASTRO, $FK_AGENCIA_AMBIENTAL, $NR_CONTRATO, $TX_OBSERVACAO, $FK_CLIENTE, $FK_STATUS_PROJETO, $FL_ATIVO, $Fk_GESTOR, $FK_TIPO_PROJETO, $FK_INDICACAO)
     {
     	
-        $data = array('DS_PROJETO' => $DS_PROJETO);
+        $data = array('NM_PROJETO' => $NM_PROJETO,'DT_CADASTRO' => $DT_CADASTRO,'FK_AGENCIA_AMBIENTAL' => $FK_AGENCIA_AMBIENTAL,'NR_CONTRATO' => $NR_CONTRATO,'TX_OBSERVACAO' => $TX_OBSERVACAO,'FK_CLIENTE' => $FK_CLIENTE,'FK_STATUS_PROJETO' => $FK_STATUS_PROJETO,'FL_ATIVO' => $FL_ATIVO,'Fk_GESTOR' => $Fk_GESTOR,'FK_TIPO_PROJETO' => $FK_TIPO_PROJETO,'FK_INDICACAO' => $FK_INDICACAO);
         $this->insert($data);
     }
      
-    public function updateProjeto ($ID_PROJETO,$DS_PROJETO)
+    public function updateProjeto ($ID_PROJETO, $NM_PROJETO, $DT_CADASTRO, $FK_AGENCIA_AMBIENTAL, $NR_CONTRATO, $TX_OBSERVACAO, $FK_CLIENTE, $FK_STATUS_PROJETO, $FL_ATIVO, $Fk_GESTOR, $FK_TIPO_PROJETO, $FK_INDICACAOO)
     {
-    	$data = array('ID_PROJETO'=>$ID_PROJETO,'DS_PROJETO' => $DS_PROJETO);
+    	$data = array('ID_PROJETO'=>$ID_PROJETO,'NM_PROJETO' => $NM_PROJETO,'DT_CADASTRO' => $DT_CADASTRO,'FK_AGENCIA_AMBIENTAL' => $FK_AGENCIA_AMBIENTAL,'NR_CONTRATO' => $NR_CONTRATO,'TX_OBSERVACAO' => $TX_OBSERVACAO,'FK_CLIENTE' => $FK_CLIENTE,'FK_STATUS_PROJETO' => $FK_STATUS_PROJETO,'FL_ATIVO' => $FL_ATIVO,'Fk_GESTOR' => $Fk_GESTOR,'FK_TIPO_PROJETO' => $FK_TIPO_PROJETO,'FK_INDICACAO' => $FK_INDICACAO);
 		
 		$this->update($data, 'ID_PROJETO = ' . (int) $ID_PROJETO);
     }

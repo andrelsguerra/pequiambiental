@@ -7,12 +7,7 @@
                 <button class="btn btn-box-tool" data-widget="remove"><i class="fa fa-remove"></i></button>
               </div>
             </div><!-- /.box-header -->
-            <div class="box-body">
-              <div class="row">
-                <div class="col-sm-12">
-                
-
-					<!-- Modal -->
+			<!-- Modal -->
 					<div class="modal fade" id="myModal"  role="dialog" aria-labelledby="myModalLabel">
 					  <div class="modal-dialog">
 					                <div class="modal-content">
@@ -44,7 +39,7 @@
 								                    </select>
 								                  </div>
 								                  <div class="form-group">
-								                      <label>OBSERVAÇÃO</label>
+								                      <label>OBSERVAï¿½ï¿½O</label>
 								                      <textarea class="form-control" rows="3" name="observacao" id="observacao" placeholder="Enter ..."></textarea>
 								                  </div>
 												  <div class="form-group">
@@ -72,7 +67,7 @@
 								                      <input type="text" class="form-control" id="uf" name="uf" placeholder="Enter uf">
 								                  </div>
 								                  <div class="form-group">
-								                      <label >DATA ÃšLTIMA ATUALIZAÇÃO</label>
+								                      <label >DATA ÃšLTIMA ATUALIZAï¿½ï¿½O</label>
 								                      <input type="text" class="form-control" id="data_atualizacao" name="data_atualizacao" placeholder="" value="01/02/2016 22:50:37" disabled="disabled">
 								                  </div>
 								                  
@@ -88,83 +83,66 @@
 					              </div><!-- /.modal-dialog -->
 					</div>
 					<form role="form" action="" method="<?php echo $this->element->getMethod() ?>" id="<?php echo $this->element->getName()?>" enctype="multipart/form-data">
-						<div class="form-group input-group ">
-						
-		                <select class="form-control select2" style="width: 100%;" name="fk_cliente" id="fk_cliente" >
-	                      <option selected="selected">Cliente A</option>
-	                      <option>Cliente B</option>
-	                      <option>xxxxxxx C</option>
-	                      <option>yyyyyyyyyyy D</option>
-	                      <option>bbbbbbbbbb E</option>
-	                      <option>ffffff F</option>
-	                      <option>kkkkkkk G</option>
-	                    </select>
-		                 <span class="input-group-btn">
+            <div class="box-body">
+              <div class="row">
+                <div class="col-sm-12">
+                
+					<?php echo $this->element->ID_PROJETO ?>
+					<label ><?php echo $this->element->FK_CLIENTE->getLabel() ?></label>
+					<div class="form-group input-group">	
+						<!--<label ><?php echo $this->element->FK_CLIENTE->getLabel() ?></label>	-->
+						<?php echo $this->element->FK_CLIENTE ?>
+						<span class="input-group-btn">
 		                      <button class="btn btn-info btn-flat" type="button" data-toggle="modal" data-target="#myModal">Adicionar</button>
-		                    </span>   
-	                    </div><!-- /input-group -->
+		                    </span> 				               
+					</div><!-- /input-group -->
+					
+					
 	                  <div class="form-group">
-	                      <label >NOME PROJETO</label>
-	                      <input type="text" class="form-control" id="nome" name="nome" placeholder="Enter nome projeto">
+	                      <label ><?php echo $this->element->NM_PROJETO->getLabel() ?></label>
+	                     <?php echo $this->element->NM_PROJETO ?>
 	                  </div>
 	                  <div class="form-group">
-	                    <label>TIPO PROJETO</label>
-	                    <select class="form-control select2" style="width: 100%;" name="fk_tipo_projeto" id="fk_tipo_projeto">
-	                      <option selected="selected">Tipo projeto A</option>
-	                      <option>Tipo projeto B</option>
-	                      <option>xxxxxxx C</option>
-	                      <option>yyyyyyyyyyy D</option>
-	                      <option>bbbbbbbbbb E</option>
-	                      <option>ffffff F</option>
-	                      <option>kkkkkkk G</option>
-	                    </select>
-	                  </div><!-- /.form-group -->
-	                  <div class="form-group">
-	                    <label>CADASTRO</label>
+	                      <label ><?php echo $this->element->FK_TIPO_PROJETO->getLabel() ?></label>
+	                     <?php echo $this->element->FK_TIPO_PROJETO ?>
+	                  </div>
+	                  <div class="form-group">	
+						<label ><?php echo $this->element->FK_AGENCIA_AMBIENTAL->getLabel() ?></label>	
+						<?php echo $this->element->FK_AGENCIA_AMBIENTAL ?>
+										               
+					  </div><!-- /input-group -->
+					  <div class="form-group">
+	                    <label><?php echo $this->element->DT_CADASTRO->getLabel() ?></label>
 	                    <div class="input-group">
 	                      <div class="input-group-addon">
 	                        <i class="fa fa-calendar"></i>
 	                      </div>
-	                      <input type="text" class="form-control pull-right" id="data_cadastro" name="data_cadastro" data-provide="datepicker">
+	                      <?php echo $this->element->DT_CADASTRO ?>		
+	                     
 	                    </div><!-- /.input group -->
-	                  </div><!-- /.form group -->
-	                   <div class="form-group">
-	                    <label>INDICAÇÃO</label>
-	                    <select class="form-control select2" style="width: 100%;" name="indicacao" id="indicacao" >
-	                      <option selected="selected">INDICACAO a</option>
-	                      <option>INDICACAO B</option>
-	                      <option>xxxxxxx C</option>
-	                      <option>yyyyyyyyyyy D</option>
-	                      <option>bbbbbbbbbb E</option>
-	                      <option>ffffff F</option>
-	                      <option>kkkkkkk G</option>
-	                    </select>
-	                  </div><!-- /.form-group -->
-	                  <div class="form-group">
-	                      <label >NUM. CONTRATO</label>
-	                      <input type="text" class="form-control" id="numero_contrato" name="numero_contrato" placeholder="Enter num. contrato">
+	           		  </div><!-- /.form group -->
+	           		  <div class="form-group">	
+						<label ><?php echo $this->element->FK_INDICACAO->getLabel() ?></label>	
+						<?php echo $this->element->FK_INDICACAO ?>
+										               
+					  </div><!-- /input-group -->
+                      <div class="form-group">
+	                      <label ><?php echo $this->element->NR_CONTRATO->getLabel() ?></label>
+	                     <?php echo $this->element->NR_CONTRATO ?>
 	                  </div>
 	                  <div class="form-group">
-	                      <label>OBSERVAÇÃO</label>
-	                      <textarea class="form-control" rows="3" name="observacao" id="observacao" placeholder="Enter ..."></textarea>
+							<label ><?php echo $this->element->TX_OBSERVACAO->getLabel() ?></label>
+							<?php echo $this->element->TX_OBSERVACAO ?>				                     
+					
+					  </div>
+					  <div class="form-group">
+	                      <label ><?php echo $this->element->Fk_GESTOR->getLabel() ?></label>
+	                     <?php echo $this->element->Fk_GESTOR ?>
 	                  </div>
 	                  <div class="form-group">
-	                      <label>GESTOR</label>
-	                      <input type="text" class="form-control" id="gestor" name="gestor" placeholder="Enter gestor">
+	                      <label ><?php echo $this->element->FK_STATUS_PROJETO->getLabel() ?></label>
+	                     <?php echo $this->element->FK_STATUS_PROJETO ?>
 	                  </div>
-	                  <div class="form-group">
-	                    <label>STATUS</label>
-	                    <select class="form-control " style="width: 100%;" name="status" id="status" >
-	                      <option selected="selected">Arquivado</option>
-	                      <option>Status B</option>
-	                      <option>xxxxxxx C</option>
-	                      <option>yyyyyyyyyyy D</option>
-	                      <option>bbbbbbbbbb E</option>
-	                      <option>ffffff F</option>
-	                      <option>kkkkkkk G</option>
-	                    </select>
-	                  </div><!-- /.form-group -->
-                   </form>
                 </div><!-- /.col --> 
               </div><!-- /.row -->
             </div><!-- /.box-body -->
@@ -172,14 +150,16 @@
                    <button class="btn btn-default" type="submit" name="Voltar">Voltar</button>
                     <button class="btn btn-info pull-right" type="submit" name="Salvar">Salvar</button>
                   </div>
+		   </form>
           </div><!-- /.box -->
+		  
 		  <script>
       $(function () {
         //Initialize Select2 Elements
         $(".select2").select2();
 
-        $('#data_cadastro').datepicker({
-           
+        $('#DT_CADASTRO').datepicker({
+        	format: 'dd/mm/yyyy'
           
         });
         
