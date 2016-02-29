@@ -13,47 +13,32 @@
                 <div class="col-md-12">
                 
 					
-						 <div class="form-group">
-						<label>PROJETO</label>
-		                <select class="form-control select2" style="width: 100%;" name="FK_PROJETO" id="FK_PROJETO"  >
-	                      <option selected="selected">PROJETO A</option>
-	                      <option>PROJETO B</option>
-	                      <option>xxxxxxx C</option>
-	                      <option>yyyyyyyyyyy D</option>
-	                      <option>bbbbbbbbbb E</option>
-	                      <option>ffffff F</option>
-	                      <option>kkkkkkk G</option>
-	                    </select>
-		                  
-	                    </div><!-- /input-group -->
-	                    <div class="form-group">
-	                      <label>DESCRI��O SERVIÇO</label>
-	                      <textarea class="form-control" rows="3" name="observacao" id="observacao" placeholder="Enter ..."></textarea>
-	                  	</div>
+					  <div class="form-group">
+	                      <label ><?php echo $this->element->FK_PROJETO->getLabel() ?></label>
+	                     <?php echo $this->element->FK_PROJETO ?>
+	                  </div>
+	                   <div class="form-group">
+	                      <label ><?php echo $this->element->DS_SERVICO->getLabel() ?></label>
+	                     <?php echo $this->element->DS_SERVICO ?>
+	                  </div>
 	                  	<div class="form-group">
-	                    <label>DATA</label>
+	                    <label><?php echo $this->element->DT_SERVICO->getLabel() ?></label>
 	                    <div class="input-group">
 	                      <div class="input-group-addon">
 	                        <i class="fa fa-calendar"></i>
 	                      </div>
-	                      <input type="text" class="form-control pull-right" id="data_cadastro" name="data_cadastro" data-provide="datepicker">
+	                      <?php echo $this->element->DT_SERVICO ?>		
+	                     
 	                    </div><!-- /.input group -->
+	           		  </div><!-- /.form group -->
 	                  <div class="form-group">
-	                      <label >CARGA HORÁRIA</label>
-	                      <input type="text" class="form-control" id="nome" name="nome" placeholder="Carga horária">
+	                      <label ><?php echo $this->element->NR_CARGA_HORARIA->getLabel() ?></label>
+	                     <?php echo $this->element->NR_CARGA_HORARIA ?>
 	                  </div>
 	                  <div class="form-group">
-	                    <label>TIPO SERVIÇO</label>
-	                    <select class="form-control select2" style="width: 100%;" name="fk_tipo_projeto" id="fk_tipo_projeto">
-	                      <option selected="selected">Tipo serviço A</option>
-	                      <option>Tipo serviço B</option>
-	                      <option>xxxxxxx C</option>
-	                      <option>yyyyyyyyyyy D</option>
-	                      <option>bbbbbbbbbb E</option>
-	                      <option>ffffff F</option>
-	                      <option>kkkkkkk G</option>
-	                    </select>
-	                  </div><!-- /.form-group -->
+	                      <label ><?php echo $this->element->FK_TIPO_SERVICO->getLabel() ?></label>
+	                     <?php echo $this->element->FK_TIPO_SERVICO ?>
+	                  </div>
 	                 
 	                  </div><!-- /.form group -->
 	                   
@@ -67,3 +52,15 @@
                   </div>
                    </form>
           </div><!-- /.box -->
+          <script>
+      $(function () {
+        //Initialize Select2 Elements
+        $(".select2").select2();
+
+        $('#DT_SERVICO').datepicker({
+        	format: 'dd/mm/yyyy'
+          
+        });
+        
+      });
+    </script>

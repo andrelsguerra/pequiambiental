@@ -44,7 +44,7 @@ class Application_Model_DbTable_Projeto extends Zend_Db_Table_Abstract
 	public function getProjetoCombo ()
     {
        $listaProjeto = new Application_Model_DbTable_Projeto();
-       return $listaProjeto->getAdapter()->fetchPairs( $listaProjeto->select()->from( 'TB_PROJETO', array('ID_PROJETO', 'DS_PROJETO') )->order('DS_PROJETO'));
+       return $listaProjeto->getAdapter()->fetchPairs( $listaProjeto->select()->from( 'TB_PROJETO', array('ID_PROJETO', 'NM_PROJETO') )->order('NM_PROJETO'));
     }
 	public function getProjeto($id)
     {
