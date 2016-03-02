@@ -18,18 +18,32 @@ class Application_Model_DbTable_Servico extends Zend_Db_Table_Abstract
     	 $select =$this->_db->select()
              ->from(array('s' => 'TB_SERVICO'),array("*",'DT_SERVICO' => new Zend_Db_Expr("DATE_FORMAT(DT_SERVICO,'%d/%m/%Y')")))
              ->joinInner(array('p' => 'TB_PROJETO'),('p.ID_PROJETO =s.FK_PROJETO'))
+             ->where('s.FL_PCP=0')
              ->order("s.DT_SERVICO DESC");
              
              
   	   $result = $this->getAdapter()->fetchAll($select);
        return $result;
     }
+    public function getPcps()
+    {
+    	 
+    	$select =$this->_db->select()
+    	->from(array('s' => 'TB_SERVICO'),array("*",'DT_SERVICO' => new Zend_Db_Expr("DATE_FORMAT(DT_SERVICO,'%d/%m/%Y')")))
+    	->joinInner(array('p' => 'TB_PROJETO'),('p.ID_PROJETO =s.FK_PROJETO'))
+    	->where('s.FL_PCP=1')
+    	->order("s.DT_SERVICO DESC");
+    	 
+    	 
+    	$result = $this->getAdapter()->fetchAll($select);
+    	return $result;
+    }
 	public function getServico($id)
     {
        $id = (int) $id;
     	// $row = $this->fetchRow("nome",null,'id = ' . $id);
     	$select =$this->_db->select()
-    	->from(array('n' => 'TB_SERVICO'),array("*",'DT_SERVICO' => new Zend_Db_Expr("DATE_FORMAT(DT_SERVICO,'%d/%m/%Y %H:%i')")))
+    	->from(array('n' => 'TB_SERVICO'),array("*",'DT_SERVICO' => new Zend_Db_Expr("DATE_FORMAT(DT_SERVICO,'%d/%m/%Y')")))
     	->where('ID_SERVICO ='.$id);
     	$row = $this->getAdapter()->fetchRow($select);
     	if (! $row) {
@@ -38,7 +52,7 @@ class Application_Model_DbTable_Servico extends Zend_Db_Table_Abstract
     
     	 
     	// $row["fk_usuario"]=$usuarioHasReuniao->getParticipanteReuniaoCombo ($id);
-    
+    	Zend_Registry::get('logger')->log($row, Zend_Log::INFO);
     	return $row;
     }
    

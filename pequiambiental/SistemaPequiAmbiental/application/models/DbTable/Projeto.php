@@ -32,10 +32,25 @@ class Application_Model_DbTable_Projeto extends Zend_Db_Table_Abstract
     	->joinInner(array('p' => 'TB_PROJETO'),('p.ID_PROJETO =s.FK_PROJETO'))
     	->joinInner(array('tps' => 'TB_TIPO_SERVICO'),('tps.ID_TIPO_SERVICO =s.FK_TIPO_SERVICO'))
     	->joinLeft(array('o' => 'TB_OPERADOR'),('o.ID_OPERADOR =s.FK_OPERADOR'),array('PRIMEIRO_NOME' => new Zend_Db_Expr("Substring_index(o.NM_OPERADOR,' ',1)")))
-    	->where('p.ID_PROJETO ='.$ID_PROJETO)
+    	->where('s.FL_PCP=0 and p.ID_PROJETO ='.$ID_PROJETO)
     	->order("s.DT_SERVICO DESC");
     	 
     	 
+    	$result = $this->getAdapter()->fetchAll($select);
+    	return $result;
+    }
+    public function getPcps($ID_PROJETO)
+    {
+    
+    	$select =$this->_db->select()
+    	->from(array('s' => 'TB_SERVICO'),array("*",'DT_SERVICO' => new Zend_Db_Expr("DATE_FORMAT(DT_SERVICO,'%d/%m/%Y')")))
+    	->joinInner(array('p' => 'TB_PROJETO'),('p.ID_PROJETO =s.FK_PROJETO'))
+    	->joinInner(array('tps' => 'TB_TIPO_SERVICO'),('tps.ID_TIPO_SERVICO =s.FK_TIPO_SERVICO'))
+    	->joinLeft(array('o' => 'TB_OPERADOR'),('o.ID_OPERADOR =s.FK_OPERADOR'),array('PRIMEIRO_NOME' => new Zend_Db_Expr("Substring_index(o.NM_OPERADOR,' ',1)")))
+    	->where('s.FL_PCP=1 and p.ID_PROJETO ='.$ID_PROJETO)
+    	->order("s.DT_SERVICO DESC");
+    
+    
     	$result = $this->getAdapter()->fetchAll($select);
     	return $result;
     }

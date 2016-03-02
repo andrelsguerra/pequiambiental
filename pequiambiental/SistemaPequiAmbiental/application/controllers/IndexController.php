@@ -845,6 +845,185 @@ class IndexController extends Zend_Controller_Action {
     	}
     
     }
+    public function listaProjetoPcpAction(){
+    	// action body
+    	$projeto = new Application_Model_DbTable_Projeto();
+    	$id = $this->_getParam('id', 0);
+    	 
+    	if ($id > 0) {
+    
+    
+    		if ($this->getRequest()->isPost()) {
+    			$del = $this->getRequest()->getPost('del');
+    			if ($del == 'Sim') {
+    				//Zend_Registry::get('logger')->log("teste2222", Zend_Log::INFO);
+    				$id = $this->getRequest()->getPost('ID_SERVICO');
+    
+    				try {
+    					$servico->deleteServico($id);
+    					$this->view->mensagem = "Excluído com sucesso";
+    					$this->view->erro = 0;
+    				} catch (Exception $e) {
+    					$this->view->mensagem = $e->getCode() . " Deletar serviço";
+    					$this->view->erro = 1;
+    					$this->view->mensagemExcecao = $e->getMessage();
+    
+    				}
+    			}
+    		}
+    		$this->view->projeto= $projeto->getProjeto($id);
+    		$this->view->listaPcps= $projeto->getPcps($id);
+    		Zend_Registry::get('logger')->log($this->view->listaServicos, Zend_Log::INFO);
+    		Zend_Registry::get('logger')->log($this->view->projeto, Zend_Log::INFO);
+    		 
+    	}else{
+    		$this->view->mensagem ="Não existe projeto";
+    		$this->view->erro = 1;
+    
+    	}
+    
+    }
+    public function deletePcpAction() {
+    
+    
+    	$id = $this->_getParam('id', 0);
+    	$servico= new Application_Model_DbTable_Servico();
+    	$this->view->servico = $servico->getServico($id);
+    }
+    
+    public function listaPcpAction(){
+    	// action body
+    	$servico = new Application_Model_DbTable_Servico();
+    
+    
+    
+    	if ($this->getRequest()->isPost()) {
+    		$del = $this->getRequest()->getPost('del');
+    		if ($del == 'Sim') {
+    			//Zend_Registry::get('logger')->log("teste2222", Zend_Log::INFO);
+    			$id = $this->getRequest()->getPost('ID_SERVICO');
+    				
+    			try {
+    				$servico->deleteServico($id);
+    				$this->view->mensagem = "Excluído com sucesso";
+    				$this->view->erro = 0;
+    			} catch (Exception $e) {
+    				$this->view->mensagem = $e->getCode() . " Deletar serviço";
+    				$this->view->erro = 1;
+    				$this->view->mensagemExcecao = $e->getMessage();
+    
+    			}
+    		}
+    	}
+    
+    	$this->view->listaPcps= $servico->getPcps();
+    	Zend_Registry::get('logger')->log($this->view->listaServicos, Zend_Log::INFO);
+    
+    }
+    public function addPcpAction(){
+    	$form = new Application_Form_Pcp();
+    	$form->submit->setLabel('Adicionar');
+    	//$form->removeElement("tabela_contratacao");
+    	$this->view->form = $form;
+    	if ($this->getRequest()->isPost()) {
+    		$formData = $this->getRequest()->getPost();
+    		Zend_Registry::get('logger')->log($formData, Zend_Log::INFO);
+    		if ($form->isValid($formData)) {
+    			try {
+    				//$ID_SERVICO=$form->getValue('ID_SERVICO');
+    				$DS_SERVICO=$form->getValue('DS_SERVICO');
+    				$FK_OPERADOR=$this->user->getId();
+    				$NR_CARGA_HORARIA=$form->getValue('NR_CARGA_HORARIA');
+    				$FK_TIPO_SERVICO=$form->getValue('FK_TIPO_SERVICO');
+    
+    				$DT_SERVICO= $form->getValue('DT_SERVICO');
+    				$data_cadastro =new Zend_Date($DT_SERVICO);
+    				$DT_SERVICO=$data_cadastro->get('YYYY-MM-dd');
+    
+    				$FK_PROJETO=$form->getValue('FK_PROJETO');
+    				$FL_PCP=1;
+    
+    				$servico = new Application_Model_DbTable_Servico();
+    				$servico->addServico($DS_SERVICO, $FK_OPERADOR, $NR_CARGA_HORARIA, $FK_TIPO_SERVICO, $DT_SERVICO, $FK_PROJETO, $FL_PCP);
+    				//$descricao=$form->getValue('descricao');
+    				//$centroCusto->addCentroCusto($descricao);
+    				$this->view->erro = 0;
+    				$this->view->mensagem = "Adicionado com sucesso";
+    			} catch (Exception $erro) {
+    				Zend_Registry::get('logger')->log("Erroooooooooooooooo", Zend_Log::INFO);
+    				$this->view->mensagem = $erro->getMessage();
+    				$this->view->erro = 1;
+    				//exit;
+    			}
+    		} else {
+    			Zend_Registry::get('logger')->log("formulario inválido", Zend_Log::INFO);
+    			$form->populate($formData);
+    			$arrMessages = $form->getMessages();
+    			foreach ($arrMessages as $field => $arrErrors) {
+    				$this->view->erro = 1;
+    				$this->view->mensagem = $this->view->mensagem . $form->getElement($field)->getLabel() . $this->view->formErrors($arrErrors) . "<br>";
+    			}
+    		}
+    	}
+    	 
+    }
+    public function editPcpAction(){
+    	$form = new Application_Form_Pcp();
+    	$form->submit->setLabel('Adicionar');
+    	// action body
+    	$servico = new Application_Model_DbTable_Servico();
+    	//$form->removeElement("tabela_contratacao");
+    	$this->view->form = $form;
+    	$noticia = new Application_Model_DbTable_Noticia();
+    	if ($this->getRequest()->isPost()) {
+    		$formData = $this->getRequest()->getPost();
+    		if ($form->isValid($formData)) {
+    			$ID_SERVICO=$form->getValue('ID_SERVICO');
+    			$DS_SERVICO=$form->getValue('DS_SERVICO');
+    			$FK_OPERADOR=$this->user->getId();
+    			$NR_CARGA_HORARIA=$form->getValue('NR_CARGA_HORARIA');
+    			$FK_TIPO_SERVICO=$form->getValue('FK_TIPO_SERVICO');
+    
+    			$DT_SERVICO= $form->getValue('DT_SERVICO');
+    			$data_cadastro =new Zend_Date($DT_SERVICO);
+    			$DT_SERVICO=$data_cadastro->get('YYYY-MM-dd');
+    
+    			$FK_PROJETO=$form->getValue('FK_PROJETO');
+    			$FL_PCP=1;
+    
+    			try {
+    				$servico->updateServico($ID_SERVICO, $DS_SERVICO, $FK_OPERADOR, $NR_CARGA_HORARIA, $FK_TIPO_SERVICO, $DT_SERVICO, $FK_PROJETO, $FL_PCP);
+    					
+    				$this->view->mensagem = "Atualizado com sucesso";
+    				$this->view->erro = 0;
+    				//$this->_helper->redirector('lista-usuario');
+    			} // catch (pega exceÃƒÂ§ÃƒÂ£o)
+    			catch (Exception $e) {
+    				$this->view->mensagem = "Atualizar notícia";
+    				$this->view->erro = 1;
+    				$this->view->mensagemExcecao = $e->getMessage();
+    				//  echo ($e->getCode()."teste".$e->getMessage() );
+    			}
+    
+    		} else {
+    			$form->populate($formData);
+    			$arrMessages = $form->getMessages();
+    			foreach ($arrMessages as $field => $arrErrors) {
+    				$this->view->erro = 1;
+    				$this->view->mensagem = $this->view->mensagem . $form->getElement($field)->getLabel() . $this->view->formErrors($arrErrors) . "<br>";
+    			}
+    		}
+    	} else {
+    		$id = $this->_getParam('id', 0);
+    
+    		if ($id > 0) {
+    
+    			$form->populate($servico->getServico($id));
+    		}
+    	}
+    }
+    
+    
     public function deleteServicoAction() {
 	
 	
@@ -932,8 +1111,62 @@ class IndexController extends Zend_Controller_Action {
      public function editServicoAction(){
     	$form = new Application_Form_Servico();
     	$form->submit->setLabel('Adicionar');
-    	//$form->getElement("FK_PROJETO")->setAttrib("disable", array(1));
-    	//$form->getElement("TP_SERVICO")->setAttrib("disable", array(1));
+     // action body
+    	$servico = new Application_Model_DbTable_Servico();
+		//$form->removeElement("tabela_contratacao");
+		$this->view->form = $form;
+		$noticia = new Application_Model_DbTable_Noticia();
+		if ($this->getRequest()->isPost()) {
+			$formData = $this->getRequest()->getPost();
+			if ($form->isValid($formData)) {
+					$ID_SERVICO=$form->getValue('ID_SERVICO');
+    				$DS_SERVICO=$form->getValue('DS_SERVICO');
+    				$FK_OPERADOR=$this->user->getId();
+    				$NR_CARGA_HORARIA=$form->getValue('NR_CARGA_HORARIA');
+    				$FK_TIPO_SERVICO=$form->getValue('FK_TIPO_SERVICO');
+    				
+    				$DT_SERVICO= $form->getValue('DT_SERVICO');
+            		$data_cadastro =new Zend_Date($DT_SERVICO);
+            		$DT_SERVICO=$data_cadastro->get('YYYY-MM-dd');
+    				    				
+    				$FK_PROJETO=$form->getValue('FK_PROJETO');
+    				$FL_PCP=0;
+    				
+    				
+    				
+    				
+		
+				
+				try {
+					$servico->updateServico($ID_SERVICO, $DS_SERVICO, $FK_OPERADOR, $NR_CARGA_HORARIA, $FK_TIPO_SERVICO, $DT_SERVICO, $FK_PROJETO, $FL_PCP);
+					
+					$this->view->mensagem = "Atualizado com sucesso";
+					$this->view->erro = 0;
+					//$this->_helper->redirector('lista-usuario');
+				} // catch (pega exceÃƒÂ§ÃƒÂ£o)
+				catch (Exception $e) {
+					$this->view->mensagem = "Atualizar notícia";
+					$this->view->erro = 1;
+					$this->view->mensagemExcecao = $e->getMessage();
+					//  echo ($e->getCode()."teste".$e->getMessage() );
+				}
+		
+			} else {
+				$form->populate($formData);
+				$arrMessages = $form->getMessages();
+				foreach ($arrMessages as $field => $arrErrors) {
+					$this->view->erro = 1;
+					$this->view->mensagem = $this->view->mensagem . $form->getElement($field)->getLabel() . $this->view->formErrors($arrErrors) . "<br>";
+				}
+			}
+		} else {
+			$id = $this->_getParam('id', 0);
+		
+			if ($id > 0) {
+				
+				$form->populate($servico->getServico($id));
+			}
+		}
      }
      public function addPlanoAcaoAction(){
     	$form = new Application_Form_PlanoAcao();
