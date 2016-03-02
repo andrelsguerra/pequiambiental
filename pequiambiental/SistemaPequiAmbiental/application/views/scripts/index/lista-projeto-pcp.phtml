@@ -38,7 +38,7 @@
 
 <div class="box">
                                 <div class="box-header">
-                                    <h3 class="box-title">Lista Serviço</h3>
+                                    <h3 class="box-title">Lista PCP</h3>
                                 </div><!-- /.box-header -->
                                 <div class="box-body">                                
                                     <table id="example1" class="table table-bordered table-hover">
@@ -57,18 +57,18 @@
                                         <tbody>
                                         <?php 
                                         $totalCargaHoraria=0;
-                                        if(count($this->listaServicos)>0){
-											foreach($this->listaServicos as $servico) : ?>
+                                        if(count($this->listaPcps)>0){
+											foreach($this->listaPcps as $pcp) : ?>
                                             <tr>
-                                            <td><?php echo $servico["ID_SERVICO"]?></td>
-                                              <td><?php echo $servico["PRIMEIRO_NOME"]?></td>
-                                            <td><?php echo $servico["DS_SERVICO"]?></td>
-											<td><?php echo $servico["DT_SERVICO"]?></td>
-											<td><?php echo $servico["NR_CARGA_HORARIA"]; $totalCargaHoraria=$totalCargaHoraria+$servico["NR_CARGA_HORARIA"];?></td>
-											<td><?php echo $servico["NM_TIPO_SERVICO"]?></td>
+                                            <td><?php echo $pcp["ID_SERVICO"]?></td>
+                                              <td><?php echo $pcp["PRIMEIRO_NOME"]?></td>
+                                            <td><?php echo $pcp["DS_SERVICO"]?></td>
+											<td><?php echo $pcp["DT_SERVICO"]?></td>
+											<td><?php echo $pcp["NR_CARGA_HORARIA"]; $totalCargaHoraria=$totalCargaHoraria+$pcp["NR_CARGA_HORARIA"];?></td>
+											<td><?php echo $pcp["NM_TIPO_SERVICO"]?></td>
                                              <td>
-                                                <a alt="Editar" title="Editar" href="<?php echo $this->url(array('controller'=>'index','action'=>'edit-servico', 'id'=>$servico["ID_SERVICO"]),null, true);?>" class="btn-sm btn-warning"><i class="glyphicon glyphicon-edit"></i></a> 
-                                                 <a alt="Excluir" title="Excluir" href="<?php echo $this->url(array('controller'=>'index','action'=>'delete-servico', 'id'=>$servico["ID_SERVICO"]),null, true);?>" class="btn-sm  btn-danger"><i class="glyphicon glyphicon-trash"></i></a>
+                                                <a alt="Editar" title="Editar" href="<?php echo $this->url(array('controller'=>'index','action'=>'edit-pcp', 'id'=>$pcp["ID_SERVICO"]),null, true);?>" class="btn-sm btn-warning"><i class="glyphicon glyphicon-edit"></i></a> 
+                                                 <a alt="Excluir" title="Excluir" href="<?php echo $this->url(array('controller'=>'index','action'=>'delete-pcp', 'id'=>$pcp["ID_SERVICO"]),null, true);?>" class="btn-sm  btn-danger"><i class="glyphicon glyphicon-trash"></i></a>
                                                 
                                                 </td>
                                             </tr>
