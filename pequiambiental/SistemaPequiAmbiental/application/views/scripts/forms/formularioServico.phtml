@@ -52,6 +52,14 @@
                   </div>
                    </form>
           </div><!-- /.box -->
+         <script src="<?php echo $this->baseUrl().'/plugins/jquery.inputmask-3.x/js/inputmask.js'?>"></script> 
+         <script src="<?php echo $this->baseUrl().'/plugins/jquery.inputmask-3.x/js/inputmask.extensions.js'?>"></script> 
+         <script src="<?php echo $this->baseUrl().'/plugins/jquery.inputmask-3.x/js/inputmask.regex.extensions.js'?>"></script> 
+         
+        
+        <script src="<?php echo $this->baseUrl().'/plugins/jquery.inputmask-3.x/js/jquery.inputmask.js'?>"></script>
+          
+          
           <script>
       $(function () {
         //Initialize Select2 Elements
@@ -61,6 +69,9 @@
         	format: 'dd/mm/yyyy'
           
         });
-        
+        //$("#NR_CARGA_HORARIA").inputmask('Regex', {regex: "^[0-9]{1,6}(\\.\\d{1,2})?$"});
+        $('#NR_CARGA_HORARIA').inputmask({'mask':"9{1,5}.9{0,2}", greedy: false});
+//$('#NR_CARGA_HORARIA').inputmask({'mask':["9{0,5}.9{0,2}", "999"]});
+      //  $("#NR_CARGA_HORARIA").inputmask( 'decimal', { radixPoint: '.', autoGroup: true, groupSeparator: ',', groupSize: 3 } ); 
       });
     </script>

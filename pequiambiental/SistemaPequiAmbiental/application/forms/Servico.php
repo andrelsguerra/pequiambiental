@@ -83,6 +83,7 @@ class Application_Form_Servico extends Zend_Form
         ->removeDecorator('DtDdWrapper')
         ->removeDecorator('HtmlTag')
         ->removeDecorator('Label')
+         ->addValidator('float', true, array('locale' => 'en_US'))
         ->setAttrib('class', 'form-control')
         ->setAttrib('placeholder', 'Enter carga horária ');
         

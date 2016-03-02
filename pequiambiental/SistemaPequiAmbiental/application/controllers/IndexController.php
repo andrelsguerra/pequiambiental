@@ -726,6 +726,29 @@ class IndexController extends Zend_Controller_Action {
     		}
     	}
     }
+    public function viewProjetoAction() {
+    	// action body
+    	$form = new Application_Form_Projeto();
+    	$form->submit->setLabel('Adicionar Projeto');
+    	
+    	foreach ($form->getElements() as $element) {
+    		$element->setAttrib('disabled', true);
+    		$element->setAttrib('readonly',true);
+    	}
+    	$this->view->form = $form;
+    	$form->setAttrib("disable", array(1));
+    	$projeto=new Application_Model_DbTable_Projeto();
+    	if ($this->getRequest()->isPost()) {
+    		} else {
+    		$id = $this->_getParam('id', 0);
+    
+    		if ($id > 0) {
+    			 
+    			 
+    			$form->populate($projeto->getProjeto($id));
+    		}
+    	}
+    }
     public function deleteProjetoAction() {
     
     
@@ -784,6 +807,81 @@ class IndexController extends Zend_Controller_Action {
     	}
     	
     }
+    public function listaProjetoServicoAction(){
+    	// action body
+    	$projeto = new Application_Model_DbTable_Projeto();
+    	$id = $this->_getParam('id', 0);
+    	
+    	if ($id > 0) {
+    		
+    
+    	if ($this->getRequest()->isPost()) {
+    		$del = $this->getRequest()->getPost('del');
+    		if ($del == 'Sim') {
+    			//Zend_Registry::get('logger')->log("teste2222", Zend_Log::INFO);
+    			$id = $this->getRequest()->getPost('ID_SERVICO');
+    				
+    			try {
+    				$servico->deleteServico($id);
+    				$this->view->mensagem = "Excluído com sucesso";
+    				$this->view->erro = 0;
+    			} catch (Exception $e) {
+    				$this->view->mensagem = $e->getCode() . " Deletar serviço";
+    				$this->view->erro = 1;
+    				$this->view->mensagemExcecao = $e->getMessage();
+    
+    			}
+    		}
+    	}
+    	$this->view->projeto= $projeto->getProjeto($id);
+    	$this->view->listaServicos= $projeto->getServicos($id);
+    	Zend_Registry::get('logger')->log($this->view->listaServicos, Zend_Log::INFO);
+    	Zend_Registry::get('logger')->log($this->view->projeto, Zend_Log::INFO);
+    	
+    	}else{
+    		$this->view->mensagem ="Não existe projeto";
+    		$this->view->erro = 1;
+    		
+    	}
+    
+    }
+    public function deleteServicoAction() {
+	
+	
+		$id = $this->_getParam('id', 0);
+		$servico= new Application_Model_DbTable_Servico();
+		$this->view->servico = $servico->getServico($id);
+	}
+	
+    public function listaServicoAction(){
+		// action body
+		$servico = new Application_Model_DbTable_Servico();
+		
+		
+		
+		if ($this->getRequest()->isPost()) {
+			$del = $this->getRequest()->getPost('del');
+			if ($del == 'Sim') {
+				//Zend_Registry::get('logger')->log("teste2222", Zend_Log::INFO);
+				$id = $this->getRequest()->getPost('ID_SERVICO');
+				 
+				try {
+					$servico->deleteServico($id);
+					$this->view->mensagem = "Excluído com sucesso";
+					$this->view->erro = 0;
+				} catch (Exception $e) {
+					$this->view->mensagem = $e->getCode() . " Deletar serviço";
+					$this->view->erro = 1;
+					$this->view->mensagemExcecao = $e->getMessage();
+		
+				}
+			}
+		}
+	
+		$this->view->listaServicos= $servico->getServicos();
+		Zend_Registry::get('logger')->log($this->view->listaServicos, Zend_Log::INFO);
+
+	}
      public function addServicoAction(){
     	$form = new Application_Form_Servico();
     	$form->submit->setLabel('Adicionar');
@@ -794,7 +892,21 @@ class IndexController extends Zend_Controller_Action {
     		Zend_Registry::get('logger')->log($formData, Zend_Log::INFO);
     		if ($form->isValid($formData)) {	
     			try {
-    				//$centroCusto = new Application_Model_DbTable_CentroCusto();
+    				//$ID_SERVICO=$form->getValue('ID_SERVICO');
+    				$DS_SERVICO=$form->getValue('DS_SERVICO');
+    				$FK_OPERADOR=$this->user->getId();
+    				$NR_CARGA_HORARIA=$form->getValue('NR_CARGA_HORARIA');
+    				$FK_TIPO_SERVICO=$form->getValue('FK_TIPO_SERVICO');
+    				
+    				$DT_SERVICO= $form->getValue('DT_SERVICO');
+            		$data_cadastro =new Zend_Date($DT_SERVICO);
+            		$DT_SERVICO=$data_cadastro->get('YYYY-MM-dd');
+    				    				
+    				$FK_PROJETO=$form->getValue('FK_PROJETO');
+    				$FL_PCP=0;
+    				
+    				$servico = new Application_Model_DbTable_Servico();
+    				$servico->addServico($DS_SERVICO, $FK_OPERADOR, $NR_CARGA_HORARIA, $FK_TIPO_SERVICO, $DT_SERVICO, $FK_PROJETO, $FL_PCP);
     				//$descricao=$form->getValue('descricao');
     				//$centroCusto->addCentroCusto($descricao);
     				$this->view->erro = 0;
@@ -1165,6 +1277,11 @@ class IndexController extends Zend_Controller_Action {
 	public function addClienteAction(){
 		$form = new Application_Form_Cliente();
 		$form->submit->setLabel('Adicionar');
+		$data_cadastro =new Zend_Date();
+		$dataAux=$data_cadastro->get('dd-MM-YYYY HH:mm:ss');
+		$form->getElement("DT_ATUALIZACAO")->setValue($dataAux);
+		$form->getElement("DT_ATUALIZACAO")->setAttrib("disable", array(1));
+		
 		//$form->removeElement("tabela_contratacao");
 		$this->view->form = $form;
 		if ($this->getRequest()->isPost()) {
@@ -1187,7 +1304,10 @@ class IndexController extends Zend_Controller_Action {
 					$NR_CEP=$form->getValue('NR_CEP');
 					$NM_CIDADE=$form->getValue('NM_CIDADE');
 					$NM_UF=$form->getValue('NM_UF');
-					$DT_ATUALIZACAO=$form->getValue('DT_ATUALIZACAO');
+					
+					$data_cadastro =new Zend_Date();
+					$DT_ATUALIZACAO=$data_cadastro->get('YYYY-MM-dd HH:mm:ss');
+					
 					$FK_RAMO_ATIVIDADE=$form->getValue('FK_RAMO_ATIVIDADE');
 							
 					$cliente = new Application_Model_DbTable_Cliente();

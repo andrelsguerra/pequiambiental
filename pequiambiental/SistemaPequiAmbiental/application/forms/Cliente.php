@@ -16,9 +16,18 @@ class Application_Form_Cliente extends Zend_Form
         
         
         
-        $DT_ATUALIZACAO = new Zend_Form_Element_Hidden('DT_ATUALIZACAO');
-      
-        $DT_ATUALIZACAO->removeDecorator('Label');
+        $DT_ATUALIZACAO = new Zend_Form_Element_Text('DT_ATUALIZACAO');
+        $DT_ATUALIZACAO->setLabel('DATA ÃšLTIMA ATUALIZAÃ‡ÃƒO')
+    
+        ->addFilter('StripTags')
+        ->addFilter('StringTrim')
+        ->addValidator('NotEmpty')
+        ->removeDecorator('DtDdWrapper')
+        ->removeDecorator('HtmlTag')
+        ->removeDecorator('Label')
+        ->setAttrib('class', 'form-control')
+        ->setAttrib('placeholder', '');
+       
         
         
         $NM_CLIENTE= new Zend_Form_Element_Text('NM_CLIENTE');
@@ -45,7 +54,7 @@ class Application_Form_Cliente extends Zend_Form
          	 ->setAttrib('placeholder', 'Enter cnpj');
         
        	$TX_OBSERVACAO = new Zend_Form_Element_Textarea('TX_OBSERVACAO');
-        $TX_OBSERVACAO->setLabel('OBSERVAÇÃO')
+        $TX_OBSERVACAO->setLabel('OBSERVAï¿½ï¿½O')
             		
 					  ->removeDecorator('DtDdWrapper')
         			  ->removeDecorator('HtmlTag')

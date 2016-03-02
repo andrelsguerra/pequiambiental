@@ -142,11 +142,22 @@ class Application_Form_Projeto extends Zend_Form
         $submit->setLabel("Adiconar");
         $submit->setAttrib('id', 'submitbutton');
         $submit->removeDecorator('DtDdWrapper')
-         ->setAttrib('class', 'btn btn-primary button')
+         ->setAttrib('class', 'btn btn-info pull-right')
         ->removeDecorator('HtmlTag')
-        ->removeDecorator('Label');        
+        ->removeDecorator('Label');    
+        
+        $ADICIONAR= new Zend_Form_Element_Button('ADICIONAR');
+        $ADICIONAR->setLabel("Adiconar");
+        
+        $ADICIONAR->setAttrib('id', 'submitbutton');
+        $ADICIONAR->setAttrib('data-toggle', 'modal');
+        $ADICIONAR->setAttrib('data-target', '#myModal');
+        $ADICIONAR->removeDecorator('DtDdWrapper')
+        ->setAttrib('class', 'btn btn-info btn-flat')
+        ->removeDecorator('HtmlTag')
+        ->removeDecorator('Label');
             
-     $this->addElements(array($ID_PROJETO,$NM_PROJETO,$DT_CADASTRO,$FK_AGENCIA_AMBIENTAL,$NR_CONTRATO,$FK_CLIENTE,$TX_OBSERVACAO,$FK_STATUS_PROJETO,$FK_INDICACAO,$Fk_GESTOR,$FK_TIPO_PROJETO,$submit));     
+     $this->addElements(array($ID_PROJETO,$NM_PROJETO,$DT_CADASTRO,$FK_AGENCIA_AMBIENTAL,$NR_CONTRATO,$FK_CLIENTE,$TX_OBSERVACAO,$FK_STATUS_PROJETO,$FK_INDICACAO,$Fk_GESTOR,$FK_TIPO_PROJETO,$submit,$ADICIONAR));     
      $this->setDecorators( array( array('ViewScript', array('viewScript' => '/forms/formularioProjeto.phtml'))));   
 	
     }

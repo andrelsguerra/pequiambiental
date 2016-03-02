@@ -24,7 +24,21 @@ class Application_Model_DbTable_Projeto extends Zend_Db_Table_Abstract
   	   $result = $this->getAdapter()->fetchAll($select);
        return $result;
     }
-    
+    public function getServicos($ID_PROJETO)
+    {
+    	 
+    	$select =$this->_db->select()
+    	->from(array('s' => 'TB_SERVICO'),array("*",'DT_SERVICO' => new Zend_Db_Expr("DATE_FORMAT(DT_SERVICO,'%d/%m/%Y')")))
+    	->joinInner(array('p' => 'TB_PROJETO'),('p.ID_PROJETO =s.FK_PROJETO'))
+    	->joinInner(array('tps' => 'TB_TIPO_SERVICO'),('tps.ID_TIPO_SERVICO =s.FK_TIPO_SERVICO'))
+    	->joinLeft(array('o' => 'TB_OPERADOR'),('o.ID_OPERADOR =s.FK_OPERADOR'),array('PRIMEIRO_NOME' => new Zend_Db_Expr("Substring_index(o.NM_OPERADOR,' ',1)")))
+    	->where('p.ID_PROJETO ='.$ID_PROJETO)
+    	->order("s.DT_SERVICO DESC");
+    	 
+    	 
+    	$result = $this->getAdapter()->fetchAll($select);
+    	return $result;
+    }
     public function getUltimasProjeto()
     {
     
@@ -46,14 +60,37 @@ class Application_Model_DbTable_Projeto extends Zend_Db_Table_Abstract
        $listaProjeto = new Application_Model_DbTable_Projeto();
        return $listaProjeto->getAdapter()->fetchPairs( $listaProjeto->select()->from( 'TB_PROJETO', array('ID_PROJETO', 'NM_PROJETO') )->order('NM_PROJETO'));
     }
-	public function getProjeto($id)
+	/*public function getProjeto($id)
     {
         $id = (int) $id;
         $row = $this->fetchRow('ID_PROJETO = ' . $id);
         if (! $row) {
-            throw new Exception("N�o foi possivel encontrar a linha $id");
+            throw new Exception("Não foi possivel encontrar a linha $id");
         }
         return $row->toArray();
+    }*/
+    public function getProjeto($id)
+    {
+    	$id = (int) $id;
+    	// $row = $this->fetchRow("nome",null,'id = ' . $id);
+    	$select =$this->_db->select()
+    	->from(array('n' => 'TB_PROJETO'),array("*",'DT_CADASTRO' => new Zend_Db_Expr("DATE_FORMAT(DT_CADASTRO,'%d/%m/%Y %H:%i')")))
+    	->joinLeft(array('o' => 'TB_OPERADOR'),('n.FK_GESTOR =o.ID_OPERADOR'),array('PRIMEIRO_NOME' => new Zend_Db_Expr("Substring_index(o.NM_OPERADOR,' ',1)")))
+    	->joinLeft(array('t' => 'TB_TIPO_PROJETO'),('t.ID_TIPO_PROJETO =n.FK_TIPO_PROJETO'),array('*'))
+    	->joinLeft(array('ag' => 'TB_AGENCIA_AMBIENTAL'),('ag.ID_AGENCIA_AMBIENTAL =n.FK_AGENCIA_AMBIENTAL'))
+    	->joinLeft(array('st' => 'TB_STATUS_PROJETO'),('st.ID_STATUS_PROJETO =n.FK_STATUS_PROJETO'))
+    	->joinLeft(array('c' => 'TB_CLIENTE'),('c.ID_CLIENTE =n.FK_CLIENTE'))
+    	->joinLeft(array('tp' => 'TB_TIPO_PROJETO'),('tp.ID_TIPO_PROJETO =n.FK_TIPO_PROJETO'))
+    	->where('ID_PROJETO='.$id);
+    	$row = $this->getAdapter()->fetchRow($select);
+    	if (! $row) {
+    		throw new Exception("Não foi possivel encontrar a linha $id");
+    	}
+    
+    
+    	// $row["fk_usuario"]=$usuarioHasReuniao->getParticipanteReuniaoCombo ($id);
+    
+    	return $row;
     }
    
     /*public function getProjetos()
