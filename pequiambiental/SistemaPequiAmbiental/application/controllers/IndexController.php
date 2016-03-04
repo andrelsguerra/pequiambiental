@@ -729,6 +729,7 @@ class IndexController extends Zend_Controller_Action {
     public function viewProjetoAction() {
     	// action body
     	$form = new Application_Form_Projeto();
+    	
     	$form->submit->setLabel('Adicionar Projeto');
     	
     	foreach ($form->getElements() as $element) {
@@ -845,6 +846,44 @@ class IndexController extends Zend_Controller_Action {
     	}
     
     }
+    public function listaProjetoClienteAction(){
+    	// action body
+    	$projeto = new Application_Model_DbTable_Projeto();
+    	$id = $this->_getParam('id', 0);
+    	 
+    	if ($id > 0) {
+    
+    
+    		if ($this->getRequest()->isPost()) {
+    			$del = $this->getRequest()->getPost('del');
+    			if ($del == 'Sim') {
+    				//Zend_Registry::get('logger')->log("teste2222", Zend_Log::INFO);
+    				$id = $this->getRequest()->getPost('ID_SERVICO');
+    
+    				try {
+    					$servico->deleteServico($id);
+    					$this->view->mensagem = "Excluído com sucesso";
+    					$this->view->erro = 0;
+    				} catch (Exception $e) {
+    					$this->view->mensagem = $e->getCode() . " Deletar serviço";
+    					$this->view->erro = 1;
+    					$this->view->mensagemExcecao = $e->getMessage();
+    
+    				}
+    			}
+    		}
+    		$this->view->projeto= $projeto->getProjeto($id);
+    		$this->view->listaServicos= $projeto->getServicos($id);
+    		Zend_Registry::get('logger')->log($this->view->listaServicos, Zend_Log::INFO);
+    		Zend_Registry::get('logger')->log($this->view->projeto, Zend_Log::INFO);
+    		 
+    	}else{
+    		$this->view->mensagem ="Não existe projeto";
+    		$this->view->erro = 1;
+    
+    	}
+    
+    }
     public function listaProjetoPcpAction(){
     	// action body
     	$projeto = new Application_Model_DbTable_Projeto();
@@ -887,8 +926,8 @@ class IndexController extends Zend_Controller_Action {
     
     
     	$id = $this->_getParam('id', 0);
-    	$servico= new Application_Model_DbTable_Servico();
-    	$this->view->servico = $servico->getServico($id);
+    	$pcp= new Application_Model_DbTable_Servico();
+    	$this->view->pcp = $pcp->getServico($id);
     }
     
     public function listaPcpAction(){
@@ -1253,6 +1292,37 @@ class IndexController extends Zend_Controller_Action {
        
             $this->view->contatos = $contatos->getContatos();
          Zend_Registry::get('logger')->log($this->view->contatos, Zend_Log::INFO);
+    }
+    public function listaProjetoContatoAction() {
+    	// action body
+    	$contatos= new Application_Model_DbTable_Contato();
+    	Zend_Registry::get('logger')->log($_POST, Zend_Log::INFO);
+    
+    
+    	if ($this->getRequest()->isPost()) {
+    		$del = $this->getRequest()->getPost('del');
+    		if ($del == 'Sim') {
+    			Zend_Registry::get('logger')->log("teste2222", Zend_Log::INFO);
+    			$id = $this->getRequest()->getPost('ID_CONTATO');
+    			$contato = new Application_Model_DbTable_Contato();
+    			try {
+    				$contato->deleteContato($id);
+    
+    				$this->view->mensagem = "Excluído com sucesso";
+    				$this->view->erro = 0;
+    			} catch (Exception $e) {
+    				$this->view->mensagem = $e->getCode() . " Deletar contato";
+    				$this->view->erro = 1;
+    				$this->view->mensagemExcecao = $e->getMessage();
+    
+    			}
+    		}
+    	}
+    	$id = $this->_getParam('id', 0);
+    	
+    	if ($id > 0) {
+    		$this->view->contatos = $contatos->getContatosProjeto($id);
+    	}
     }
 	 public function editContatoAction() {
         // action body

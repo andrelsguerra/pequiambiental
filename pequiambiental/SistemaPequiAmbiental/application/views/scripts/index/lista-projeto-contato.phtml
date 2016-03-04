@@ -1,5 +1,5 @@
 <?php
-	$this->title = "Listar Pcp";
+	$this->title = "Listar Contato";
 	$this->headTitle($this->title);
 	//echo $this->form ;
 	
@@ -7,33 +7,34 @@
 
 <div class="box">
                                 <div class="box-header">
-                                    <h3 class="box-title">Lista Pcp</h3>
+                                    <h3 class="box-title">Lista Contato</h3>
                                 </div><!-- /.box-header -->
                                 <div class="box-body">                                
                                     <table id="example1" class="table table-bordered table-hover">
                                         <thead>
                                             <tr>
-                                                <th class="arredondarEsq">ID</th>
-												<th >SERVIÇO</th>
-												<th >PROJETO</th>
-												<th >DATA</th>
-												<th >CARGA HORÁRIA</th>
+                                                <th class="arredondarEsq">NOME</th>
+												<th >CARGO</th>
+												<th>TELEFONE 1</th>
+												<th >E-MAIL</th>
+												<th >CLIENTE</th>
+												
 												<th>AÇÃO</th>
                                                 
                                             </tr>
                                         </thead>
                                         <tbody>
-                                        <?php if(count($this->listaPcps)>0){
-											foreach($this->listaPcps as $pcp) : ?>
+                                        <?php if(count($this->contatos)>0){
+											foreach($this->contatos as $contatos) : ?>
                                             <tr>
-                                            <td><?php echo $pcp["ID_SERVICO"]?></td>
-                                            <td><?php echo $pcp["DS_SERVICO"]?></td>
-											<td><a alt="Editar" title="Editar" href="<?php echo $this->url(array('controller'=>'index','action'=>'view-projeto', 'id'=>$pcp["FK_PROJETO"]),null, true);?>" class=""><?php echo $pcp["NM_PROJETO"]?></a></td>
-											<td><?php echo $pcp["DT_SERVICO"]?></td>
-											<td><?php echo $pcp["NR_CARGA_HORARIA"]?></td>
+                                            <td><?php echo $contatos["NM_CONTATO"]?></td>
+											<td><?php echo $contatos["NM_CARGO"]?></td>
+											<td><?php echo $contatos["NR_TELEFONE"]?></td>
+											<td><?php echo $contatos["DS_EMAIL"]?></td>
+                                             <td><?php echo $contatos["NM_CLIENTE"]?></td>
                                              <td>
-                                                <a alt="Editar" title="Editar" href="<?php echo $this->url(array('controller'=>'index','action'=>'edit-pcp', 'id'=>$pcp["ID_SERVICO"]),null, true);?>" class="btn-sm btn-warning"><i class="glyphicon glyphicon-edit"></i></a> 
-                                                 <a alt="Excluir" title="Excluir" href="<?php echo $this->url(array('controller'=>'index','action'=>'delete-pcp', 'id'=>$pcp["ID_SERVICO"]),null, true);?>" class="btn-sm  btn-danger"><i class="glyphicon glyphicon-trash"></i></a>
+                                                <a alt="Editar" title="Editar" href="<?php echo $this->url(array('controller'=>'index','action'=>'edit-contato', 'id'=>$contatos["ID_CONTATO"]),null, true);?>" class="btn-sm btn-warning"><i class="glyphicon glyphicon-edit"></i></a> 
+                                                 <a alt="Excluir" title="Excluir" href="<?php echo $this->url(array('controller'=>'index','action'=>'delete-contato', 'id'=>$contatos["ID_CONTATO"]),null, true);?>" class="btn-sm  btn-danger"><i class="glyphicon glyphicon-trash"></i></a>
                                                 
                                                 </td>
                                             </tr>
@@ -42,19 +43,19 @@
                                         </tbody>
                                         <tfoot>
                                             <tr>
-                                                <th class="arredondarEsq">ID</th>
-												<th >SERVIÇO</th>
-												<th >PROJETO</th>
-												<th >DATA</th>
-												<th >CARGA HORÁRIA</th>
-												<th>AÇÃO</th>                                      
+                                                <th class="arredondarEsq">NOME</th>
+												<th >CARGO</th>
+												<th>TELEFONE 1</th>
+												<th >E-MAIL</th>
+												<th >CLIENTE</th>
+												<th>AÇÃO</th>                                               
                                             </tr>
                                         </tfoot>
                                     </table>
                                 </div><!-- /.box-body -->
                             </div><!-- /.box -->
                             <div class="form-group">
-                                 <a alt="Adicionar" title="Adicionar" style="font-family: inherit;" href="<?php echo $this->url(array('controller'=>'index','action'=>'add-pcp'),null, true);?>" class="btn-sm  "><i class="btn btn-primary">Adicionar PCP</i></a>   		
+                                 <a alt="Adicionar" title="Adicionar" style="font-family: inherit;" href="<?php echo $this->url(array('controller'=>'index','action'=>'add-contato'),null, true);?>" class="btn-sm  "><i class="btn btn-primary">Adicionar Contato</i></a>   		
                                      		
 
                                     		</div>
@@ -65,7 +66,7 @@
 <script type="text/javascript">
             $(function() {
                 $("#example1").dataTable();
-				//$("#example2").dataTable();
+				$("#example2").dataTable();
                 /*$('#example2').dataTable({
                     "bPaginate": true,
                     "bLengthChange": false,

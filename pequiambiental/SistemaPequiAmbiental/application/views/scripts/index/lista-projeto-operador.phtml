@@ -1,5 +1,5 @@
 <?php
-	$this->title = "Listar Pcp";
+	$this->title = "Listar Ramo Atividade";
 	$this->headTitle($this->title);
 	//echo $this->form ;
 	
@@ -7,33 +7,29 @@
 
 <div class="box">
                                 <div class="box-header">
-                                    <h3 class="box-title">Lista Pcp</h3>
+                                    <h3 class="box-title">Lista Ramo Atividade</h3>
                                 </div><!-- /.box-header -->
                                 <div class="box-body">                                
                                     <table id="example1" class="table table-bordered table-hover">
                                         <thead>
                                             <tr>
                                                 <th class="arredondarEsq">ID</th>
-												<th >SERVIÇO</th>
-												<th >PROJETO</th>
-												<th >DATA</th>
-												<th >CARGA HORÁRIA</th>
+												<th >RAMO DE ATIVIDADE</th>
 												<th>AÇÃO</th>
                                                 
                                             </tr>
                                         </thead>
                                         <tbody>
-                                        <?php if(count($this->listaPcps)>0){
-											foreach($this->listaPcps as $pcp) : ?>
+                                        <?php if(count($this->ramoAtividade)>0){
+											foreach($this->ramoAtividade as $tipoServico) : ?>
                                             <tr>
-                                            <td><?php echo $pcp["ID_SERVICO"]?></td>
-                                            <td><?php echo $pcp["DS_SERVICO"]?></td>
-											<td><a alt="Editar" title="Editar" href="<?php echo $this->url(array('controller'=>'index','action'=>'view-projeto', 'id'=>$pcp["FK_PROJETO"]),null, true);?>" class=""><?php echo $pcp["NM_PROJETO"]?></a></td>
-											<td><?php echo $pcp["DT_SERVICO"]?></td>
-											<td><?php echo $pcp["NR_CARGA_HORARIA"]?></td>
+                                            <td><?php echo $tipoServico["ID_RAMO_ATIVIDADE"]?></td>
+                                            <td><?php echo $tipoServico["DS_RAMO_ATIVIDADE"]?></td>
+											
+											
                                              <td>
-                                                <a alt="Editar" title="Editar" href="<?php echo $this->url(array('controller'=>'index','action'=>'edit-pcp', 'id'=>$pcp["ID_SERVICO"]),null, true);?>" class="btn-sm btn-warning"><i class="glyphicon glyphicon-edit"></i></a> 
-                                                 <a alt="Excluir" title="Excluir" href="<?php echo $this->url(array('controller'=>'index','action'=>'delete-pcp', 'id'=>$pcp["ID_SERVICO"]),null, true);?>" class="btn-sm  btn-danger"><i class="glyphicon glyphicon-trash"></i></a>
+                                                <a alt="Editar" title="Editar" href="<?php echo $this->url(array('controller'=>'index','action'=>'edit-ramo-atividade', 'id'=>$tipoServico["ID_RAMO_ATIVIDADE"]),null, true);?>" class="btn-sm btn-warning"><i class="glyphicon glyphicon-edit"></i></a> 
+                                                 <a alt="Excluir" title="Excluir" href="<?php echo $this->url(array('controller'=>'index','action'=>'delete-ramo-atividade', 'id'=>$tipoServico["ID_RAMO_ATIVIDADE"]),null, true);?>" class="btn-sm  btn-danger"><i class="glyphicon glyphicon-trash"></i></a>
                                                 
                                                 </td>
                                             </tr>
@@ -42,19 +38,16 @@
                                         </tbody>
                                         <tfoot>
                                             <tr>
-                                                <th class="arredondarEsq">ID</th>
-												<th >SERVIÇO</th>
-												<th >PROJETO</th>
-												<th >DATA</th>
-												<th >CARGA HORÁRIA</th>
-												<th>AÇÃO</th>                                      
+                                                 <th class="arredondarEsq">ID</th>
+												<th >RAMO DE ATIVIDADE</th>
+												<th>AÇÃO</th>                                              
                                             </tr>
                                         </tfoot>
                                     </table>
                                 </div><!-- /.box-body -->
                             </div><!-- /.box -->
                             <div class="form-group">
-                                 <a alt="Adicionar" title="Adicionar" style="font-family: inherit;" href="<?php echo $this->url(array('controller'=>'index','action'=>'add-pcp'),null, true);?>" class="btn-sm  "><i class="btn btn-primary">Adicionar PCP</i></a>   		
+                                 <a alt="Adicionar" title="Adicionar" style="font-family: inherit;" href="<?php echo $this->url(array('controller'=>'index','action'=>'add-ramo-atividade'),null, true);?>" class="btn-sm  "><i class="btn btn-primary">Adicionar Ramo Atividade</i></a>   		
                                      		
 
                                     		</div>
@@ -65,7 +58,7 @@
 <script type="text/javascript">
             $(function() {
                 $("#example1").dataTable();
-				//$("#example2").dataTable();
+				$("#example2").dataTable();
                 /*$('#example2').dataTable({
                     "bPaginate": true,
                     "bLengthChange": false,

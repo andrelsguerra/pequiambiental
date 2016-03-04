@@ -18,11 +18,18 @@ class Application_Model_DbTable_Projeto extends Zend_Db_Table_Abstract
     {
     	
     	 $select =$this->_db->select()
-             ->from(array('p' => 'TB_PROJETO'))->limit(200)
-             ->order("p.DT_CADASTRO DESC");
-             //->where('u.id_usuario <>1');
-  	   $result = $this->getAdapter()->fetchAll($select);
-       return $result;
+    	->from(array('p' => 'TB_PROJETO'),array("*",'DT_CADASTRO' => new Zend_Db_Expr("DATE_FORMAT(DT_CADASTRO,'%d/%m/%Y %H:%i')")))
+    	->joinLeft(array('c' => 'TB_CLIENTE'),('p.FK_CLIENTE =c.ID_CLIENTE'),array('NM_CLIENTE' => new Zend_Db_Expr("Substring_index(c.NM_CLIENTE,' ',1)")))
+    	->joinLeft(array('t' => 'TB_TIPO_PROJETO'),('t.ID_TIPO_PROJETO =p.FK_TIPO_PROJETO'),array('NM_TIPO_PROJETO'))
+    	->joinLeft(array('s' => 'TB_STATUS_PROJETO'),('s.ID_STATUS_PROJETO =p.FK_STATUS_PROJETO'),array('NM_STATUS_PROJETO'))
+    
+    	->order("p.DT_CADASTRO DESC")
+    	->limit(30);
+    	
+    	
+    	
+    	$result = $this->getAdapter()->fetchAll($select);
+    	return $result;
     }
     public function getServicos($ID_PROJETO)
     {

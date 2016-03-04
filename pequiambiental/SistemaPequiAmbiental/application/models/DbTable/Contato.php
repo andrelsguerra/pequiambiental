@@ -24,6 +24,19 @@ class Application_Model_DbTable_Contato extends Zend_Db_Table_Abstract
   	   $result = $this->getAdapter()->fetchAll($select);
        return $result;
     }
+    public function getContatosProjeto($ID_PROJETO)
+    {
+    	 
+    	$select =$this->_db->select()
+    	->from(array('c' => 'TB_CONTATO'))
+    	->joinLeft(array('cl' => 'TB_CLIENTE'),('cl.ID_CLIENTE =c.FK_CLIENTE'),array('cl.NM_CLIENTE'))
+    	->joinLeft(array('p' => 'TB_PROJETO'),('cl.ID_CLIENTE =p.FK_CLIENTE'),array('p.NM_PROJETO'))
+    	->where('p.ID_PROJETO='.$ID_PROJETO);
+    	$result = $this->getAdapter()->fetchAll($select);
+    	$sql = $select->__toString();
+    	Zend_Registry::get('logger')->log($sql, Zend_Log::INFO);
+    	return $result;
+    }
 	public function getContatoCombo ()
     {
        $listaContato = new Application_Model_DbTable_Contato();
@@ -34,7 +47,7 @@ class Application_Model_DbTable_Contato extends Zend_Db_Table_Abstract
         $id = (int) $id;
         $row = $this->fetchRow('ID_CONTATO = ' . $id);
         if (! $row) {
-            throw new Exception("Não foi possivel encontrar a linha $id");
+            throw new Exception("Nï¿½o foi possivel encontrar a linha $id");
         }
         return $row->toArray();
     }
