@@ -33,7 +33,7 @@
                                         <?php if(count($this->listaProjetos)>0){
 											foreach($this->listaProjetos as $projeto) : ?>
                                             <tr>
-                                            <td><a class="btn btn-app"><i class="fa fa-users"></i></a></td>
+                                            <td><a class="btn btn-app" href="<?php echo $this->url(array('controller'=>'index','action'=>'lista-projeto-operador', 'id'=>$projeto["ID_PROJETO"]),null, true);?>"><i class="fa fa-users"></i></a></td>
 											<td><a class="btn btn-app"><i class="fa fa-file-text-o"></i></a></td>
 											<td><a class="btn btn-app" href="<?php echo $this->url(array('controller'=>'index','action'=>'lista-projeto-contato', 'id'=>$projeto["ID_PROJETO"]),null, true);?>"><i class="fa fa-envelope-o"></i></a></td>
 											<td><a class="btn btn-app" ><i class="fa fa-file-o"></i></a></td>

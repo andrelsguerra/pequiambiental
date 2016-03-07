@@ -59,7 +59,7 @@ class Application_Form_Contato extends Zend_Form
          	 ->setAttrib('placeholder', 'Enter telefone');
         
         $tx_observacao = new Zend_Form_Element_Textarea('TX_OBSERVACAO');
-        $tx_observacao->setLabel('OBSERVAÇÃO')
+        $tx_observacao->setLabel('OBSERVAï¿½ï¿½O')
             	
 					  ->removeDecorator('DtDdWrapper')
         			  ->removeDecorator('HtmlTag')
@@ -101,7 +101,7 @@ class Application_Form_Contato extends Zend_Form
         	 ->removeDecorator('HtmlTag')
              ->removeDecorator('Label')
          	 ->setAttrib('class', 'form-control')
-         	 ->setAttrib('placeholder', 'Enter número');
+         	 ->setAttrib('placeholder', 'Enter nÃºmero');
     	
     	$ds_complemento = new Zend_Form_Element_Text('DS_COMPLEMENTO');
         $ds_complemento->setLabel('COMPLEMENTO')
@@ -183,7 +183,7 @@ class Application_Form_Contato extends Zend_Form
 //fk_CLIENTE
     				  
     	$fk_cliente= new Zend_Form_Element_Select('FK_CLIENTE');
-        $fk_cliente->setAttrib('class', 'form-control');
+        $fk_cliente->setAttrib('class', 'form-control select2');
         
         $cliente = new Application_Model_DbTable_Cliente();
         $fk_cliente->setLabel('CLIENTE')

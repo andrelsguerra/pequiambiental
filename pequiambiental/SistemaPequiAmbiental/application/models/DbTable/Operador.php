@@ -84,6 +84,21 @@ class Application_Model_DbTable_Operador extends Zend_Db_Table_Abstract
        /*SELECT * FROM tb_operador WHERE MONTH(DT_NASCIMENTO) = MOD(MONTH(CURDATE()), 12)
 order by DAY(DT_NASCIMENTO ) ASC*/
     }
+    public function getOperadorProjeto($ID_PROJETO)
+    {
+    
+    	$select =$this->_db->select()
+    	->from(array('p' => 'TB_PROJETO'))
+    	->joinLeft(array('po' => 'TB_PROJETO_OPERADOR'),('p.ID_PROJETO =po.FK_PROJETO')) 
+    	->joinLeft(array('u' => 'TB_OPERADOR'),('u.ID_OPERADOR =po.FK_OPERADOR'),array("*",'PRIMEIRO_NOME' => new Zend_Db_Expr("Substring_index(u.NM_OPERADOR,' ',1)")))
+        	->where('p.ID_PROJETO='.$ID_PROJETO);
+    	//->order('DAY(DT_NASCIMENTO ) ASC');
+    	$result = $this->getAdapter()->fetchAll($select);
+    		
+    	return $result;
+    	/*SELECT * FROM tb_operador WHERE MONTH(DT_NASCIMENTO) = MOD(MONTH(CURDATE()), 12)
+    	 order by DAY(DT_NASCIMENTO ) ASC*/
+    }
     public function getOperadores()
     {
        $TB_OPERADOR = new Application_Model_DbTable_Operador();

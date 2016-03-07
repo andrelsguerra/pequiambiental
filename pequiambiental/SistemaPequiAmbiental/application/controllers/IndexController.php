@@ -1296,7 +1296,7 @@ class IndexController extends Zend_Controller_Action {
     public function listaProjetoContatoAction() {
     	// action body
     	$contatos= new Application_Model_DbTable_Contato();
-    	Zend_Registry::get('logger')->log($_POST, Zend_Log::INFO);
+    	
     
     
     	if ($this->getRequest()->isPost()) {
@@ -1321,7 +1321,45 @@ class IndexController extends Zend_Controller_Action {
     	$id = $this->_getParam('id', 0);
     	
     	if ($id > 0) {
+    		$projeto= new Application_Model_DbTable_Projeto();
+    		$this->view->projeto= $projeto->getProjeto($id);
     		$this->view->contatos = $contatos->getContatosProjeto($id);
+    		Zend_Registry::get('logger')->log($this->view->contatos, Zend_Log::INFO);
+    	}
+    }
+    public function listaProjetoOperadorAction() {
+    	// action body
+    	$contatos= new Application_Model_DbTable_Contato();
+    	 
+    
+    
+    	if ($this->getRequest()->isPost()) {
+    		$del = $this->getRequest()->getPost('del');
+    		if ($del == 'Sim') {
+    			Zend_Registry::get('logger')->log("teste2222", Zend_Log::INFO);
+    			$id = $this->getRequest()->getPost('ID_CONTATO');
+    			$contato = new Application_Model_DbTable_Contato();
+    			try {
+    				$contato->deleteContato($id);
+    
+    				$this->view->mensagem = "Excluído com sucesso";
+    				$this->view->erro = 0;
+    			} catch (Exception $e) {
+    				$this->view->mensagem = $e->getCode() . " Deletar contato";
+    				$this->view->erro = 1;
+    				$this->view->mensagemExcecao = $e->getMessage();
+    
+    			}
+    		}
+    	}
+    	$id = $this->_getParam('id', 0);
+    	 
+    	if ($id > 0) {
+    		$projeto= new Application_Model_DbTable_Projeto();
+    		$operador= new Application_Model_DbTable_Operador();
+    		$this->view->projeto= $projeto->getProjeto($id);
+    		$this->view->operador = $operador->getOperadorProjeto($id);
+    		Zend_Registry::get('logger')->log($this->view->operador, Zend_Log::INFO);
     	}
     }
 	 public function editContatoAction() {

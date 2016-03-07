@@ -1,36 +1,62 @@
 <?php
-	$this->title = "Listar Ramo Atividade";
+	$this->title = "Listar Contato";
 	$this->headTitle($this->title);
 	//echo $this->form ;
 	
 ?>
-
+              <div class="box">
+                <div class="box-header">
+                  <h3 class="box-title">Projeto</h3>
+                  
+                </div><!-- /.box-header -->
+                <div class="box-body table-responsive no-padding">
+                  <table class="table table-hover">
+                    <tr>
+                      <th>CLIENTE</th>
+                      <th>NOME PROJETO</th>
+                      <th>TIPO PROJETO</th>
+                      <th>AGÊNCIA AMBIENTAL</th>
+                      <th>OBS</th>
+                      <th>STATUS</th>           
+                    </tr>
+                   
+                    <tr>
+                      <td><?php echo $this->projeto["NM_CLIENTE"]?></td>
+                      <td><?php echo $this->projeto["NM_PROJETO"]?></td>
+                      <td><?php echo $this->projeto["NM_TIPO_PROJETO"]?></td>
+                      <td><?php echo $this->projeto["NM_AGENCIA_AMBIENTAL"]?></td>
+                      <td><?php echo $this->projeto["TX_OBSERVACAO"]?></td>
+                    <td><?php echo $this->projeto["NM_STATUS_PROJETO"]?></td>
+                    </tr>
+                   
+                   
+                  </table>
+                </div><!-- /.box-body -->
+              </div><!-- /.box -->
 <div class="box">
                                 <div class="box-header">
-                                    <h3 class="box-title">Lista Ramo Atividade</h3>
+                                    <h3 class="box-title">Lista Operador</h3>
                                 </div><!-- /.box-header -->
                                 <div class="box-body">                                
                                     <table id="example1" class="table table-bordered table-hover">
                                         <thead>
                                             <tr>
-                                                <th class="arredondarEsq">ID</th>
-												<th >RAMO DE ATIVIDADE</th>
+                                                <th class="arredondarEsq">NOME</th>
+												<th >E-MAIL</th>
 												<th>AÇÃO</th>
-                                                
                                             </tr>
                                         </thead>
                                         <tbody>
-                                        <?php if(count($this->ramoAtividade)>0){
-											foreach($this->ramoAtividade as $tipoServico) : ?>
+                                        <?php if(count($this->operador)>0){
+											foreach($this->operador as $operador) : ?>
                                             <tr>
-                                            <td><?php echo $tipoServico["ID_RAMO_ATIVIDADE"]?></td>
-                                            <td><?php echo $tipoServico["DS_RAMO_ATIVIDADE"]?></td>
-											
-											
+						                      <td><?php echo $operador["PRIMEIRO_NOME"]?></td>
+						                      <td><?php echo $operador["DS_EMAIL_BIOS"]?></td>
+						                                     
                                              <td>
-                                                <a alt="Editar" title="Editar" href="<?php echo $this->url(array('controller'=>'index','action'=>'edit-ramo-atividade', 'id'=>$tipoServico["ID_RAMO_ATIVIDADE"]),null, true);?>" class="btn-sm btn-warning"><i class="glyphicon glyphicon-edit"></i></a> 
-                                                 <a alt="Excluir" title="Excluir" href="<?php echo $this->url(array('controller'=>'index','action'=>'delete-ramo-atividade', 'id'=>$tipoServico["ID_RAMO_ATIVIDADE"]),null, true);?>" class="btn-sm  btn-danger"><i class="glyphicon glyphicon-trash"></i></a>
-                                                
+                                                 
+                                                <!--   <a alt="Excluir" title="Excluir" href="<?php echo $this->url(array('controller'=>'index','action'=>'delete-contato', 'id'=>$operador["ID_CONTATO"]),null, true);?>" class="btn-sm  btn-danger"><i class="glyphicon glyphicon-trash"></i></a>
+                                                -->
                                                 </td>
                                             </tr>
                                           <?php endforeach; ?>
@@ -38,19 +64,19 @@
                                         </tbody>
                                         <tfoot>
                                             <tr>
-                                                 <th class="arredondarEsq">ID</th>
-												<th >RAMO DE ATIVIDADE</th>
-												<th>AÇÃO</th>                                              
+                                               <th class="arredondarEsq">NOME</th>
+												<th >E-MAIL</th>
+												<th>AÇÃO</th>                                            
                                             </tr>
                                         </tfoot>
                                     </table>
                                 </div><!-- /.box-body -->
                             </div><!-- /.box -->
-                            <div class="form-group">
-                                 <a alt="Adicionar" title="Adicionar" style="font-family: inherit;" href="<?php echo $this->url(array('controller'=>'index','action'=>'add-ramo-atividade'),null, true);?>" class="btn-sm  "><i class="btn btn-primary">Adicionar Ramo Atividade</i></a>   		
+                            <!-- <div class="form-group">
+                                 <a alt="Adicionar" title="Adicionar" style="font-family: inherit;" href="<?php echo $this->url(array('controller'=>'index','action'=>'add-contato'),null, true);?>" class="btn-sm  "><i class="btn btn-primary">Adicionar Contato</i></a>   		
                                      		
 
-                                    		</div>
+                                    		</div> -->
 <link href="<?php echo $this->baseUrl()?>/plugins/datatables/dataTables.bootstrap.css" rel="stylesheet" type="text/css" />
 <script src="<?php echo $this->baseUrl()?>/plugins/datatables/jquery.dataTables.min.js" ></script>
 <script src="<?php echo $this->baseUrl()?>/plugins/datatables/dataTables.bootstrap.min.js" ></script>
