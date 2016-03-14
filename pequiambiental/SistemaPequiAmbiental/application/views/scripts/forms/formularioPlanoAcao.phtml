@@ -11,73 +11,77 @@
             <div class="box-body">
               <div class="row">
                 <div class="col-md-12">
-                	
-					<div class="form-group">
-	                      <label>ASSUNTO</label>
-	                       <input type="text" class="form-control" id="DS_ASSUNTO" name="DS_ASSUNTO" placeholder="Enter cnpj" value="<?php /*echo $this->element->ds_assunto->getValue();*/?>">
-	                </div>
-					<div class="form-group">
-	                      <label>AÃ‡Ã•ES</label>
-	                      <textarea class="form-control" rows="3" name="TX_PLANO_ACAO" id="TX_PLANO_ACAO" ><?php /*echo $this->element->ds_assunto->getValue();*/?></textarea>
-	                 </div>
-					<div class="form-group">
-	                      <label>CLIENTE</label>
-	                       <input type="text" class="form-control" id="NM_CLIENTE"  name="NM_CLIENTE"  value="<?php /*echo $this->element->nm_cliente->getValue();*/?>">
-	                </div>
-					<div class="form-group">
-						<label>STATUS</label>
-		                <select class="form-control select2" style="width: 100%;" name="FK_STATUS" id="FK_STATUS"  >
-	                      <option selected="selected">PROJETO A</option>
-	                      <option>PROJETO B</option>
-	                      <option>xxxxxxx C</option>
-	                      <option>yyyyyyyyyyy D</option>
-	                      <option>bbbbbbbbbb E</option>
-	                      <option>ffffff F</option>
-	                      <option>kkkkkkk G</option>
-	                    </select>    
-	                </div><!-- /input-group -->
-					<div class="form-group">
-						<label>OPERADOR</label>
-		                <select class="form-control select2" style="width: 100%;" name="FK_OPERADOR" id="FK_OPERADOR"  >
-	                      <option selected="selected">OPERADOR A</option>
-	                      <option>PROJETO B</option>
-	                      <option>xxxxxxx C</option>
-	                      <option>yyyyyyyyyyy D</option>
-	                      <option>bbbbbbbbbb E</option>
-	                      <option>ffffff F</option>
-	                      <option>kkkkkkk G</option>
-	                    </select>    
-	                </div><!-- /input-group -->
-	                <div class="form-group">
-	                    <label>ATUALIZAÇÃO</label>
+                	 
+       
+       
+       
+       
+       
+       
+       
+       
+       
+        <?php echo $this->element->ID_PLANO_ACAO ?>
+                <div class="form-group">
+						<label ><?php echo $this->element->DS_ASSUNTO->getLabel() ?></label>
+						<?php echo $this->element->DS_ASSUNTO ?>				                     
+				</div>
+				 <div class="form-group">
+						<label ><?php echo $this->element->TX_PLANO_ACAO->getLabel() ?></label>
+						<?php echo $this->element->TX_PLANO_ACAO ?>				                     
+				</div>
+				 <div class="form-group">
+						<label ><?php echo $this->element->FK_PROJETO->getLabel() ?></label>
+						<?php echo $this->element->FK_PROJETO ?>				                     
+				</div>
+				<div class="form-group">
+	                    <label><?php echo $this->element->DT_ATUALIZACAO->getLabel() ?></label>
 	                    <div class="input-group">
 	                      <div class="input-group-addon">
 	                        <i class="fa fa-calendar"></i>
 	                      </div>
-	                      <input type="text" class="form-control pull-right" id="DT_ATUALIZACAO" name="DT_ATUALIZACAO" data-provide="datepicker">
-	                </div><!-- /.input group -->
-	                </div>
-	                <div class="form-group">
-	                    <label>PREVISAO</label>
+	                      <?php echo $this->element->DT_ATUALIZACAO ?>		
+	                     
+	                    </div><!-- /.input group -->
+	            </div><!-- /.form group -->
+				<div class="form-group">
+						<label ><?php echo $this->element->FK_STATUS_PLANO_ACAO->getLabel() ?></label>
+						<?php echo $this->element->FK_STATUS_PLANO_ACAO ?>				                     
+				</div>
+				<div class="form-group">
+						<label ><?php echo $this->element->FK_OPERADOR->getLabel() ?></label>
+						<?php echo $this->element->FK_OPERADOR ?>				                     
+				</div>
+				<div class="form-group">
+	                    <label><?php echo $this->element->DT_PREVISAO->getLabel() ?></label>
 	                    <div class="input-group">
 	                      <div class="input-group-addon">
 	                        <i class="fa fa-calendar"></i>
 	                      </div>
-	                      <input type="text" class="form-control pull-right" id="DT_PREVISAO" name="DT_PREVISAO" data-provide="datepicker">
-	                </div><!-- /.input group -->
-	                </div>
-	                <div class="form-group">
-	                    <label>CONTROLE</label>
+	                      <?php echo $this->element->DT_PREVISAO ?>		
+	                     
+	                    </div><!-- /.input group -->
+	            </div><!-- /.form group -->
+	            <div class="form-group">
+	                    <label><?php echo $this->element->DT_CONTROLE->getLabel() ?></label>
 	                    <div class="input-group">
 	                      <div class="input-group-addon">
 	                        <i class="fa fa-calendar"></i>
 	                      </div>
-	                      <input type="text" class="form-control pull-right" id="DT_CONTROLE" name="DT_CONTROLE" data-provide="datepicker">
-	                 </div><!-- /.input group -->
-	                 </div>
-					
-					 
-	                    
+	                      <?php echo $this->element->DT_CONTROLE ?>		
+	                     
+	                    </div><!-- /.input group -->
+	            </div><!-- /.form group -->
+	            <div class="form-group">
+	                    <label><?php echo $this->element->DT_CONCLUSAO->getLabel() ?></label>
+	                    <div class="input-group">
+	                      <div class="input-group-addon">
+	                        <i class="fa fa-calendar"></i>
+	                      </div>
+	                      <?php echo $this->element->DT_CONCLUSAO ?>		
+	                     
+	                    </div><!-- /.input group -->
+	            </div><!-- /.form group -->
 	                  	
 	                 
 	                  
@@ -94,3 +98,14 @@
                   </div>
                    </form>
           </div><!-- /.box -->
+          <script>
+      $(function () {
+        //Initialize Select2 Elements
+        $(".select2").select2();
+
+        $('.data').datepicker({
+            format: 'dd/mm/yyyy'
+        });
+        
+      });
+    </script>
