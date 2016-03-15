@@ -1207,6 +1207,124 @@ class IndexController extends Zend_Controller_Action {
 			}
 		}
      }
+     public function editPlanoAcaoAction(){
+		// action body
+		$form = new Application_Form_PlanoAcao();
+    	$form->submit->setLabel('Salvar');
+    	//$form->removeElement("tabela_contratacao");	
+    	$this->view->form = $form;
+		$planoAcao=new Application_Model_DbTable_PlanoAcao();
+		if ($this->getRequest()->isPost()) {
+			$formData = $this->getRequest()->getPost();
+			if ($form->isValid($formData)) {
+				Zend_Registry::get('logger')->log($formData, Zend_Log::INFO);
+				$ID_PLANO_ACAO = (int) $form->getValue('ID_PLANO_ACAO');
+				$data_cadastro =new Zend_Date();
+					$DT_ATUALIZACAO=$data_cadastro->get('YYYY-MM-dd HH:mm:ss');
+    				
+    				
+    				
+    				//$ID_PROJETO=$form->getValue('ID_PROJETO');
+    				$DS_ASSUNTO=$form->getValue('DS_ASSUNTO');
+    				$TX_PLANO_ACAO=$form->getValue('TX_PLANO_ACAO');
+    				$FK_PROJETO=$form->getValue('FK_PROJETO');
+    				$FK_STATUS=$form->getValue('FK_STATUS');
+    				$FK_OPERADOR=$form->getValue('FK_OPERADOR');
+    				$FK_STATUS_PLANO_ACAO=$form->getValue('FK_STATUS_PLANO_ACAO');
+    				
+    				
+    				
+    					
+    				$DT_PREVISAO =$form->getValue('DT_PREVISAO');
+    				$data_cadastro =new Zend_Date($DT_PREVISAO);
+    				$DT_PREVISAO=$data_cadastro->get('YYYY-MM-dd HH:mm:ss');
+    				
+    				$DT_CONTROLE =$form->getValue('DT_CONTROLE');
+    				$data_cadastro =new Zend_Date($DT_CONTROLE);
+    				$DT_CONTROLE=$data_cadastro->get('YYYY-MM-dd HH:mm:ss');
+
+    				$DT_CONCLUSAO =$form->getValue('DT_CONCLUSAO');
+    				$data_cadastro =new Zend_Date($DT_CONCLUSAO);
+    				$DT_CONCLUSAO=$data_cadastro->get('YYYY-MM-dd HH:mm:ss');
+    				
+    				
+				try {
+		
+					$planoAcao->updatePlanoAcao ($ID_PLANO_ACAO,$DS_ASSUNTO, $TX_PLANO_ACAO, $FK_PROJETO, $DT_ATUALIZACAO, $FK_STATUS_PLANO_ACAO, $FK_OPERADOR, $DT_PREVISAO, $DT_CONCLUSAO, $DT_CONTROLE);
+					$this->view->mensagem = "Atualizado com sucesso";
+					$this->view->erro = 0;
+					//$this->_helper->redirector('lista-usuario');
+				} // catch (pega exceÃƒÂ§ÃƒÂ£o)
+				catch (Exception $e) {
+					$this->view->mensagem = "Atualizar ramo atividade";
+					$this->view->erro = 1;
+					$this->view->mensagemExcecao = $e->getMessage();
+					//  echo ($e->getCode()."teste".$e->getMessage() );
+				}
+		
+			} else {
+				$form->populate($formData);
+				$arrMessages = $form->getMessages();
+				foreach ($arrMessages as $field => $arrErrors) {
+					$this->view->erro = 1;
+					$this->view->mensagem = $this->view->mensagem . $form->getElement($field)->getLabel() . $this->view->formErrors($arrErrors) . "<br>";
+				}
+			}
+		} else {
+			$id = $this->_getParam('id', 0);
+		
+			if ($id > 0) {
+				$planoAcaoAux=$planoAcao->getPlanoAcao($id);
+				Zend_Registry::get('logger')->log($planoAcaoAux . $id, Zend_Log::INFO);
+				$form->populate($planoAcaoAux);
+			}
+		}
+	}
+	 public function deletePlanoAcaoAction() {
+    
+    
+    	$id = $this->_getParam('id', 0);
+    	$planoAcao= new Application_Model_DbTable_PlanoAcao();
+    	$this->view->planoAcao = $planoAcao->getPlanoAcao($id);
+    }
+    public function listaProjetoPlanoAcaoAction(){
+    	// action body
+    	$projeto = new Application_Model_DbTable_Projeto();
+    	$id = $this->_getParam('id', 0);
+    
+    	if ($id > 0) {
+    
+    
+    		if ($this->getRequest()->isPost()) {
+    			$del = $this->getRequest()->getPost('del');
+    			if ($del == 'Sim') {
+    				//Zend_Registry::get('logger')->log("teste2222", Zend_Log::INFO);
+    				$id = $this->getRequest()->getPost('ID_SERVICO');
+    
+    				try {
+    					$servico->deleteServico($id);
+    					$this->view->mensagem = "Excluído com sucesso";
+    					$this->view->erro = 0;
+    				} catch (Exception $e) {
+    					$this->view->mensagem = $e->getCode() . " Deletar serviço";
+    					$this->view->erro = 1;
+    					$this->view->mensagemExcecao = $e->getMessage();
+    
+    				}
+    			}
+    		}
+    		$this->view->projeto= $projeto->getProjeto($id);
+    		$planoAcao= new Application_Model_DbTable_PlanoAcao();
+			$this->view->planoAcao= $planoAcao->getPlanoAcoesProjeto($id);
+    		
+    		 
+    	}else{
+    		$this->view->mensagem ="Não existe projeto";
+    		$this->view->erro = 1;
+    
+    	}
+    
+    }
      public function addPlanoAcaoAction(){
     	$form = new Application_Form_PlanoAcao();
     	$form->submit->setLabel('Adicionar');
@@ -1297,7 +1415,7 @@ class IndexController extends Zend_Controller_Action {
 		
 		
 			
-			$this->view->planoAcao= $planoAcao->getPlanoAcoes($id);
+			$this->view->planoAcao= $planoAcao->getPlanoAcoes();
 			
 			Zend_Registry::get('logger')->log($this->view->planoAcao, Zend_Log::INFO);
 		

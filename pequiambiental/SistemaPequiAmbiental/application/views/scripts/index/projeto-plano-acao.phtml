@@ -1,0 +1,133 @@
+<?php
+	$this->title = "Listar Serviço";
+	$this->headTitle($this->title);
+	//echo $this->form ;
+	
+?>
+
+              <div class="box">
+                <div class="box-header">
+                  <h3 class="box-title">Projeto</h3>
+                  
+                </div><!-- /.box-header -->
+                <div class="box-body table-responsive no-padding">
+                  <table class="table table-hover">
+                    <tr>
+                      <th>CLIENTE</th>
+                      <th>NOME PROJETO</th>
+                      <th>TIPO PROJETO</th>
+                      <th>AGÊNCIA AMBIENTAL</th>
+                      <th>OBS</th>
+                      <th>STATUS</th>           
+                    </tr>
+                   
+                    <tr>
+                      <td><?php echo $this->projeto["NM_CLIENTE"]?></td>
+                      <td><?php echo $this->projeto["NM_PROJETO"]?></td>
+                      <td><?php echo $this->projeto["NM_TIPO_PROJETO"]?></td>
+                      <td><?php echo $this->projeto["NM_AGENCIA_AMBIENTAL"]?></td>
+                      <td><?php echo $this->projeto["TX_OBSERVACAO"]?></td>
+                    <td><?php echo $this->projeto["NM_STATUS_PROJETO"]?></td>
+                    </tr>
+                   
+                   
+                  </table>
+                </div><!-- /.box-body -->
+              </div><!-- /.box -->
+          
+
+<div class="box">
+                                <div class="box-header">
+                                    <h3 class="box-title">Lista PCP</h3>
+                                </div><!-- /.box-header -->
+                                <div class="box-body">                                
+                                    <table id="example1" class="table table-bordered table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th class="arredondarEsq">ID</th>
+                                                <th >OPERADOR</th>
+												<th >SERVIÇO</th>
+												<th >DATA</th>
+												<th >CARGA HORÁRIA</th>
+												<th >TIPO SERVIÇO</th>
+												<th>AÇÃO</th>
+                                                
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        <?php 
+                                        $totalCargaHoraria=0;
+                                        if(count($this->listaPcps)>0){
+											foreach($this->listaPcps as $pcp) : ?>
+                                            <tr>
+                                            <td><?php echo $pcp["ID_SERVICO"]?></td>
+                                              <td><?php echo $pcp["PRIMEIRO_NOME"]?></td>
+                                            <td><?php echo $pcp["DS_SERVICO"]?></td>
+											<td><?php echo $pcp["DT_SERVICO"]?></td>
+											<td><?php echo $pcp["NR_CARGA_HORARIA"]; $totalCargaHoraria=$totalCargaHoraria+$pcp["NR_CARGA_HORARIA"];?></td>
+											<td><?php echo $pcp["NM_TIPO_SERVICO"]?></td>
+                                             <td>
+                                                <a alt="Editar" title="Editar" href="<?php echo $this->url(array('controller'=>'index','action'=>'edit-pcp', 'id'=>$pcp["ID_SERVICO"]),null, true);?>" class="btn-sm btn-warning"><i class="glyphicon glyphicon-edit"></i></a> 
+                                                 <a alt="Excluir" title="Excluir" href="<?php echo $this->url(array('controller'=>'index','action'=>'delete-pcp', 'id'=>$pcp["ID_SERVICO"]),null, true);?>" class="btn-sm  btn-danger"><i class="glyphicon glyphicon-trash"></i></a>
+                                                
+                                                </td>
+                                            </tr>
+                                          <?php endforeach; ?>
+	<?php }?> 
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                  <th class="arredondarEsq">ID</th>
+                                                <th >OPERADOR</th>
+												<th >SERVIÇO</th>
+												<th >DATA</th>
+												<th >CARGA HORÁRIA</th>
+												<th >TIPO SERVIÇO</th>
+												<th>AÇÃO</th>                                     
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div><!-- /.box-body -->
+                            </div><!-- /.box -->
+                          
+                                    		
+                                    		
+                                    		
+                                    		
+
+              <div class="box">
+                <div class="box-header">
+                  <h3 class="box-title">Carga Horária</h3>
+                  
+                </div><!-- /.box-header -->
+                <div class="box-body table-responsive no-padding">
+                  <table class="table table-hover">
+                    <tr>
+                      <th>TOTAL</th>
+                      <th><?php echo $totalCargaHoraria?></th>    
+                    </tr>
+                   </table>
+                </div><!-- /.box-body -->
+              </div><!-- /.box -->
+              
+                <div class="form-group">
+                	<a alt="Adicionar" title="Adicionar" style="font-family: inherit;" href="<?php echo $this->url(array('controller'=>'index','action'=>'add-servico'),null, true);?>" class="btn-sm  "><i class="btn btn-primary">Adicionar Serviço</i></a>   		
+                </div>
+<link href="<?php echo $this->baseUrl()?>/plugins/datatables/dataTables.bootstrap.css" rel="stylesheet" type="text/css" />
+<script src="<?php echo $this->baseUrl()?>/plugins/datatables/jquery.dataTables.min.js" ></script>
+<script src="<?php echo $this->baseUrl()?>/plugins/datatables/dataTables.bootstrap.min.js" ></script>
+<!-- page script -->
+<script type="text/javascript">
+            $(function() {
+                $("#example1").dataTable();
+				//$("#example2").dataTable();
+                /*$('#example2').dataTable({
+                    "bPaginate": true,
+                    "bLengthChange": false,
+                    "bFilter": true,
+                    "bSort": true,
+                    "bInfo": true,
+                    "bAutoWidth": false
+                });*/
+            });
+</script>

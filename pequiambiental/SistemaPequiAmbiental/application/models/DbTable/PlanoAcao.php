@@ -18,12 +18,26 @@ class Application_Model_DbTable_PlanoAcao extends Zend_Db_Table_Abstract
     {
     	
     	$select =$this->_db->select()
-    	->from(array('n' => 'TB_PLANO_ACAO'),array("*",'DT_CONTROLE' => new Zend_Db_Expr("DATE_FORMAT(DT_CONTROLE,'%d/%m/%Y')"),'DT_CONCLUSAO' => new Zend_Db_Expr("DATE_FORMAT(DT_CONCLUSAO,'%d/%m/%Y')"),'DT_PREVISAO' => new Zend_Db_Expr("DATE_FORMAT(DT_PREVISAO,'%d/%m/%Y')")))
+    	->from(array('n' => 'TB_PLANO_ACAO'),array("*",'DT_ATUALIZACAO' => new Zend_Db_Expr("DATE_FORMAT(DT_ATUALIZACAO,'%d/%m/%Y')"),'DT_CONTROLE' => new Zend_Db_Expr("DATE_FORMAT(DT_CONTROLE,'%d/%m/%Y')"),'DT_CONCLUSAO' => new Zend_Db_Expr("DATE_FORMAT(DT_CONCLUSAO,'%d/%m/%Y')"),'DT_PREVISAO' => new Zend_Db_Expr("DATE_FORMAT(DT_PREVISAO,'%d/%m/%Y')")))
     	->joinLeft(array('o' => 'TB_OPERADOR'),('n.FK_OPERADOR =o.ID_OPERADOR'),array('PRIMEIRO_NOME' => new Zend_Db_Expr("Substring_index(o.NM_OPERADOR,' ',1)")))
-    	 
+    	 ->joinInner(array('p' => 'TB_PROJETO'),('p.ID_PROJETO =n.FK_PROJETO'))
     	->joinLeft(array('st' => 'TB_STATUS_PLANO_ACAO'),('st.ID_STATUS_PLANO_ACAO=n.FK_STATUS_PLANO_ACAO'));
     	
     	
+    	$result = $this->getAdapter()->fetchAll($select);
+    	return $result;
+    }
+    public function getPlanoAcoesProjeto($ID_PROJETO)
+    {
+    	 
+    	$select =$this->_db->select()
+    	->from(array('n' => 'TB_PLANO_ACAO'),array("*",'DT_ATUALIZACAO' => new Zend_Db_Expr("DATE_FORMAT(DT_ATUALIZACAO,'%d/%m/%Y')"),'DT_CONTROLE' => new Zend_Db_Expr("DATE_FORMAT(DT_CONTROLE,'%d/%m/%Y')"),'DT_CONCLUSAO' => new Zend_Db_Expr("DATE_FORMAT(DT_CONCLUSAO,'%d/%m/%Y')"),'DT_PREVISAO' => new Zend_Db_Expr("DATE_FORMAT(DT_PREVISAO,'%d/%m/%Y')")))
+    	->joinLeft(array('o' => 'TB_OPERADOR'),('n.FK_OPERADOR =o.ID_OPERADOR'),array('PRIMEIRO_NOME' => new Zend_Db_Expr("Substring_index(o.NM_OPERADOR,' ',1)")))
+    	->joinInner(array('p' => 'TB_PROJETO'),('p.ID_PROJETO =n.FK_PROJETO'))
+    	->joinLeft(array('st' => 'TB_STATUS_PLANO_ACAO'),('st.ID_STATUS_PLANO_ACAO=n.FK_STATUS_PLANO_ACAO'))
+    	->where(' p.ID_PROJETO ='.$ID_PROJETO);
+    	 
+    	 
     	$result = $this->getAdapter()->fetchAll($select);
     	return $result;
     }
@@ -92,11 +106,10 @@ class Application_Model_DbTable_PlanoAcao extends Zend_Db_Table_Abstract
     	$id = (int) $id;
     	// $row = $this->fetchRow("nome",null,'id = ' . $id);
     	$select =$this->_db->select()
-    	->from(array('n' => 'TB_PLANO_ACAO'),array("*",'DT_CONTROLE' => new Zend_Db_Expr("DATE_FORMAT(DT_CONTROLE,'%d/%m/%Y')"),'DT_CONCLUSAO' => new Zend_Db_Expr("DATE_FORMAT(DT_CONCLUSAO,'%d/%m/%Y')"),'DT_PREVISAO' => new Zend_Db_Expr("DATE_FORMAT(DT_PREVISAO,'%d/%m/%Y')"),'DT_ATUALIZACAO' => new Zend_Db_Expr("DATE_FORMAT(DT_ATUALIZACAO,'%d/%m/%Y')")))
-    	->joinLeft(array('o' => 'TB_OPERADOR'),('n.FK_GESTOR =o.ID_OPERADOR'),array('PRIMEIRO_NOME' => new Zend_Db_Expr("Substring_index(o.NM_OPERADOR,' ',1)")))
-    	
+    	->from(array('n' => 'TB_PLANO_ACAO'),array("*",'DT_ATUALIZACAO' => new Zend_Db_Expr("DATE_FORMAT(DT_ATUALIZACAO,'%d/%m/%Y')"),'DT_CONTROLE' => new Zend_Db_Expr("DATE_FORMAT(DT_CONTROLE,'%d/%m/%Y')"),'DT_CONCLUSAO' => new Zend_Db_Expr("DATE_FORMAT(DT_CONCLUSAO,'%d/%m/%Y')"),'DT_PREVISAO' => new Zend_Db_Expr("DATE_FORMAT(DT_PREVISAO,'%d/%m/%Y')")))
+    	->joinLeft(array('o' => 'TB_OPERADOR'),('n.FK_OPERADOR =o.ID_OPERADOR'),array('PRIMEIRO_NOME' => new Zend_Db_Expr("Substring_index(o.NM_OPERADOR,' ',1)")))
+    	 ->joinInner(array('p' => 'TB_PROJETO'),('p.ID_PROJETO =n.FK_PROJETO'))
     	->joinLeft(array('st' => 'TB_STATUS_PLANO_ACAO'),('st.ID_STATUS_PLANO_ACAO=n.FK_STATUS_PLANO_ACAO'))
-    	->joinLeft(array('c' => 'TB_CLIENTE'),('c.ID_CLIENTE =n.FK_CLIENTE'))
     	
     	->where('ID_PLANO_ACAO='.$id);
     	$row = $this->getAdapter()->fetchRow($select);
@@ -136,12 +149,12 @@ class Application_Model_DbTable_PlanoAcao extends Zend_Db_Table_Abstract
     {
     	$data = array('ID_PLANO_ACAO'=>$ID_PLANO_ACAO,'DS_ASSUNTO' => $DS_ASSUNTO,'TX_PLANO_ACAO' => $TX_PLANO_ACAO,'FK_PROJETO' => $FK_PROJETO,'DT_ATUALIZACAO' => $DT_ATUALIZACAO,'FK_STATUS_PLANO_ACAO' => $FK_STATUS_PLANO_ACAO,'FK_OPERADOR' => $FK_OPERADOR,'DT_PREVISAO' => $DT_PREVISAO,'DT_CONCLUSAO' => $DT_CONCLUSAO,'DT_CONTROLE' => $DT_CONTROLE);
 		
-		$this->update($data, 'ID_PROJETO = ' . (int) $ID_PROJETO);
+		$this->update($data, 'ID_PLANO_ACAO = ' . (int) $ID_PLANO_ACAO);
     }
 	
     public function deletePlanoAcao ($id)
     {
-        $this->delete('ID_PROJETO =' . (int) $id);
+        $this->delete('ID_PLANO_ACAO =' . (int) $id);
     }
 
 
