@@ -236,3 +236,16 @@ background-color:#d9d9d9 !important;
     margin: 7% auto auto;
     width: 360px;
 }
+.btn-app {
+    
+    height: 40px !important;
+    margin: auto !important;
+    min-width: 40px !important;
+    padding: 10px 3px !important;
+    
+}
+.table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, .table > tfoot > tr > th, .table > thead > tr > td, .table > thead > tr > th {
+    
+    padding: 3px;
+    
+}

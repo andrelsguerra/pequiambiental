@@ -23,7 +23,7 @@
 												<th >NOME PROJETO</th>
 												<th >TIPO</th>
 												<th >DATA CADASTRO</th>
-												<th >OBSERVAÇÃO</th>
+												<!--  <th >OBSERVAÇÃO</th>-->
 												<th >STATUS</th>
 												<th>AÇÃO</th>
                                                 
@@ -43,7 +43,7 @@
 											<td><?php  echo $this->truncate($projeto["NM_PROJETO"],50)?></td>
 											<td><?php echo $projeto["NM_TIPO_PROJETO"]?></td>
 											<td><?php echo $projeto["DT_CADASTRO"]?></td>
-											<td><?php echo $this->truncate($projeto["TX_OBSERVACAO"],50)?></td>
+											<!--  <td><?php echo $this->truncate($projeto["TX_OBSERVACAO"],50)?></td>-->
 											<td><?php echo $projeto["NM_STATUS_PROJETO"]?></td>
                                              <td>
                                                 <a alt="Editar" title="Editar" href="<?php echo $this->url(array('controller'=>'index','action'=>'edit-projeto', 'id'=>$projeto["ID_PROJETO"]),null, true);?>" class="btn-sm btn-warning"><i class="glyphicon glyphicon-edit"></i></a> 
@@ -66,7 +66,7 @@
 												<th >NOME PROJETO</th>
 												<th >TIPO</th>
 												<th >DATA CADASTRO</th>
-												<th >OBSERVAÇÃO</th>
+												<!-- <th >OBSERVAÇÃO</th> -->
 												<th >STATUS</th>
 												<th>AÇÃO</th>
                                                                                              
