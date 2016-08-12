@@ -63,16 +63,18 @@
 <script src="<?php echo $this->baseUrl()?>/plugins/datatables/dataTables.bootstrap.min.js" ></script>
 <!-- page script -->
 <script type="text/javascript">
-            $(function() {
-                $("#example1").dataTable();
-				//$("#example2").dataTable();
-                /*$('#example2').dataTable({
-                    "bPaginate": true,
-                    "bLengthChange": false,
-                    "bFilter": true,
-                    "bSort": true,
-                    "bInfo": true,
-                    "bAutoWidth": false
-                });*/
-            });
+$(function() {
+    $("#example1").dataTable({
+        "order": [[ 3, "desc" ]]
+    } );
+	//$("#example2").dataTable();
+    /*$('#example2').dataTable({
+        "bPaginate": true,
+        "bLengthChange": false,
+        "bFilter": true,
+        "bSort": true,
+        "bInfo": true,
+        "bAutoWidth": false
+    });*/
+});
 </script>

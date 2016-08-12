@@ -16,7 +16,7 @@
                                                 <th class="arredondarEsq">ID</th>
 												<th >SERVIÇO</th>
 												<th >PROJETO</th>
-												<th >DATA</th>
+												<th class="sorting_desc" >DATA</th>
 												<th >CARGA HORÁRIA</th>
 												<th>AÇÃO</th>
                                                 
@@ -64,7 +64,9 @@
 <!-- page script -->
 <script type="text/javascript">
             $(function() {
-                $("#example1").dataTable();
+                $("#example1").dataTable({
+                    "order": [[ 3, "desc" ]]
+                } );
 				//$("#example2").dataTable();
                 /*$('#example2').dataTable({
                     "bPaginate": true,

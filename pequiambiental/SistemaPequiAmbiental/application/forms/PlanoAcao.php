@@ -90,7 +90,7 @@ class Application_Form_PlanoAcao extends Zend_Form
         
         $DT_CONTROLE= new Zend_Form_Element_Text('DT_CONTROLE');
         $DT_CONTROLE->setLabel('DATA CONTROLE')
-        ->setRequired(true)
+       /* ->setRequired(true)*/
         ->addFilter('StripTags')
         ->addFilter('StringTrim')
         ->addValidator('NotEmpty')

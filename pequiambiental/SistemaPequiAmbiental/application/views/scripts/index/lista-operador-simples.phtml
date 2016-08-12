@@ -1,0 +1,71 @@
+<?php
+	$this->title = "Listar Remessa";
+	$this->headTitle($this->title);
+	//echo $this->form ;
+	
+?>
+
+<div class="box">
+                                <div class="box-header">
+                                    <h3 class="box-title">Lista Operador</h3>
+                                </div><!-- /.box-header -->
+                                <div class="box-body">                                
+                                    <table id="example1" class="table table-bordered table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th class="arredondarEsq">NOME</th>
+                                                <th>TELEFONE PESSOAL</th>
+                                                <th>TELEFONE BIOS</th>
+                                                <th>E-MAIL BIOS</th>
+												<!--  <th>AÇÃO</th>-->
+                                                
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        <?php if(count($this->operador)>0){
+											foreach($this->operador as $operador) : ?>
+                                            <tr>
+                                            	<td><?php echo $operador["NM_OPERADOR"]?></td>
+                                             	<td><?php echo $operador["DS_TELEFONE_PESSOAL"]?></td>
+                                             	<td><?php echo $operador["DS_TELEFONE_BIOS"]?></td>
+                                             	<td><?php echo $operador["DS_EMAIL_BIOS"]?></td>
+                                             	<!--<td>
+                                                	  <a alt="Editar" title="Editar" href="<?php echo $this->url(array('controller'=>'index','action'=>'edit-operador', 'id'=>$operador["ID_OPERADOR"]),null, true);?>" class="btn-sm btn-warning"><i class="glyphicon glyphicon-edit"></i></a> 
+                                                 	<a alt="Excluir" title="Excluir" href="<?php echo $this->url(array('controller'=>'index','action'=>'delete-operador', 'id'=>$operador["ID_OPERADOR"]),null, true);?>" class="btn-sm  btn-danger"><i class="glyphicon glyphicon-trash"></i></a>
+                                               
+                                                </td>-->
+                                            </tr>
+                                          <?php endforeach; ?>
+	<?php }?> 
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <th class="arredondarEsq">NOME</th>
+                                                <th>TELEFONE PESSOAL</th>
+                                                <th>TELEFONE BIOS</th>
+                                                <th>E-MAIL BIOS</th>
+												<!--  <th>AÇÃO</th>-->                                           
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div><!-- /.box-body -->
+                            </div><!-- /.box -->
+                            <
+<link href="<?php echo $this->baseUrl()?>/plugins/datatables/dataTables.bootstrap.css" rel="stylesheet" type="text/css" />
+<script src="<?php echo $this->baseUrl()?>/plugins/datatables/jquery.dataTables.min.js" ></script>
+<script src="<?php echo $this->baseUrl()?>/plugins/datatables/dataTables.bootstrap.min.js" ></script>
+<!-- page script -->
+<script type="text/javascript">
+            $(function() {
+                $("#example1").dataTable();
+				$("#example2").dataTable();
+                /*$('#example2').dataTable({
+                    "bPaginate": true,
+                    "bLengthChange": false,
+                    "bFilter": true,
+                    "bSort": true,
+                    "bInfo": true,
+                    "bAutoWidth": false
+                });*/
+            });
+</script>

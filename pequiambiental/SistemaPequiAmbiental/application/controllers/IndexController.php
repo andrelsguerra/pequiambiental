@@ -15,6 +15,9 @@ class IndexController extends Zend_Controller_Action {
     public $classeGenerica;
 
     public function init() {
+    	
+    	
+    	
     	$this->classeGenerica=$this->_helper->getHelper('classeGenerica');
     	
         $this->caminhoPastaFtp = BASE_PATH . '/uploadXml/';
@@ -42,12 +45,44 @@ class IndexController extends Zend_Controller_Action {
             $this->user = $this->view->user;
             $this->view->fk_perfil = $this->user->getFKPerfil();
             $this->view->usuario = $this->user->getUserName();
+            
+            $menu = new Application_Model_DbTable_MenuPermissaoPerfil();
+            
+            $listaMenuProjeto=$menu->retornaMenu(2,$this->user->getFKPerfil());
+            $this->view->listaMenuProjeto=$listaMenuProjeto;
+            
+            $listaMenuServicoPcp=$menu->retornaMenu(3,$this->user->getFKPerfil());
+            $this->view->listaMenuServicoPcp=$listaMenuServicoPcp;
+            
+            $listaMenuPlanoAcao=$menu->retornaMenu(4,$this->user->getFKPerfil());
+            $this->view->listaMenuPlanoAcao=$listaMenuPlanoAcao;
+            
+            $listaMenuContato=$menu->retornaMenu(5,$this->user->getFKPerfil());
+            $this->view->listaMenuContato=$listaMenuContato;
+            
+            $listaMenuOperador=$menu->retornaMenu(6,$this->user->getFKPerfil());
+            $this->view->listaMenuOperador=$listaMenuOperador;
+            
+            $listaMenuConfiguracao=$menu->retornaMenu(7,$this->user->getFKPerfil());
+            $this->view->listaMenuConfiguracao=$listaMenuConfiguracao;
+            
+            $listaMenuNoticia=$menu->retornaMenu(8,$this->user->getFKPerfil());
+            $this->view->listaMenuNoticia=$listaMenuNoticia;
+            
+            
+            
+            $listaMenuCliente=$menu->retornaMenu(10,$this->user->getFKPerfil());
+            $this->view->listaMenuCliente=$listaMenuCliente;
+            Zend_Registry::get('logger')->log("antes ", Zend_Log::INFO);
+            Zend_Registry::get('logger')->log($listaMenuNoticia, Zend_Log::INFO);
         }
         
         if(isset($_POST['Voltar'])){
         	$this->_redirect($this->session->urlAnterior, array('prependBase' => false));
         	exit();
         }
+        
+       
          
         
     }
@@ -445,6 +480,39 @@ class IndexController extends Zend_Controller_Action {
             $this->view->erro = 1;
             $this->view->mensagemExcecao = $e->getMessage();
         }
+    }
+    public function listaOperadorSimplesAction() {
+    	// action body
+    	$operador = new Application_Model_DbTable_Operador();
+    	Zend_Registry::get('logger')->log($_POST, Zend_Log::INFO);
+    
+    
+    	/*if ($this->getRequest()->isPost()) {
+    		$del = $this->getRequest()->getPost('del');
+    		if ($del == 'Sim') {
+    			Zend_Registry::get('logger')->log("teste2222", Zend_Log::INFO);
+    			$id = $this->getRequest()->getPost('ID_OPERADOR');
+    			 
+    			try {
+    				$operador->deleteOperador($id);
+    
+    				$this->view->mensagem = "Excluído com sucesso";
+    				$this->view->erro = 0;
+    			} catch (Exception $e) {
+    				$this->view->mensagem = $e->getCode() . " Deletar operador";
+    				$this->view->erro = 1;
+    				$this->view->mensagemExcecao = $e->getMessage();
+    
+    			}
+    		}
+    	}*/
+    	try {
+    		$this->view->operador = $operador->getOperadorComPerfil();
+    	} catch (Exception $e) {
+    		$this->view->mensagem = "Operador nao encontrado";
+    		$this->view->erro = 1;
+    		$this->view->mensagemExcecao = $e->getMessage();
+    	}
     }
 
     public function loginAction() {
@@ -1103,8 +1171,11 @@ class IndexController extends Zend_Controller_Action {
      public function addServicoAction(){
     	$form = new Application_Form_Servico();
     	$form->submit->setLabel('Adicionar');
-    	//$form->removeElement("tabela_contratacao");	
+    	//$form->removeElement("tabela_contratacao");
+    	
     	$this->view->form = $form;
+    	$formData["FK_PROJETO"]="2247";
+    	$form->populate($formData);
     	if ($this->getRequest()->isPost()) {
     		$formData = $this->getRequest()->getPost();
     		Zend_Registry::get('logger')->log($formData, Zend_Log::INFO);
@@ -1218,6 +1289,7 @@ class IndexController extends Zend_Controller_Action {
 			$formData = $this->getRequest()->getPost();
 			if ($form->isValid($formData)) {
 				Zend_Registry::get('logger')->log($formData, Zend_Log::INFO);
+				
 				$ID_PLANO_ACAO = (int) $form->getValue('ID_PLANO_ACAO');
 				$data_cadastro =new Zend_Date();
 					$DT_ATUALIZACAO=$data_cadastro->get('YYYY-MM-dd HH:mm:ss');
@@ -1239,13 +1311,43 @@ class IndexController extends Zend_Controller_Action {
     				$data_cadastro =new Zend_Date($DT_PREVISAO);
     				$DT_PREVISAO=$data_cadastro->get('YYYY-MM-dd HH:mm:ss');
     				
-    				$DT_CONTROLE =$form->getValue('DT_CONTROLE');
-    				$data_cadastro =new Zend_Date($DT_CONTROLE);
-    				$DT_CONTROLE=$data_cadastro->get('YYYY-MM-dd HH:mm:ss');
-
-    				$DT_CONCLUSAO =$form->getValue('DT_CONCLUSAO');
-    				$data_cadastro =new Zend_Date($DT_CONCLUSAO);
-    				$DT_CONCLUSAO=$data_cadastro->get('YYYY-MM-dd HH:mm:ss');
+    				
+    				$DT_CONTROLE =trim($form->getValue('DT_CONTROLE'));
+    				
+    				
+					
+    				
+    				 
+    				
+    				// vamos verificar se o campo foi ou não preenchido
+    				if(empty($DT_CONTROLE)){
+    					//echo "O campo NÃO foi preenchido";
+    						
+    				}
+    				else{
+    					$data_cadastro =new Zend_Date($DT_CONTROLE);
+    					$DT_CONTROLE=$data_cadastro->get('YYYY-MM-dd HH:mm:ss');
+    				}
+    				
+    				
+    				$DT_CONCLUSAO =trim($form->getValue('DT_CONCLUSAO'));
+    			
+    				
+    				// vamos verificar se o campo foi ou não preenchido
+    				if(empty($DT_CONCLUSAO)){
+    					//echo "O campo NÃO foi preenchido";
+    					
+    				}
+    				else{
+    					//echo "O campo foi preenchido";
+    					$data_cadastro =new Zend_Date($DT_CONCLUSAO);
+    					$DT_CONCLUSAO=$data_cadastro->get('YYYY-MM-dd HH:mm:ss');
+    					$FK_STATUS_PLANO_ACAO=4;//altera status para concluido quando a data  de conclusão é preenchida
+    					
+    					$formData['FK_STATUS_PLANO_ACAO']=4;
+    					$form->populate($formData);
+    				}
+    				
     				
     				
 				try {
@@ -1261,6 +1363,7 @@ class IndexController extends Zend_Controller_Action {
 					$this->view->mensagemExcecao = $e->getMessage();
 					//  echo ($e->getCode()."teste".$e->getMessage() );
 				}
+				
 		
 			} else {
 				$form->populate($formData);
@@ -1275,7 +1378,10 @@ class IndexController extends Zend_Controller_Action {
 		
 			if ($id > 0) {
 				$planoAcaoAux=$planoAcao->getPlanoAcao($id);
-				Zend_Registry::get('logger')->log($planoAcaoAux . $id, Zend_Log::INFO);
+				Zend_Registry::get('logger')->log($planoAcaoAux, Zend_Log::INFO);
+				if($planoAcaoAux['DT_CONCLUSAO']=='00/00/0000'){
+					$planoAcaoAux['DT_CONCLUSAO']="";
+				}
 				$form->populate($planoAcaoAux);
 			}
 		}
@@ -1420,6 +1526,40 @@ class IndexController extends Zend_Controller_Action {
 			Zend_Registry::get('logger')->log($this->view->planoAcao, Zend_Log::INFO);
 		
 	}
+	public function listaMeusPlanoAcaoAction() {
+		// action body
+		$planoAcao= new Application_Model_DbTable_PlanoAcao();
+		 
+	
+	
+		if ($this->getRequest()->isPost()) {
+			$del = $this->getRequest()->getPost('del');
+			if ($del == 'Sim') {
+				Zend_Registry::get('logger')->log("teste2222", Zend_Log::INFO);
+				$id = $this->getRequest()->getPost('ID_PLANO_ACAO');
+				
+				try {
+					$planoAcao->deletePlanoAcao($id);
+	
+					$this->view->mensagem = "Excluído com sucesso";
+					$this->view->erro = 0;
+				} catch (Exception $e) {
+					$this->view->mensagem = $e->getCode() . " Deletar plano ação";
+					$this->view->erro = 1;
+					$this->view->mensagemExcecao = $e->getMessage();
+	
+				}
+			}
+		}
+		//$this->user->getFKPerfil()
+		Zend_Registry::get('logger')->log($this->user, Zend_Log::INFO);
+			//getPlanoAcoesOperador($ID_OPERADOR)
+			$this->view->planoAcao= $planoAcao->getPlanoAcoesOperador(1);
+			
+			Zend_Registry::get('logger')->log($this->view->planoAcao, Zend_Log::INFO);
+		
+	}
+	
 	public function addContatoAction(){
     	$form = new Application_Form_Contato();
     	$form->submit->setLabel('Adicionar');
@@ -1498,7 +1638,13 @@ class IndexController extends Zend_Controller_Action {
         }
        
             $this->view->contatos = $contatos->getContatos();
-         Zend_Registry::get('logger')->log($this->view->contatos, Zend_Log::INFO);
+        
+    }
+    public function listaContatoSimplesAction() {
+        // action body
+        $contatos= new Application_Model_DbTable_Contato();
+        $this->view->contatos = $contatos->getContatos();
+         
     }
     public function listaProjetoContatoAction() {
     	// action body
@@ -1889,6 +2035,11 @@ class IndexController extends Zend_Controller_Action {
 		$id = $this->_getParam('id', 0);
 		$cliente = new Application_Model_DbTable_Cliente();
 		$this->view->cliente = $cliente->getCliente($id);
+	}
+	public function listaClienteSimplesAction(){
+		$cliente= new Application_Model_DbTable_Cliente();
+	    $this->view->cliente = $cliente->getClientes();
+		
 	}
 	public function listaClienteAction(){
 		$cliente= new Application_Model_DbTable_Cliente();
@@ -2432,6 +2583,45 @@ class IndexController extends Zend_Controller_Action {
 			
 		$this->view->statusProjeto = $statusProjeto->getStatusProjetos();
 		
+	}
+	public function permissaoAction(){
+		$menu = new Application_Model_DbTable_MenuPermissaoPerfil();
+        $listaPerfil=$menu->listaPerfil();
+        $this->view->listaPerfil=$listaPerfil;
+	}
+	public function editPermissaoAction(){
+		$id = $this->_getParam('id', 0);
+		$menu = new Application_Model_DbTable_MenuPermissaoPerfil();
+		
+		
+		if ($this->getRequest()->isPost()) {
+			$formData = $this->getRequest()->getPost();
+		
+		//for ($i=0;i<count($_POST['permissao']);$i++){
+			
+		//}
+			Zend_Registry::get('logger')->log($formData['permissao'], Zend_Log::INFO);
+			Zend_Registry::get('logger')->log($formData['perm'], Zend_Log::INFO);
+			$tam=count($formData['permissao']);
+			for ($j = 0; $j< $tam;  $j++){
+					
+					//echo $formData['perm'][$j];
+					Zend_Registry::get('logger')->log($formData['perm'][$j]." ".$formData['permissao'][$j], Zend_Log::INFO);
+					$menu->updatePermissaoPerfil ($formData['perm'][$j],$id,$formData['permissao'][$j]);
+	
+			}
+			$this->view->mensagem = "Atualizado com sucesso";
+			$this->view->erro = 0;
+			
+			
+		}
+		
+		//$listaPermissao=$menu->listaPermissao();
+		$listaPermissao=$menu->listaPermissaoPerfil($id);
+		
+		$this->view->listaPermissao=$listaPermissao;
+		
+		//Zend_Registry::get('logger')->log($listaPermissaoPerfil, Zend_Log::INFO);
 	}
 	public function addStatusProjetoAction(){
 		$form = new Application_Form_StatusProjeto();

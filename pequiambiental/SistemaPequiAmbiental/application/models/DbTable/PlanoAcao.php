@@ -22,6 +22,24 @@ class Application_Model_DbTable_PlanoAcao extends Zend_Db_Table_Abstract
     	->joinLeft(array('o' => 'TB_OPERADOR'),('n.FK_OPERADOR =o.ID_OPERADOR'),array('PRIMEIRO_NOME' => new Zend_Db_Expr("Substring_index(o.NM_OPERADOR,' ',1)")))
     	 ->joinInner(array('p' => 'TB_PROJETO'),('p.ID_PROJETO =n.FK_PROJETO'))
     	->joinLeft(array('st' => 'TB_STATUS_PLANO_ACAO'),('st.ID_STATUS_PLANO_ACAO=n.FK_STATUS_PLANO_ACAO'));
+    	//->order("n.DT_SERVICO DESC");
+    	
+    	
+    	
+    	$result = $this->getAdapter()->fetchAll($select);
+    	return $result;
+    }
+    public function getPlanoAcoesOperador($ID_OPERADOR)
+    {
+    	
+    	$select =$this->_db->select()
+    	->from(array('n' => 'TB_PLANO_ACAO'),array("*",'DT_ATUALIZACAO' => new Zend_Db_Expr("DATE_FORMAT(DT_ATUALIZACAO,'%d/%m/%Y')"),'DT_CONTROLE' => new Zend_Db_Expr("DATE_FORMAT(DT_CONTROLE,'%d/%m/%Y')"),'DT_CONCLUSAO' => new Zend_Db_Expr("DATE_FORMAT(DT_CONCLUSAO,'%d/%m/%Y')"),'DT_PREVISAO' => new Zend_Db_Expr("DATE_FORMAT(DT_PREVISAO,'%d/%m/%Y')")))
+    	->joinLeft(array('o' => 'TB_OPERADOR'),('n.FK_OPERADOR =o.ID_OPERADOR'),array('PRIMEIRO_NOME' => new Zend_Db_Expr("Substring_index(o.NM_OPERADOR,' ',1)")))
+    	 ->joinInner(array('p' => 'TB_PROJETO'),('p.ID_PROJETO =n.FK_PROJETO'))
+    	->joinLeft(array('st' => 'TB_STATUS_PLANO_ACAO'),('st.ID_STATUS_PLANO_ACAO=n.FK_STATUS_PLANO_ACAO'))
+    	->where(' o.FK_OPERADOR ='.$ID_OPERADOR);
+    	//->order("n.DT_SERVICO DESC");
+    	
     	
     	
     	$result = $this->getAdapter()->fetchAll($select);
@@ -49,8 +67,7 @@ class Application_Model_DbTable_PlanoAcao extends Zend_Db_Table_Abstract
     	->joinInner(array('p' => 'TB_PLANO_ACAO'),('p.ID_PROJETO =s.FK_PROJETO'))
     	->joinInner(array('tps' => 'TB_TIPO_SERVICO'),('tps.ID_TIPO_SERVICO =s.FK_TIPO_SERVICO'))
     	->joinLeft(array('o' => 'TB_OPERADOR'),('o.ID_OPERADOR =s.FK_OPERADOR'),array('PRIMEIRO_NOME' => new Zend_Db_Expr("Substring_index(o.NM_OPERADOR,' ',1)")))
-    	->where('s.FL_PCP=0 and p.ID_PROJETO ='.$ID_PROJETO)
-    	->order("s.DT_SERVICO DESC");
+    	->where('s.FL_PCP=0 and p.ID_PROJETO ='.$ID_PROJETO);
     	 
     	 
     	$result = $this->getAdapter()->fetchAll($select);

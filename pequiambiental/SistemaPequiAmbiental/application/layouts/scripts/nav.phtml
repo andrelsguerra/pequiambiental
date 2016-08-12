@@ -6,7 +6,9 @@
                         </li>
                        
                      
-                          <?php    //if ($this->fk_perfil!=2){?>  
+                          <?php    //if ($this->fk_perfil!=2)
+                          	if(count($this->listaMenuProjeto)>0){
+?>  
                           <li class="treeview">
                             <a href="#">
                                 <i class="fa fa-th"></i>
@@ -14,15 +16,40 @@
                                 <i class="fa fa-angle-left pull-right"></i>
                             </a>
                             <ul class="treeview-menu">
-                                <li><a href="<?php echo $this->url(array('controller'=>'index','action'=>'add-projeto'),null, true);?>"><i class="fa fa-angle-double-right"></i>Adicionar Projeto</a></li>
+                             <?php if(count($this->listaMenuProjeto)>0){
+											foreach($this->listaMenuProjeto as $value) : ?>
+								<li><a href="<?php echo $this->url(array('controller'=>'index','action'=>$value["NM_PAGINA"]),null, true);?>"><i class="fa fa-angle-double-right"></i><?php echo $value["DS_PAGINA"]?></a></li>
+                               <!--  <li><a href="<?php echo $this->url(array('controller'=>'index','action'=>'add-projeto'),null, true);?>"><i class="fa fa-angle-double-right"></i>Adicionar Projeto</a></li>
                                 <li><a href="<?php echo $this->url(array('controller'=>'index','action'=>'lista-projeto'),null, true);?>"><i class="fa fa-angle-double-right"></i>Listar Projeto</a></li>
                                 <li><a href="<?php echo $this->url(array('controller'=>'index','action'=>'lista-tipo-projeto'),null, true);?>"><i class="fa fa-angle-double-right"></i>Listar Tipo Projeto</a></li>
                                 <li><a href="<?php echo $this->url(array('controller'=>'index','action'=>'add-tipo-projeto'),null, true);?>"><i class="fa fa-angle-double-right"></i>Adicionar Tipo Projeto</a></li>
                             	<li><a href="<?php echo $this->url(array('controller'=>'index','action'=>'lista-status-projeto'),null, true);?>"><i class="fa fa-angle-double-right"></i>Listar Status Projeto</a></li>
                                 <li><a href="<?php echo $this->url(array('controller'=>'index','action'=>'add-status-projeto'),null, true);?>"><i class="fa fa-angle-double-right"></i>Adicionar Status Projeto</a></li>
+                            -->
+                            <?php endforeach; }?> 
                             </ul>
                         </li> 
-                        <li class="treeview">
+                        <?php }?>
+                        <?php    //if ($this->fk_perfil!=2)
+                          	if(count($this->listaMenuServicoPcp)>0){
+?>  
+                          <li class="treeview">
+                            <a href="#">
+                                <i class="fa fa-th"></i>
+                                <span>Serviço/PCP</span>
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </a>
+                            <ul class="treeview-menu">
+                             <?php if(count($this->listaMenuServicoPcp)>0){
+											foreach($this->listaMenuServicoPcp as $value) : ?>
+								<li><a href="<?php echo $this->url(array('controller'=>'index','action'=>$value["NM_PAGINA"]),null, true);?>"><i class="fa fa-angle-double-right"></i><?php echo $value["DS_PAGINA"]?></a></li>
+                               
+                         
+                            <?php endforeach; }?> 
+                            </ul>
+                        </li> 
+                        <?php }?>
+                       <!--  <li class="treeview">
                             <a href="#">
                                 <i class="fa fa-th"></i>
                                 <span>Serviço/PCP</span>
@@ -37,13 +64,13 @@
                                 <li><a href="<?php echo $this->url(array('controller'=>'index','action'=>'add-pcp'),null, true);?>"><i class="fa fa-angle-double-right"></i>Adicionar Pcp</a></li>
                                 
                             </ul>
-                        </li>
+                        </li>-->
                        
                        
-                        <li class="treeview">
+                        <!-- <li class="treeview">
                             <a href="#">
                                 <i class="fa fa-th"></i>
-                                <span>Plano Ação</span>
+                                <span>Meus Planos de ação</span>
                                 <i class="fa fa-angle-left pull-right"></i>
                             </a>
                             <ul class="treeview-menu">
@@ -52,8 +79,46 @@
                                  
                                 
                             </ul>
-                        </li>
-                        <li class="treeview">
+                        </li> -->
+                         <?php    //if ($this->fk_perfil!=2)
+                          	if(count($this->listaMenuPlanoAcao)>0){
+?>  
+                          <li class="treeview">
+                            <a href="#">
+                                <i class="fa fa-th"></i>
+                                <span>Meus Planos de ação</span>
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </a>
+                            <ul class="treeview-menu">
+                             <?php if(count($this->listaMenuPlanoAcao)>0){
+											foreach($this->listaMenuPlanoAcao as $value) : ?>
+								<li><a href="<?php echo $this->url(array('controller'=>'index','action'=>$value["NM_PAGINA"]),null, true);?>"><i class="fa fa-angle-double-right"></i><?php echo $value["DS_PAGINA"]?></a></li>
+                               
+                         
+                            <?php endforeach; }?> 
+                            </ul>
+                        </li> 
+                        <?php }?>
+                         <?php    //if ($this->fk_perfil!=2)
+                          	if(count($this->listaMenuContato)>0){
+?>  
+                          <li class="treeview">
+                            <a href="#">
+                                <i class="fa fa-th"></i>
+                                <span>Contato</span>
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </a>
+                            <ul class="treeview-menu">
+                             <?php if(count($this->listaMenuContato)>0){
+											foreach($this->listaMenuContato as $value) : ?>
+								<li><a href="<?php echo $this->url(array('controller'=>'index','action'=>$value["NM_PAGINA"]),null, true);?>"><i class="fa fa-angle-double-right"></i><?php echo $value["DS_PAGINA"]?></a></li>
+                               
+                         
+                            <?php endforeach; }?> 
+                            </ul>
+                        </li> 
+                        <?php }?>
+                        <!--  <li class="treeview">
                             <a href="#">
                                 <i class="fa fa-th"></i>
                                 <span>Contato</span>
@@ -65,9 +130,9 @@
                                 
                                 
                             </ul>
-                        </li>
+                        </li>-->
                         <?php //}?>
-                         <?php    if ($this->fk_perfil==1){?>  <li class="treeview">
+                        <!--   <?php    if ($this->fk_perfil==1){?>  <li class="treeview">
                             <a href="#">
                                 <i class="fa fa-th"></i>
                                 <span>Operador</span>
@@ -75,11 +140,52 @@
                             </a>
                             <ul class="treeview-menu">
                                 <li><a href="<?php echo $this->url(array('controller'=>'index','action'=>'lista-operador'),null, true);?>"><i class="fa fa-angle-double-right"></i> Listar Operador</a></li>
+                                <li><a href="<?php echo $this->url(array('controller'=>'index','action'=>'lista-operador-simples'),null, true);?>"><i class="fa fa-angle-double-right"></i> Listar Operador(Simples)</a></li>
                                 <li><a href="<?php echo $this->url(array('controller'=>'index','action'=>'add-operador'),null, true);?>"><i class="fa fa-angle-double-right"></i> Adicionar Operador</a></li>
                                 
                             </ul>
                         </li> <?php }?>
-						<li class="treeview">
+                        -->
+                        <?php    //if ($this->fk_perfil!=2)
+                          	if(count($this->listaMenuOperador)>0){
+?>  
+                          <li class="treeview">
+                            <a href="#">
+                                <i class="fa fa-th"></i>
+                                <span>Operador</span>
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </a>
+                            <ul class="treeview-menu">
+                             <?php if(count($this->listaMenuOperador)>0){
+											foreach($this->listaMenuOperador as $value) : ?>
+								<li><a href="<?php echo $this->url(array('controller'=>'index','action'=>$value["NM_PAGINA"]),null, true);?>"><i class="fa fa-angle-double-right"></i><?php echo $value["DS_PAGINA"]?></a></li>
+                               
+                         
+                            <?php endforeach; }?> 
+                            </ul>
+                        </li> 
+                        <?php }?>
+                        
+                         <?php    //if ($this->fk_perfil!=2)
+                          	if(count($this->listaMenuCliente)>0){
+?>  
+                          <li class="treeview">
+                            <a href="#">
+                                <i class="fa fa-th"></i>
+                                <span>Cliente</span>
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </a>
+                            <ul class="treeview-menu">
+                             <?php if(count($this->listaMenuCliente)>0){
+											foreach($this->listaMenuCliente as $value) : ?>
+								<li><a href="<?php echo $this->url(array('controller'=>'index','action'=>$value["NM_PAGINA"]),null, true);?>"><i class="fa fa-angle-double-right"></i><?php echo $value["DS_PAGINA"]?></a></li>
+                               
+                         
+                            <?php endforeach; }?> 
+                            </ul>
+                        </li> 
+                        <?php }?>
+						<!--  <li class="treeview">
                             <a href="#">
                                 <i class="fa fa-th"></i>
                                 <span>Cliente</span>
@@ -92,8 +198,8 @@
                                 <li><a href="<?php echo $this->url(array('controller'=>'index','action'=>'add-cliente'),null, true);?>"><i class="fa fa-angle-double-right"></i>Adicionar Cliente</a></li>
                                 
                             </ul>
-                        </li>
-                        <?php    if ($this->fk_perfil==1){?>  <li class="treeview">
+                        </li>-->
+                        <!--<?php    if ($this->fk_perfil==1){?>  <li class="treeview">
                             <a href="#">
                                 <i class="fa fa-th"></i>
                                 <span>Notícia</span>
@@ -104,6 +210,57 @@
                                 <li><a href="<?php echo $this->url(array('controller'=>'index','action'=>'add-noticia'),null, true);?>"><i class="fa fa-angle-double-right"></i> Adicionar Notícia</a></li>
                                 
                             </ul>
-                        </li> <?php }?>
+                        </li> <?php }?>-->
+                        <?php    //if ($this->fk_perfil!=2)
+                          	if(count($this->listaMenuNoticia)>0){
+?>  
+                          <li class="treeview">
+                            <a href="#">
+                                <i class="fa fa-th"></i>
+                                <span>Notícia</span>
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </a>
+                            <ul class="treeview-menu">
+                             <?php if(count($this->listaMenuNoticia)>0){
+											foreach($this->listaMenuNoticia as $value) : ?>
+								<li><a href="<?php echo $this->url(array('controller'=>'index','action'=>$value["NM_PAGINA"]),null, true);?>"><i class="fa fa-angle-double-right"></i><?php echo $value["DS_PAGINA"]?></a></li>
+                               
+                         
+                            <?php endforeach; }?> 
+                            </ul>
+                        </li> 
+                        <?php }?>
+                        <!--  
+                        <li class="treeview">
+                            <a href="#">
+                                <i class="fa fa-th"></i>
+                                <span>Configuração</span>
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </a>
+                            <ul class="treeview-menu">
+								<li><a href="<?php echo $this->url(array('controller'=>'index','action'=>'permissao'),null, true);?>"><i class="fa fa-angle-double-right"></i>Permissão</a></li>
+                               
+                                
+                            </ul>
+                        </li>-->
+                        <?php    //if ($this->fk_perfil!=2)
+                          	if(count($this->listaMenuConfiguracao)>0){
+?>  
+                          <li class="treeview">
+                            <a href="#">
+                                <i class="fa fa-th"></i>
+                                <span>Configurações</span>
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </a>
+                            <ul class="treeview-menu">
+                             <?php if(count($this->listaMenuConfiguracao)>0){
+											foreach($this->listaMenuConfiguracao as $value) : ?>
+								<li><a href="<?php echo $this->url(array('controller'=>'index','action'=>$value["NM_PAGINA"]),null, true);?>"><i class="fa fa-angle-double-right"></i><?php echo $value["DS_PAGINA"]?></a></li>
+                               
+                         
+                            <?php endforeach; }?> 
+                            </ul>
+                        </li> 
+                        <?php }?>
                        
                     </ul>

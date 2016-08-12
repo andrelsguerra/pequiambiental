@@ -1,0 +1,89 @@
+<?php
+	$this->title = "Listar Contato";
+	$this->headTitle($this->title);
+	//echo $this->form ;
+	
+?>
+
+<div class="box">
+                                <div class="box-header">
+                                    <h3 class="box-title">Lista Contato</h3>
+                                </div><!-- /.box-header -->
+                                <div class="box-body">                                
+                                    <table id="example1" class="table table-bordered table-hover box-body table-responsive no-padding">
+                                        <thead>
+                                            <tr>
+                                                <th class="arredondarEsq">NOME</th>
+												<th >CNPJ</th>
+												<th>OBSERVAÇÃO</th>
+												<th >RAMO ATIVIDADE</th>
+												<th >LOGRADOURO</th>
+												<th >NÚMERO</th>
+												<th >COMPLEMENTO</th>
+												<th >BAIRRO</th>
+												<th >CEP</th>
+												<th >UF</th>
+												
+                                                
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        <?php if(count($this->cliente)>0){
+											foreach($this->cliente as $cliente) : ?>
+                                            <tr>
+                                            <td><?php echo $cliente["NM_CLIENTE"]?></td>
+											<td><?php echo $cliente["NR_CNPJ"]?></td>
+											<td><?php echo $this->truncate($cliente["TX_OBSERVACAO"], 27); ?>
+											
+											<?php //echo $this->ClasseGenericaView->limitarTexto($cliente["TX_OBSERVACAO"], 27); ?>
+											
+											</td>
+											<td><?php echo $cliente["DS_RAMO_ATIVIDADE"]?></td>
+											<td><?php echo $cliente["NM_LOGRADOURO"]?></td>
+                                             <td><?php echo $cliente["NR_NUMERO"]?></td>
+                                             <td><?php echo $cliente["DS_COMPLEMENTO"]?></td>
+                                             <td><?php echo $cliente["NM_BAIRRO"]?></td>
+                                             <td><?php echo $cliente["NR_CEP"]?></td>
+                                             <td><?php echo $cliente["NM_UF"]?></td>
+                                            
+                                            </tr>
+                                          <?php endforeach; ?>
+	<?php }?> 
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <th class="arredondarEsq">NOME</th>
+												<th >CNPJ</th>
+												<th>OBSERVAÇÃO</th>
+												<th >RAMO ATIVIDADE</th>
+												<th >LOGRADOURO</th>
+												<th >NÚMERO</th>
+												<th >COMPLEMENTO</th>
+												<th >BAIRRO</th>
+												<th >CEP</th>
+												<th >UF</th>
+												                                             
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div><!-- /.box-body -->
+                            </div><!-- /.box -->
+                            
+<link href="<?php echo $this->baseUrl()?>/plugins/datatables/dataTables.bootstrap.css" rel="stylesheet" type="text/css" />
+<script src="<?php echo $this->baseUrl()?>/plugins/datatables/jquery.dataTables.min.js" ></script>
+<script src="<?php echo $this->baseUrl()?>/plugins/datatables/dataTables.bootstrap.min.js" ></script>
+<!-- page script -->
+<script type="text/javascript">
+            $(function() {
+                $("#example1").dataTable();
+				$("#example2").dataTable();
+                /*$('#example2').dataTable({
+                    "bPaginate": true,
+                    "bLengthChange": false,
+                    "bFilter": true,
+                    "bSort": true,
+                    "bInfo": true,
+                    "bAutoWidth": false
+                });*/
+            });
+</script>

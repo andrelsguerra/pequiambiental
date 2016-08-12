@@ -22,8 +22,32 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
             Zend_Registry::set('logger',$logger);
      //   }
     }
+    /*public function _initRegistry()
+{
+    $this->bootstrap('db'); // Bootstrap the db resource from configuration
+
+    $db = $this->getResource('db'); // get the db object here, if necessary
+
+    // now that you have initialized the db resource, you can use your dbtable object
+  //  $systemConfigModel = new Application_Model_DbTable_SystemConfig();
+    $menu = new Application_Model_DbTable_MenuPermissaoPerfil();
+   // Zend_Registry::set('config', $systemConfigModel->getSystemConfig());
+}*/
     protected function _initAcl()
 	{
+		$this->bootstrap('db'); // Bootstrap the db resource from configuration
+
+    	$db = $this->getResource('db'); // get the db object here, if necessary
+		
+		//$menu = new Application_Model_DbTable_MenuPermissaoPerfil();
+		
+		/*$this->_db->select()
+		->from(array('m' => 'TB_MENU'))
+		->joinLeft(array('p' => 'TB_PERMISSAO'),('p.FK_MENU =m.ID_MENU'))
+		->joinLeft(array('pp' => 'TB_PERFIL_PERMISSAO'),('pp.FK_PERMISSAO=p.ID_PERMISSAO'))
+		->where('m.ID_MENU='.$ID_MENU.' and pp.FK_PERFIL='.$ID_PERFIL);
+		;*/
+		
 		$aclSetup = new Aplicacao_Acl_Setup();
 		setlocale (LC_ALL, 'pt_BR');
 date_default_timezone_set('America/Sao_Paulo');

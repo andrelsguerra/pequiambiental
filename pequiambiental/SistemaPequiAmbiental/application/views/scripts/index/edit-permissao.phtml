@@ -1,0 +1,92 @@
+<?php
+	$this->title = "Listar Perfil";
+	$this->headTitle($this->title);
+	//echo $this->form ;
+	
+?>
+<form  method="post" action="#">
+<div class="box">
+                                <div class="box-header">
+                                    <h3 class="box-title">Editar Permissão Perfil</h3>
+                                </div><!-- /.box-header -->
+                                <div class="box-body">                                
+                                    <table id="example1" class="table table-bordered table-hover">
+                                        <thead>
+                                            <tr>
+                                                
+												<th >Nome Página</th>
+												<th >Descrição Página</th>
+												<th>PERMISSÃO</th>
+                                                
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        <?php 
+                                        $i=0;
+                                        if(count($this->listaPermissao)>0){
+											foreach($this->listaPermissao as $perfil) : ?>
+                                            <tr>
+                                           
+                                            <td><?php echo $perfil["NM_PAGINA"]?></td>
+											 <td><?php echo $perfil["DS_PAGINA"]?></td>
+											
+                                             <td>
+                                             <?php //echo $perfil["FL_PERMISSAO"]==1 ? "checked" :""?>
+                                               <div class="radio">
+                        <label>
+                        <input type="hidden" name="perm[<?php echo $i?>]" value="<?php echo $perfil["ID_PERMISSAO"]?>"> 
+                          <input type="radio" name="permissao[<?php echo $i?>]" id="<?php echo $perfil["NM_PAGINA"]?>" value="1" <?php echo $perfil["FL_PERMISSAO"]==1 ? "checked" :""?>>
+                         Sim
+                        </label>
+                      </div>
+                       <div class="radio">
+                        <label>
+                          <input type="radio" name="permissao[<?php echo $i?>]" id="<?php echo $perfil["NM_PAGINA"]?>" value="0"  <?php echo $perfil["FL_PERMISSAO"]==0 ? "checked" :""?>>
+                         Não
+                        </label>
+                      </div>
+                                                
+                                                
+                                                </td>
+                                            </tr>
+                                          <?php $i++; endforeach; ?>
+	<?php }?> 
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <th >Nome Página</th>
+												<th >Descrição Página</th>
+												<th>AÇÃO</th>                                          
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div><!-- /.box-body -->
+                            </div><!-- /.box -->
+                    
+                                    		<div class="box-footer">
+                    <button class="btn btn-default" type="submit" name="Voltar">Voltar</button>
+                    <button class="btn btn-info pull-right" type="submit" name="Salvar">Salvar</button>
+                  </div>
+                                    		
+</form>
+<link href="<?php echo $this->baseUrl()?>/plugins/datatables/dataTables.bootstrap.css" rel="stylesheet" type="text/css" />
+<script src="<?php echo $this->baseUrl()?>/plugins/datatables/jquery.dataTables.min.js" ></script>
+<script src="<?php echo $this->baseUrl()?>/plugins/datatables/dataTables.bootstrap.min.js" ></script>
+<!-- page script -->
+<script type="text/javascript">
+            $(function() {
+                $("#example1").dataTable({
+                    "bPaginate": false,
+                   
+                });
+				$("#example2").dataTable();
+                /*$('#example2').dataTable({
+                    "bPaginate": true,
+                    "bLengthChange": false,
+                    "bFilter": true,
+                    "bSort": true,
+                    "bInfo": true,
+                    "bAutoWidth": false
+                });*/
+            });
+</script>
