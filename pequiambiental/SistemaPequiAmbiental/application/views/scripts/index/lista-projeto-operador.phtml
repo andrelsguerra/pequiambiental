@@ -55,8 +55,8 @@
 						                                     
                                              <td>
                                                  
-                                                <!--   <a alt="Excluir" title="Excluir" href="<?php echo $this->url(array('controller'=>'index','action'=>'delete-contato', 'id'=>$operador["ID_CONTATO"]),null, true);?>" class="btn-sm  btn-danger"><i class="glyphicon glyphicon-trash"></i></a>
-                                                -->
+                                                   <a alt="Excluir" title="Excluir" href="<?php echo $this->url(array('controller'=>'index','action'=>'delete-projeto-operador', 'ID_PROJETO'=>$operador["ID_PROJETO"],'ID_OPERADOR'=>$operador["ID_OPERADOR"]),null, true);?>" class="btn-sm  btn-danger"><i class="glyphicon glyphicon-trash"></i></a>
+                                               
                                                 </td>
                                             </tr>
                                           <?php endforeach; ?>
@@ -72,11 +72,13 @@
                                     </table>
                                 </div><!-- /.box-body -->
                             </div><!-- /.box -->
-                            <!-- <div class="form-group">
-                                 <a alt="Adicionar" title="Adicionar" style="font-family: inherit;" href="<?php echo $this->url(array('controller'=>'index','action'=>'add-contato'),null, true);?>" class="btn-sm  "><i class="btn btn-primary">Adicionar Contato</i></a>   		
+                            <?php  if($this->permissaoAdicionarOperador){?>
+                             <div class="form-group">
+                                 <a alt="Adicionar" title="Adicionar" style="font-family: inherit;" href="<?php echo $this->url(array('controller'=>'index','action'=>'add-projeto-operador','id'=>$this->projeto["ID_PROJETO"]),null, true);?>" class="btn-sm  "><i class="btn btn-primary">Adicionar Operador</i></a>   		
                                      		
 
-                                    		</div> -->
+                                    		</div> 
+                             <?php }?> 
 <link href="<?php echo $this->baseUrl()?>/plugins/datatables/dataTables.bootstrap.css" rel="stylesheet" type="text/css" />
 <script src="<?php echo $this->baseUrl()?>/plugins/datatables/jquery.dataTables.min.js" ></script>
 <script src="<?php echo $this->baseUrl()?>/plugins/datatables/dataTables.bootstrap.min.js" ></script>

@@ -31,6 +31,14 @@ class Application_Model_DbTable_Projeto extends Zend_Db_Table_Abstract
     	$result = $this->getAdapter()->fetchAll($select);
     	return $result;
     }
+    public function getProjetoIndividualCombo($ID_PROJETO)
+    {
+    	
+       $listaProjeto = new Application_Model_DbTable_Projeto();
+       return $listaProjeto->getAdapter()->fetchPairs( $listaProjeto->select()->from( 'TB_PROJETO', array('ID_PROJETO', 'NM_PROJETO') )->where("ID_PROJETO ='$ID_PROJETO'")->order('NM_PROJETO'));
+      // $TB_OPERADOR = new Application_Model_DbTable_Operador();
+      // return $TB_OPERADOR->getAdapter()->fetchPairs( $TB_OPERADOR->select()->from( 'TB_OPERADOR', array('ID_OPERADOR', 'NM_OPERADOR') )->where("ID_OPERADOR ='$ID_OPERADOR'")->order('NM_OPERADOR'));
+    }
     public function getServicos($ID_PROJETO)
     {
     	 
@@ -126,6 +134,12 @@ class Application_Model_DbTable_Projeto extends Zend_Db_Table_Abstract
     	
         $data = array('NM_PROJETO' => $NM_PROJETO,'DT_CADASTRO' => $DT_CADASTRO,'FK_AGENCIA_AMBIENTAL' => $FK_AGENCIA_AMBIENTAL,'NR_CONTRATO' => $NR_CONTRATO,'TX_OBSERVACAO' => $TX_OBSERVACAO,'FK_CLIENTE' => $FK_CLIENTE,'FK_STATUS_PROJETO' => $FK_STATUS_PROJETO,'FL_ATIVO' => $FL_ATIVO,'Fk_GESTOR' => $Fk_GESTOR,'FK_TIPO_PROJETO' => $FK_TIPO_PROJETO,'FK_INDICACAO' => $FK_INDICACAO);
         $this->insert($data);
+    }
+    public function addProjetoOperador( $FK_PROJETO, $FK_OPERADOR)
+    {
+    	 
+    	$data = array('FK_PROJETO' => $FK_PROJETO,'FK_OPERADOR' => $FK_OPERADOR);
+    	$this->insert($data);
     }
      
     public function updateProjeto ($ID_PROJETO, $NM_PROJETO, $DT_CADASTRO, $FK_AGENCIA_AMBIENTAL, $NR_CONTRATO, $TX_OBSERVACAO, $FK_CLIENTE, $FK_STATUS_PROJETO, $FL_ATIVO, $Fk_GESTOR, $FK_TIPO_PROJETO, $FK_INDICACAOO)

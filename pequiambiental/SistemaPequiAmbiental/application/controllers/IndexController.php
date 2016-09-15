@@ -1680,25 +1680,112 @@ class IndexController extends Zend_Controller_Action {
     		Zend_Registry::get('logger')->log($this->view->contatos, Zend_Log::INFO);
     	}
     }
+    public function deleteProjetoOperadorAction(){
+    	
+    	
+    	
+    	try {
+    		$FK_OPERADOR= $this->_getParam('ID_OPERADOR', 0);
+    	$FK_PROJETO= $this->_getParam('ID_PROJETO', 0);
+    	$projetoOperador = new Application_Model_DbTable_ProjetoOperador();
+    	$projeto= new Application_Model_DbTable_Projeto();
+    	$operador= new Application_Model_DbTable_Operador();
+    	
+    	$this->view->operador=$operador->getOperador($FK_OPERADOR);
+   
+    	$this->view->projeto=$projeto->getProjeto($FK_PROJETO);
+    	//$this->view->projetoOperador = $projetoOperador->deleteProjetoOperador($FK_PROJETO, $FK_OPERADOR);
+    	} catch (Exception $erro) {
+    		
+    		$this->view->mensagem = $erro->getMessage();
+    		$this->view->erro = 1;
+    		//exit;
+    	}
+    }
+    public function addProjetoOperadorAction(){
+    	$id = $this->_getParam('id', 0);
+    	 $form = new Application_Form_ProjetoOperador(array('PROJETO' => $id,'OPERADOR' => $id) );
+    
+        $form->submit->setLabel('Salvar');
+   
+        $this->view->form = $form;
+        if ($this->getRequest()->isPost()) {
+        	$formData = $this->getRequest()->getPost();
+        	Zend_Registry::get('logger')->log($formData, Zend_Log::INFO);
+        	if ($form->isValid($formData)) {
+        
+        		try {
+        			$FK_PROJETO= $form->getValue('FK_PROJETO');
+        			$FK_OPERADOR = $form->getValue('FK_OPERADOR');
+        			$projetoOperador= new Application_Model_DbTable_ProjetoOperador();
+        			$projetoOperador->addProjetoOperador($FK_PROJETO, $FK_OPERADOR);
+        			
+        			$this->view->erro = 0;
+        			$this->view->mensagem = "Adicionado com sucesso";
+        			$form->reset();
+        		} catch (Exception $erro) {
+        			Zend_Registry::get('logger')->log("Erroooooooooooooooo", Zend_Log::INFO);
+        			$this->view->mensagem = $erro->getMessage();
+        			$this->view->erro = 1;
+        			//exit;
+        		}
+        	} else {
+        		Zend_Registry::get('logger')->log("formulario inválido", Zend_Log::INFO);
+        		$form->populate($formData);
+        		$arrMessages = $form->getMessages();
+        		foreach ($arrMessages as $field => $arrErrors) {
+        			$this->view->erro = 1;
+        			$this->view->mensagem = $this->view->mensagem . $form->getElement($field)->getLabel() . $this->view->formErrors($arrErrors) . "<br>";
+        		}
+        	}
+        }
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    	//$form->populate($formData);
+    	
+    	/*if ($id > 0) {
+    		$projeto= new Application_Model_DbTable_Projeto();
+    		$operador= new Application_Model_DbTable_Operador();
+    		$this->view->projeto= $projeto->getProjeto($id);
+    		$this->view->operador = $operador->getOperadorProjeto($id);
+    		Zend_Registry::get('logger')->log($this->view->operador, Zend_Log::INFO);
+    	}else{
+    		$this->view->mensagem = "Projeto não encontrado";
+    				$this->view->erro = 1;
+    				$this->view->mensagemExcecao = "Projeto não encontrado";
+    	}*/
+    }
     public function listaProjetoOperadorAction() {
     	// action body
-    	$contatos= new Application_Model_DbTable_Contato();
-    	 
-    
+    	$projetoOperador= new Application_Model_DbTable_ProjetoOperador();
+    	 $menu = new Application_Model_DbTable_MenuPermissaoPerfil();
+        $permissao=$menu->retornaPermissaoPagina("add-projeto-operador",$this->user->getFKPerfil());
+    	$this->view->permissaoAdicionarOperador=$permissao;
     
     	if ($this->getRequest()->isPost()) {
     		$del = $this->getRequest()->getPost('del');
     		if ($del == 'Sim') {
-    			Zend_Registry::get('logger')->log("teste2222", Zend_Log::INFO);
-    			$id = $this->getRequest()->getPost('ID_CONTATO');
-    			$contato = new Application_Model_DbTable_Contato();
+    			
+    			$FK_OPERADOR = $this->getRequest()->getPost('FK_OPERADOR');
+    			$FK_PROJETO = $this->getRequest()->getPost('FK_PROJETO');
+    			//$contato = new Application_Model_DbTable_Contato();
+    			
+    			
     			try {
-    				$contato->deleteContato($id);
+    				$projetoOperador=$projetoOperador->deleteProjetoOperador($FK_PROJETO, $FK_OPERADOR);
     
     				$this->view->mensagem = "Excluído com sucesso";
     				$this->view->erro = 0;
     			} catch (Exception $e) {
-    				$this->view->mensagem = $e->getCode() . " Deletar contato";
+    				$this->view->mensagem = $e->getCode() . " Deletar operador do projeto ". $e->getMessage();
     				$this->view->erro = 1;
     				$this->view->mensagemExcecao = $e->getMessage();
     

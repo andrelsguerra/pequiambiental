@@ -93,6 +93,7 @@ order by DAY(DT_NASCIMENTO ) ASC*/
     	->joinLeft(array('u' => 'TB_OPERADOR'),('u.ID_OPERADOR =po.FK_OPERADOR'),array("*",'PRIMEIRO_NOME' => new Zend_Db_Expr("Substring_index(u.NM_OPERADOR,' ',1)")))
         	->where('p.ID_PROJETO='.$ID_PROJETO);
     	//->order('DAY(DT_NASCIMENTO ) ASC');
+    		//Zend_Registry::get('logger')->log( $select->__toString(), Zend_Log::INFO);
     	$result = $this->getAdapter()->fetchAll($select);
     		
     	return $result;
@@ -102,7 +103,15 @@ order by DAY(DT_NASCIMENTO ) ASC*/
     public function getOperadores()
     {
        $TB_OPERADOR = new Application_Model_DbTable_Operador();
-       return $TB_OPERADOR->getAdapter()->fetchPairs( $TB_OPERADOR->select()->from( 'TB_OPERADOR', array('ID_OPERADOR', 'nome') )->where('ID_OPERADOR <>1')->order('nome'));
+       return $TB_OPERADOR->getAdapter()->fetchPairs( $TB_OPERADOR->select()->from( 'TB_OPERADOR', array('ID_OPERADOR', 'NM_OPERADOR') )->where('ID_OPERADOR <>1')->order('NM_OPERADOR'));
+    }
+    public function getOperadorIndividualCombo($ID_OPERADOR)
+    {
+    	//$select=$this->_db->select()->from( 'TB_OPERADOR', array('ID_OPERADOR', 'NM_OPERADOR') )->where("ID_OPERADOR ='$ID_OPERADOR'")->order('NM_OPERADOR');
+       //Zend_Registry::get('logger')->log( "getOperadorIndividualCombo", Zend_Log::INFO);
+       //Zend_Registry::get('logger')->log( $select->__toString(), Zend_Log::INFO);
+       $TB_OPERADOR = new Application_Model_DbTable_Operador();
+       return $TB_OPERADOR->getAdapter()->fetchPairs( $TB_OPERADOR->select()->from( 'TB_OPERADOR', array('ID_OPERADOR', 'NM_OPERADOR') )->where("ID_OPERADOR ='$ID_OPERADOR'")->order('NM_OPERADOR'));
     }
     public function getOperadorNegocio()
     {

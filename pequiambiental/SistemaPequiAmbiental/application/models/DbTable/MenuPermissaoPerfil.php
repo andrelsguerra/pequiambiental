@@ -89,7 +89,23 @@ class Application_Model_DbTable_MenuPermissaoPerfil extends Zend_Db_Table_Abstra
 		
 		return $result;
 	}
+	public function retornaPermissaoPagina($pagina,$ID_PERFIL){
+		$select =$this->_db->select()
+		->from(array('p' => 'TB_PERMISSAO'),array("*"))
+		->joinLeft(array('pp' => 'TB_PERFIL_PERMISSAO'),('pp.FK_PERMISSAO =p.ID_PERMISSAO'))
+		->joinLeft(array('pe' => 'perfil'),('pe.id_perfil =pp.FK_PERFIL'))
+		->where("p.NM_PAGINA ='$pagina' and id_perfil='$ID_PERFIL'");
+		//Zend_Registry::get('logger')->log( "testeeee", Zend_Log::INFO);	
+		//Zend_Registry::get('logger')->log( $select->__toString(), Zend_Log::INFO);	
+		$result = $this->getAdapter()->fetchRow($select);
 	
+		//Zend_Registry::get('logger')->log( $result ,Zend_Log::INFO);	
+		//Zend_Registry::get('logger')->log( $result["FL_PERMISSAO"] ,Zend_Log::INFO);	
+		
+		return $result["FL_PERMISSAO"];//retorna 0 nao tem permissão ou 1 Tem permissão
+		
+		 
+	}
 	
 
 }
