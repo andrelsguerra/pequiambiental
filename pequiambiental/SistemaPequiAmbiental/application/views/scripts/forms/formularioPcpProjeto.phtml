@@ -2,7 +2,7 @@
 				<div class="box box-default">
 				<form role="form" action="" method="<?php echo $this->element->getMethod() ?>" id="<?php echo $this->element->getName()?>" enctype="multipart/form-data">
             <div class="box-header with-border">
-              <h3 class="box-title">SERVIÇO</h3>
+              <h3 class="box-title">PCP</h3>
               <div class="box-tools pull-right">
                 <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
                 <button class="btn btn-box-tool" data-widget="remove"><i class="fa fa-remove"></i></button>
@@ -11,11 +11,20 @@
             <div class="box-body">
               <div class="row">
                 <div class="col-md-12">
-                
+                <?php //echo $this->element->FL_VALIDAR_SERVICO->getValue();
+                	if(!$this->element->FL_VALIDAR_SERVICO->getValue()){ ?>
+                 
+                   
+                   <a style="color:#fff;font-weight: bold;" alt="Excluir" title="Excluir" href="<?php echo $this->url(array('controller'=>'index','action'=>'validar-servico', 'id'=>$this->element->ID_SERVICO->getValue()),null, true)?>" class="btn btn-default btn-warning">VALIDAR SERVIÇO</a>
+                    </br></br>
+                  
+                <?php } ?>
+                <?php echo $this->element->FL_VALIDAR_SERVICO ?>
 					<?php echo $this->element->ID_SERVICO ?>
+					<?php echo $this->element->FK_PROJETO ?>
 					  <div class="form-group">
-	                      <label ><?php echo $this->element->FK_PROJETO->getLabel() ?></label>
-	                     <?php echo $this->element->FK_PROJETO ?>
+	                      <label ><?php echo $this->element->FK_PROJETO1->getLabel() ?></label>
+	                     <?php echo $this->element->FK_PROJETO1 ?>
 	                  </div>
 	                   <div class="form-group">
 	                      <label ><?php echo $this->element->DS_SERVICO->getLabel() ?></label>

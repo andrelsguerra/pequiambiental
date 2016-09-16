@@ -2,11 +2,40 @@
 
 class Application_Form_Servico extends Zend_Form
 {
+	protected $_OPERADOR;
+	protected $_PROJETOS;
+	//protected $_PROJETO;//Na hora de editar o pcp nao pode alterar o projeto
+	
 
+    public function setOperador($operador)
+    {
+       // $this->_myParameters = $myParameters;
+        $this->_OPERADOR = $operador;
+    	//$this->_OPERADOR='1';
+    	//Zend_Registry::get('logger')->log("testeddd", Zend_Log::INFO);
+    	$projeto= new Application_Model_DbTable_Projeto();
+    	//$this->_PROJETOS=$projeto->getProjetoCombo() ;
+    	$this->_PROJETOS=$projeto->getProjetosOperadorPermissao($operador);
+    	
+    }
+    public function setProjetos($projeto)
+    {
+       // $this->_myParameters = $myParameters;
+     //   $this->$_PROJETO = $projeto;
+    	//$this->_OPERADOR='1';
+    	//Zend_Registry::get('logger')->log("testeddd", Zend_Log::INFO);
+    	$projeto= new Application_Model_DbTable_Projeto();
+    	//$this->_PROJETOS=$projeto->getProjetoCombo() ;
+    	$this->_PROJETOS=$projeto->getProjetoEditCombo($projeto);
+    	
+    }
     public function init()
     {
         /* Form Elements & Other Definitions Here ... */
-    	
+    	if(!isset($this->_PROJETOS)){
+    		$projeto= new Application_Model_DbTable_Projeto();
+    		$this->_PROJETOS=$projeto->getProjetoCombo() ;
+    	}  
     
     	    	
     	$this->setName('FormularioServico');
@@ -45,7 +74,7 @@ class Application_Form_Servico extends Zend_Form
 		$FK_PROJETO= new Zend_Form_Element_Select('FK_PROJETO');
         $projeto= new Application_Model_DbTable_Projeto();
         $FK_PROJETO->setLabel('PROJETO');
-        $FK_PROJETO->setMultiOptions( $projeto->getProjetoCombo() )
+        $FK_PROJETO->setMultiOptions( $this->_PROJETOS )
         ->setRequired(true)
         ->removeDecorator('DtDdWrapper')
         ->removeDecorator('HtmlTag')
@@ -72,6 +101,8 @@ class Application_Form_Servico extends Zend_Form
         ->removeDecorator('HtmlTag')
         ->removeDecorator('Label')
         ->setAttrib('class', 'form-control')
+         ->addPrefixPath('Aplicacao_Validate', 'Aplicacao/Validate/', 'validate')
+			->addValidator(new Aplicacao_Validate_Data())
         ->setAttrib('placeholder', 'Enter serviço ');
         
         $NR_CARGA_HORARIA = new Zend_Form_Element_Text('NR_CARGA_HORARIA');

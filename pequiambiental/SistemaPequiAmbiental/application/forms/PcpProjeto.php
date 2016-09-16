@@ -77,15 +77,15 @@ class Application_Form_Pcp extends Zend_Form
         ->removeDecorator('Label')
         ->setAttrib('class', 'form-control select2');
         
-		$FK_PROJETO= new Zend_Form_Element_Select('FK_PROJETO');
-        //$projeto= new Application_Model_DbTable_Projeto();
-        $FK_PROJETO->setLabel('PROJETO');
-        $FK_PROJETO->setMultiOptions( $this->_PROJETOS )
-        ->setRequired(true)
-        ->removeDecorator('DtDdWrapper')
-        ->removeDecorator('HtmlTag')
-        ->removeDecorator('Label')
-        ->setAttrib('class', 'form-control select2');
+		
+        
+        $FK_PROJETO= new Zend_Form_Element_Hidden('FK_PROJETO');
+        $FK_PROJETO->addFilter('Int');
+        $FK_PROJETO->removeDecorator('Label');
+       
+        $FK_PROJETO1 = new Zend_Form_Element_Text('FK_PROJETO1');
+        $FK_PROJETO1->setLabel('PROJETO')
+        ->setAttrib('class', 'form-control');
 
         
        $DS_SERVICO = new Zend_Form_Element_Textarea('DS_SERVICO');
@@ -134,8 +134,8 @@ class Application_Form_Pcp extends Zend_Form
         ->removeDecorator('HtmlTag')
         ->removeDecorator('Label');        
             
-    $this->addElements(array($FL_VALIDAR_SERVICO,$ID_SERVICO,$FK_PROJETO,$DS_SERVICO,$FK_OPERADOR,$FK_TIPO_SERVICO,$DT_SERVICO,$FL_PCP,$NR_CARGA_HORARIA,$submit));     
-     $this->setDecorators( array( array('ViewScript', array('viewScript' => '/forms/formularioPcp.phtml'))));   
+    $this->addElements(array($FK_PROJETO1,$FL_VALIDAR_SERVICO,$ID_SERVICO,$FK_PROJETO,$DS_SERVICO,$FK_OPERADOR,$FK_TIPO_SERVICO,$DT_SERVICO,$FL_PCP,$NR_CARGA_HORARIA,$submit));     
+     $this->setDecorators( array( array('ViewScript', array('viewScript' => '/forms/formularioPcpProjeto.phtml'))));   
 	
     }
 

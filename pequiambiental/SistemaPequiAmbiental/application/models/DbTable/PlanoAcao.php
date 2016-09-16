@@ -37,7 +37,7 @@ class Application_Model_DbTable_PlanoAcao extends Zend_Db_Table_Abstract
     	->joinLeft(array('o' => 'TB_OPERADOR'),('n.FK_OPERADOR =o.ID_OPERADOR'),array('PRIMEIRO_NOME' => new Zend_Db_Expr("Substring_index(o.NM_OPERADOR,' ',1)")))
     	 ->joinInner(array('p' => 'TB_PROJETO'),('p.ID_PROJETO =n.FK_PROJETO'))
     	->joinLeft(array('st' => 'TB_STATUS_PLANO_ACAO'),('st.ID_STATUS_PLANO_ACAO=n.FK_STATUS_PLANO_ACAO'))
-    	->where(' o.FK_OPERADOR ='.$ID_OPERADOR);
+    	->where(' o.ID_OPERADOR ='.$ID_OPERADOR);
     	//->order("n.DT_SERVICO DESC");
     	
     	

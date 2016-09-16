@@ -83,8 +83,8 @@ class Aplicacao_Acl_Setup extends Zend_Controller_Plugin_Abstract
        		$this->_acl->allow( $value["nome"], 'index', array($value["NM_PAGINA"],'index','logout','error','forbidden') );
 		}
 		
-		Zend_Registry::get('logger')->log($arrayPermissao, Zend_Log::INFO);
-		Zend_Registry::get('logger')->log($arrayPerfil, Zend_Log::INFO);
+		//Zend_Registry::get('logger')->log($arrayPermissao, Zend_Log::INFO);
+		//Zend_Registry::get('logger')->log($arrayPerfil, Zend_Log::INFO);
 		//Zend_Registry::get('logger')->log(array('add-pcp','index'), Zend_Log::INFO);
 		
 	}

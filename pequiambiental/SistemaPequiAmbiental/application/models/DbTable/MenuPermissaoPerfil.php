@@ -56,7 +56,7 @@ class Application_Model_DbTable_MenuPermissaoPerfil extends Zend_Db_Table_Abstra
 		->where('pp.FK_PERFIL='.$ID_PERFIL);
 		;
 	
-		Zend_Registry::get('logger')->log( $select->__toString(), Zend_Log::INFO);
+		//Zend_Registry::get('logger')->log( $select->__toString(), Zend_Log::INFO);
 		//$a = array(array('p', 'h'), array('p', 'r'), 'o');
 		
 			
@@ -83,7 +83,7 @@ class Application_Model_DbTable_MenuPermissaoPerfil extends Zend_Db_Table_Abstra
 		->where('pp.FL_PERMISSAO=1')
 		->order("pp.FK_PERFIL")
 		;
-		Zend_Registry::get('logger')->log( $select->__toString(), Zend_Log::INFO);	
+		//Zend_Registry::get('logger')->log( $select->__toString(), Zend_Log::INFO);	
 		$result = $this->getAdapter()->fetchAll($select);
 	
 		

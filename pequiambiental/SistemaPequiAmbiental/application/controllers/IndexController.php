@@ -105,12 +105,19 @@ class IndexController extends Zend_Controller_Action {
 		$listaNoticias=$noticia->getUltimasNoticias(1);//busca noticias 
 		$this->view->listaNoticias=$listaNoticias;
 		
-		Zend_Registry::get('logger')->log( "teste", Zend_Log::INFO);
+		//Zend_Registry::get('logger')->log( "teste", Zend_Log::INFO);
 		
 		$projeto = new Application_Model_DbTable_Projeto();
 		$this->view->listaProjetos = $projeto->getUltimasProjeto();
-		Zend_Registry::get('logger')->log( $this->view->listaProjetos, Zend_Log::INFO);
-		Zend_Registry::get('logger')->log( "depois", Zend_Log::INFO);
+		//Zend_Registry::get('logger')->log( $this->view->listaProjetos, Zend_Log::INFO);
+		//Zend_Registry::get('logger')->log( "depois", Zend_Log::INFO);
+		
+		
+		
+		
+		$pcpsServicos= new Application_Model_DbTable_Servico();
+    	$this->view->pcpsServicos = $pcpsServicos->getPcpsServicos($this->user->getId());
+    	Zend_Registry::get('logger')->log( $this->view->pcpsServicos, Zend_Log::INFO);
     }
 
     public function deleteOperadorAction() {
@@ -854,7 +861,13 @@ class IndexController extends Zend_Controller_Action {
 					$FK_TIPO_PROJETO=$form->getValue('FK_TIPO_PROJETO');
 					$FK_INDICACAO=$form->getValue('FK_INDICACAO');
 					
-					$projeto->addProjeto( $NM_PROJETO, $DT_CADASTRO, $FK_AGENCIA_AMBIENTAL, $NR_CONTRATO, $TX_OBSERVACAO, $FK_CLIENTE, $FK_STATUS_PROJETO, $FL_ATIVO, $Fk_GESTOR, $FK_TIPO_PROJETO, $FK_INDICACAO);
+					$idNovoProjeto=$projeto->addProjeto( $NM_PROJETO, $DT_CADASTRO, $FK_AGENCIA_AMBIENTAL, $NR_CONTRATO, $TX_OBSERVACAO, $FK_CLIENTE, $FK_STATUS_PROJETO, $FL_ATIVO, $Fk_GESTOR, $FK_TIPO_PROJETO, $FK_INDICACAO);
+						Zend_Registry::get('logger')->log("Novo projeto", Zend_Log::INFO);
+					Zend_Registry::get('logger')->log($idNovoProjeto, Zend_Log::INFO);
+					$projetoOperador= new Application_Model_DbTable_ProjetoOperador();
+        			Zend_Registry::get('logger')->log($this->user->getId(), Zend_Log::INFO);
+        			$projetoOperador->addProjetoOperador($idNovoProjeto, $this->user->getId());
+					
 					
     				$this->view->erro = 0;
     				$this->view->mensagem = "Adicionado com sucesso";
@@ -1011,11 +1024,11 @@ class IndexController extends Zend_Controller_Action {
     			$id = $this->getRequest()->getPost('ID_SERVICO');
     				
     			try {
-    				$servico->deleteServico($id);
+    				$servico->deletePcp($id);
     				$this->view->mensagem = "Excluído com sucesso";
     				$this->view->erro = 0;
     			} catch (Exception $e) {
-    				$this->view->mensagem = $e->getCode() . " Deletar serviço";
+    				$this->view->mensagem = $e->getCode() ." ".$e->getMessage();
     				$this->view->erro = 1;
     				$this->view->mensagemExcecao = $e->getMessage();
     
@@ -1023,15 +1036,36 @@ class IndexController extends Zend_Controller_Action {
     		}
     	}
     
-    	$this->view->listaPcps= $servico->getPcps();
-    	Zend_Registry::get('logger')->log($this->view->listaServicos, Zend_Log::INFO);
+    	//$this->view->listaPcps= $servico->getPcps();
+    	$this->view->listaPcps=  $servico->getPcpsOperador($this->user->getId());
+    	Zend_Registry::get('logger')->log($this->view->listaPcps, Zend_Log::INFO);
+    	
+    	
+    		
     
     }
     public function addPcpAction(){
-    	$form = new Application_Form_Pcp();
+    	//$form = new Application_Form_Pcp();
+    	
+    	try {
+    		$form = new Application_Form_Pcp(array('OPERADOR' => $this->user->getId()));
+    		$id_projeto = $this->_getParam('id_projeto', 0);
+    		if ($id_projeto > 0) {
+    			$formData["FK_PROJETO"]=$id_projeto;
+    			$form->populate($formData);
+    			$form->getElement("FK_PROJETO")->setAttrib("disable",true);
+    			$form->getElement("FK_PROJETO")->setRequired(false);
+    			
+    		}
+    		
+    		
+    	
+    			
+    	
     	$form->submit->setLabel('Adicionar');
     	//$form->removeElement("tabela_contratacao");
     	$this->view->form = $form;
+    	$form->FL_VALIDAR_SERVICO->setValue(1);
     	if ($this->getRequest()->isPost()) {
     		$formData = $this->getRequest()->getPost();
     		Zend_Registry::get('logger')->log($formData, Zend_Log::INFO);
@@ -1047,15 +1081,21 @@ class IndexController extends Zend_Controller_Action {
     				$data_cadastro =new Zend_Date($DT_SERVICO);
     				$DT_SERVICO=$data_cadastro->get('YYYY-MM-dd');
     
-    				$FK_PROJETO=$form->getValue('FK_PROJETO');
+    				if ($id_projeto > 0) {
+    					$FK_PROJETO=$id_projeto;
+    				}else{
+    					$FK_PROJETO=$form->getValue('FK_PROJETO');
+    				}
+    				
+    				
     				$FL_PCP=1;
     
     				$servico = new Application_Model_DbTable_Servico();
     				$servico->addServico($DS_SERVICO, $FK_OPERADOR, $NR_CARGA_HORARIA, $FK_TIPO_SERVICO, $DT_SERVICO, $FK_PROJETO, $FL_PCP);
-    				//$descricao=$form->getValue('descricao');
-    				//$centroCusto->addCentroCusto($descricao);
+    				$form->reset();
     				$this->view->erro = 0;
     				$this->view->mensagem = "Adicionado com sucesso";
+    				$form->FL_VALIDAR_SERVICO->setValue(1);
     			} catch (Exception $erro) {
     				Zend_Registry::get('logger')->log("Erroooooooooooooooo", Zend_Log::INFO);
     				$this->view->mensagem = $erro->getMessage();
@@ -1072,6 +1112,12 @@ class IndexController extends Zend_Controller_Action {
     			}
     		}
     	}
+    	} catch (Exception $erro) {
+    				Zend_Registry::get('logger')->log("Erroooooooooooooooo", Zend_Log::INFO);
+    				$this->view->mensagem = $erro->getMessage();
+    				$this->view->erro = 1;
+    				//exit;
+    			}
     	 
     }
     public function editPcpAction(){
@@ -1080,11 +1126,15 @@ class IndexController extends Zend_Controller_Action {
     	// action body
     	$servico = new Application_Model_DbTable_Servico();
     	//$form->removeElement("tabela_contratacao");
+    	$form->getElement("FK_PROJETO")->setAttrib("disable",true);
+    	$form->getElement("FK_PROJETO")->setRequired(false);
     	$this->view->form = $form;
     	$noticia = new Application_Model_DbTable_Noticia();
     	if ($this->getRequest()->isPost()) {
     		$formData = $this->getRequest()->getPost();
     		if ($form->isValid($formData)) {
+    			Zend_Registry::get('logger')->log("antese", Zend_Log::INFO);
+    			Zend_Registry::get('logger')->log($formData, Zend_Log::INFO);
     			$ID_SERVICO=$form->getValue('ID_SERVICO');
     			$DS_SERVICO=$form->getValue('DS_SERVICO');
     			$FK_OPERADOR=$this->user->getId();
@@ -1099,10 +1149,17 @@ class IndexController extends Zend_Controller_Action {
     			$FL_PCP=1;
     
     			try {
-    				$servico->updateServico($ID_SERVICO, $DS_SERVICO, $FK_OPERADOR, $NR_CARGA_HORARIA, $FK_TIPO_SERVICO, $DT_SERVICO, $FK_PROJETO, $FL_PCP);
+    				$servico->updateServicoSemProjeto($ID_SERVICO, $DS_SERVICO, $FK_OPERADOR, $NR_CARGA_HORARIA, $FK_TIPO_SERVICO, $DT_SERVICO, $FL_PCP);
     					
     				$this->view->mensagem = "Atualizado com sucesso";
     				$this->view->erro = 0;
+    				$id = $this->_getParam('id', 0);
+		    		if ($id > 0) {
+		    
+		    			$form->populate($servico->getServico($id));
+		    		}
+		    		$form->populate($formData);
+    				
     				//$this->_helper->redirector('lista-usuario');
     			} // catch (pega exceÃƒÂ§ÃƒÂ£o)
     			catch (Exception $e) {
@@ -1113,6 +1170,11 @@ class IndexController extends Zend_Controller_Action {
     			}
     
     		} else {
+    			$id = $this->_getParam('id', 0);
+	    		if ($id > 0) {
+	    
+	    			$form->populate($servico->getServico($id));
+	    		}
     			$form->populate($formData);
     			$arrMessages = $form->getMessages();
     			foreach ($arrMessages as $field => $arrErrors) {
@@ -1138,7 +1200,47 @@ class IndexController extends Zend_Controller_Action {
 		$servico= new Application_Model_DbTable_Servico();
 		$this->view->servico = $servico->getServico($id);
 	}
+	public function validarServicoAction() {
 	
+	
+		$id = $this->_getParam('id', 0);
+		$servico= new Application_Model_DbTable_Servico();
+		$this->view->validarServico=0;
+		$this->view->ID_SERVICO=0;
+		if ($this->getRequest()->isPost()) {
+			$del = $this->getRequest()->getPost('del');
+			if ($del == 'Sim') {
+				//Zend_Registry::get('logger')->log("teste2222", Zend_Log::INFO);
+				
+				
+				try {
+					$id = $this->getRequest()->getPost('ID_SERVICO');
+				 	$novoServico=$servico->getServicoAutomatico($id);
+				 	// Zend_Registry::get('logger')->log($novoServico["DS_SERVICO"], Zend_Log::INFO);
+				 	//Zend_Registry::get('logger')->log($novoServico, Zend_Log::INFO);
+				 
+					$this->view->ID_SERVICO= $servico->addServico($novoServico["DS_SERVICO"], $novoServico["FK_OPERADOR"], $novoServico["NR_CARGA_HORARIA"], $novoServico["FK_TIPO_SERVICO"],$novoServico["DT_SERVICO"],$novoServico["FK_PROJETO"] ,0);
+					$servico->updateValidarServico ( $id,$this->view->ID_SERVICO);
+					
+					$this->view->mensagem = "Serviço criado com sucesso";
+					$this->view->erro = 0;
+					$this->view->validarServico=1;
+				} catch (Exception $e) {
+					$this->view->mensagem = $e->getCode() . "Erro ao criar serviço";
+					$this->view->erro = 1;
+					$this->view->mensagemExcecao = $e->getMessage();
+		
+				}
+			}else{
+				$this->_redirect($this->session->urlAnterior, array('prependBase' => false));
+        		exit();
+			}
+		}
+		
+		
+		
+		$this->view->servico = $servico->getServico($id);
+	}
     public function listaServicoAction(){
 		// action body
 		$servico = new Application_Model_DbTable_Servico();
@@ -1164,18 +1266,38 @@ class IndexController extends Zend_Controller_Action {
 			}
 		}
 	
-		$this->view->listaServicos= $servico->getServicos();
-		Zend_Registry::get('logger')->log($this->view->listaServicos, Zend_Log::INFO);
+		$this->view->listaServicos= $servico->getServicosOperador($this->user->getId());
+		
+		
 
 	}
      public function addServicoAction(){
-    	$form = new Application_Form_Servico();
-    	$form->submit->setLabel('Adicionar');
-    	//$form->removeElement("tabela_contratacao");
+     	
+     	try {
+    			//$form = new Application_Form_Pcp(array('OPERADOR' => $this->user->getId()));
+    			$form = new Application_Form_Servico(array('OPERADOR' => $this->user->getId()));
+			    $form->submit->setLabel('Adicionar');
+			    //$form->removeElement("tabela_contratacao");
+			    $id_projeto = $this->_getParam('id_projeto', 0);
+			    if ($id_projeto > 0) {
+			    	$formData["FK_PROJETO"]=$id_projeto;
+			    	$form->populate($formData);
+			    	$form->getElement("FK_PROJETO")->setAttrib("disable",true);
+			    	$form->getElement("FK_PROJETO")->setRequired(false);
+			    	 
+			    }
+			    	
+			    $this->view->form = $form;
+			    //$formData["FK_PROJETO"]="2247";
+			    //$form->populate($formData);
+    		} catch (Exception $e) {
+    				$this->view->mensagem = $e->getCode() .$e->getMessage();
+    				$this->view->erro = 1;
+    				$this->view->mensagemExcecao = $e->getMessage();
+    
+    		}
+     	
     	
-    	$this->view->form = $form;
-    	$formData["FK_PROJETO"]="2247";
-    	$form->populate($formData);
     	if ($this->getRequest()->isPost()) {
     		$formData = $this->getRequest()->getPost();
     		Zend_Registry::get('logger')->log($formData, Zend_Log::INFO);
@@ -1191,7 +1313,12 @@ class IndexController extends Zend_Controller_Action {
             		$data_cadastro =new Zend_Date($DT_SERVICO);
             		$DT_SERVICO=$data_cadastro->get('YYYY-MM-dd');
     				    				
-    				$FK_PROJETO=$form->getValue('FK_PROJETO');
+    				
+    				if ($id_projeto > 0) {
+    					$FK_PROJETO=$id_projeto;
+    				}else{
+    					$FK_PROJETO=$form->getValue('FK_PROJETO');
+    				}
     				$FL_PCP=0;
     				
     				$servico = new Application_Model_DbTable_Servico();
@@ -1200,6 +1327,7 @@ class IndexController extends Zend_Controller_Action {
     				//$centroCusto->addCentroCusto($descricao);
     				$this->view->erro = 0;
     				$this->view->mensagem = "Adicionado com sucesso";
+    				$form->reset();
     			} catch (Exception $erro) {
     				Zend_Registry::get('logger')->log("Erroooooooooooooooo", Zend_Log::INFO);
     				$this->view->mensagem = $erro->getMessage();
@@ -1220,6 +1348,8 @@ class IndexController extends Zend_Controller_Action {
     }
      public function editServicoAction(){
     	$form = new Application_Form_Servico();
+    	$form->getElement("FK_PROJETO")->setAttrib("disable",true);
+    	$form->getElement("FK_PROJETO")->setRequired(false);
     	$form->submit->setLabel('Adicionar');
      // action body
     	$servico = new Application_Model_DbTable_Servico();
@@ -1248,10 +1378,16 @@ class IndexController extends Zend_Controller_Action {
 		
 				
 				try {
-					$servico->updateServico($ID_SERVICO, $DS_SERVICO, $FK_OPERADOR, $NR_CARGA_HORARIA, $FK_TIPO_SERVICO, $DT_SERVICO, $FK_PROJETO, $FL_PCP);
+					$servico->updateServicoSemProjeto($ID_SERVICO, $DS_SERVICO, $FK_OPERADOR, $NR_CARGA_HORARIA, $FK_TIPO_SERVICO, $DT_SERVICO, $FL_PCP);
 					
 					$this->view->mensagem = "Atualizado com sucesso";
 					$this->view->erro = 0;
+					$id = $this->_getParam('id', 0);
+		    		if ($id > 0) {
+		    
+		    			$form->populate($servico->getServico($id));
+		    		}
+		    		$form->populate($formData);
 					//$this->_helper->redirector('lista-usuario');
 				} // catch (pega exceÃƒÂ§ÃƒÂ£o)
 				catch (Exception $e) {
@@ -1262,7 +1398,12 @@ class IndexController extends Zend_Controller_Action {
 				}
 		
 			} else {
-				$form->populate($formData);
+				$id = $this->_getParam('id', 0);
+	    		if ($id > 0) {
+	    
+	    			$form->populate($servico->getServico($id));
+	    		}
+    			$form->populate($formData);
 				$arrMessages = $form->getMessages();
 				foreach ($arrMessages as $field => $arrErrors) {
 					$this->view->erro = 1;
@@ -1552,11 +1693,18 @@ class IndexController extends Zend_Controller_Action {
 			}
 		}
 		//$this->user->getFKPerfil()
-		Zend_Registry::get('logger')->log($this->user, Zend_Log::INFO);
+		//Zend_Registry::get('logger')->log($this->user, Zend_Log::INFO);
 			//getPlanoAcoesOperador($ID_OPERADOR)
-			$this->view->planoAcao= $planoAcao->getPlanoAcoesOperador(1);
 			
-			Zend_Registry::get('logger')->log($this->view->planoAcao, Zend_Log::INFO);
+			try {
+					$this->view->planoAcao= $planoAcao->getPlanoAcoesOperador($this->user->getId());
+    			} catch (Exception $erro) {
+    				
+    				$this->view->mensagem = $erro->getMessage();
+    				$this->view->erro = 1;
+    				//exit;
+    			}
+			//Zend_Registry::get('logger')->log($this->view->planoAcao, Zend_Log::INFO);
 		
 	}
 	
@@ -1769,6 +1917,9 @@ class IndexController extends Zend_Controller_Action {
     	 $menu = new Application_Model_DbTable_MenuPermissaoPerfil();
         $permissao=$menu->retornaPermissaoPagina("add-projeto-operador",$this->user->getFKPerfil());
     	$this->view->permissaoAdicionarOperador=$permissao;
+    	
+    	$permissao=$menu->retornaPermissaoPagina("delete-projeto-operador",$this->user->getFKPerfil());
+    	$this->view->permissaoDeleteOperador=$permissao;
     
     	if ($this->getRequest()->isPost()) {
     		$del = $this->getRequest()->getPost('del');
@@ -2442,9 +2593,18 @@ class IndexController extends Zend_Controller_Action {
 	public function listaProjetoAction(){
 		// action body
 		$projeto = new Application_Model_DbTable_Projeto();
+		$menu = new Application_Model_DbTable_MenuPermissaoPerfil();
+        $permissao=$menu->retornaPermissaoPagina("add-projeto",$this->user->getFKPerfil());
+    	$this->view->permissaoAdicionarProjeto=$permissao;
 	
-	
-	
+		$permissao=$menu->retornaPermissaoPagina("delete-projeto",$this->user->getFKPerfil());
+    	$this->view->permissaoDeleteProjeto=$permissao;
+		
+		
+		$permissao=$menu->retornaPermissaoPagina("edit-projeto",$this->user->getFKPerfil());
+    	$this->view->permissaoEditProjeto=$permissao;
+		
+		
 		if ($this->getRequest()->isPost()) {
 			$del = $this->getRequest()->getPost('del');
 			if ($del == 'Sim') {
@@ -2464,7 +2624,8 @@ class IndexController extends Zend_Controller_Action {
 			}
 		}
 		Zend_Registry::get('logger')->log("aaaa", Zend_Log::INFO);
-		$this->view->listaProjetos = $projeto->getProjetos();
+		//$this->view->listaProjetos = $projeto->getProjetos();
+		$this->view->listaProjetos = $projeto->getProjetosIndividual($this->user->getId());
 		Zend_Registry::get('logger')->log($this->view->listaProjetos, Zend_Log::INFO);
 	
 	}

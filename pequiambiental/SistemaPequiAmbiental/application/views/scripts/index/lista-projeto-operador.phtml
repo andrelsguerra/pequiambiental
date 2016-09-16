@@ -54,9 +54,9 @@
 						                      <td><?php echo $operador["DS_EMAIL_BIOS"]?></td>
 						                                     
                                              <td>
-                                                 
+                                                 <?php  if($this->permissaoDeleteOperador){?>
                                                    <a alt="Excluir" title="Excluir" href="<?php echo $this->url(array('controller'=>'index','action'=>'delete-projeto-operador', 'ID_PROJETO'=>$operador["ID_PROJETO"],'ID_OPERADOR'=>$operador["ID_OPERADOR"]),null, true);?>" class="btn-sm  btn-danger"><i class="glyphicon glyphicon-trash"></i></a>
-                                               
+                                               <?php }?> 
                                                 </td>
                                             </tr>
                                           <?php endforeach; ?>

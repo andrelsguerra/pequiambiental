@@ -46,9 +46,12 @@
 											<!--  <td><?php echo $this->truncate($projeto["TX_OBSERVACAO"],50)?></td>-->
 											<td><?php echo $projeto["NM_STATUS_PROJETO"]?></td>
                                              <td>
+                                             <?php  if($this->permissaoEditProjeto){?>
                                                 <a alt="Editar" title="Editar" href="<?php echo $this->url(array('controller'=>'index','action'=>'edit-projeto', 'id'=>$projeto["ID_PROJETO"]),null, true);?>" class="btn-sm btn-warning"><i class="glyphicon glyphicon-edit"></i></a> 
+                                                <?php }?> 
+                                                <?php  if($this->permissaoDeleteProjeto){?>
                                                  <a alt="Excluir" title="Excluir" href="<?php echo $this->url(array('controller'=>'index','action'=>'delete-projeto', 'id'=>$projeto["ID_PROJETO"]),null, true);?>" class="btn-sm  btn-danger"><i class="glyphicon glyphicon-trash"></i></a>
-                                                
+                                                <?php }?> 
                                                 </td>
                                             </tr>
                                           <?php endforeach; ?>
@@ -75,11 +78,13 @@
                                     </table>
                                 </div><!-- /.box-body -->
                             </div><!-- /.box -->
+                            <?php  if($this->permissaoAdicionarProjeto){?>
                             <div class="form-group">
                                  <a alt="Adicionar" title="Adicionar" style="font-family: inherit;" href="<?php echo $this->url(array('controller'=>'index','action'=>'add-projeto'),null, true);?>" class="btn-sm  "><i class="btn btn-primary">Adicionar Projeto</i></a>   		
                                      		
 
                                     		</div>
+                             <?php }?> 
 <link href="<?php echo $this->baseUrl()?>/plugins/datatables/dataTables.bootstrap.css" rel="stylesheet" type="text/css" />
 <script src="<?php echo $this->baseUrl()?>/plugins/datatables/jquery.dataTables.min.js" ></script>
 <script src="<?php echo $this->baseUrl()?>/plugins/datatables/dataTables.bootstrap.min.js" ></script>

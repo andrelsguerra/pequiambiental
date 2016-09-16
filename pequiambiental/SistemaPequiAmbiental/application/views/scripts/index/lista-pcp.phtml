@@ -33,8 +33,9 @@
 											<td><?php echo $pcp["NR_CARGA_HORARIA"]?></td>
                                              <td>
                                                 <a alt="Editar" title="Editar" href="<?php echo $this->url(array('controller'=>'index','action'=>'edit-pcp', 'id'=>$pcp["ID_SERVICO"]),null, true);?>" class="btn-sm btn-warning"><i class="glyphicon glyphicon-edit"></i></a> 
+                                                 <?php if(!$pcp["FL_VALIDAR_SERVICO"]){?>
                                                  <a alt="Excluir" title="Excluir" href="<?php echo $this->url(array('controller'=>'index','action'=>'delete-pcp', 'id'=>$pcp["ID_SERVICO"]),null, true);?>" class="btn-sm  btn-danger"><i class="glyphicon glyphicon-trash"></i></a>
-                                                
+                                              <?php  }?>
                                                 </td>
                                             </tr>
                                           <?php endforeach; ?>
